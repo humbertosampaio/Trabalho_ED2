@@ -1,6 +1,9 @@
 #include <iostream>
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
+using namespace std;
+int main()
+{
+    cout << "Hello, World!" << endl;
+    cout << "So pra dizer que dei algum commit haha" << endl;
     return 0;
 }
