@@ -1,3 +1,0 @@
-/home/edson/Trabalho_ED2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/edson/Trabalho_ED2/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/edson/Trabalho_ED2/cmake-build-debug/CMakeFiles/Trabalho_ED2.dir
