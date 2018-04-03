@@ -16,7 +16,7 @@ using namespace std;
 
 class FileUtils {
 public:
-    static Question* readFileQuestion(string path);
+    static vector<Question*>* readFileQuestion(string path);
 };
 
 

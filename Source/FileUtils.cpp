@@ -4,7 +4,7 @@
 
 #include "../Headers/FileUtils.h"
 
-Question* FileUtils::readFileQuestion(string path)
+vector<Question*>* FileUtils::readFileQuestion(string path)
 {
     fstream file;
     try
@@ -29,12 +29,12 @@ Question* FileUtils::readFileQuestion(string path)
             int objPosition = 0;
             int quotationMarksCount = 0;
             long registriesCount = 0;
-            int i = 0;
+            int i = -1;
 
             //ignorando cabecalho
             for (; buffer[i] != '\n'; ++i);
             //iteracao principal
-            for (; i < length; ++i)
+            for (; ++i < length; )
             {
                 if (buffer[i] != ',' && buffer[i] != '\n')
                 {
@@ -45,7 +45,7 @@ Question* FileUtils::readFileQuestion(string path)
                 else if (quotationMarksCount % 2 == 0)
                 {
                     obj[objPosition] = tempString;
-                    tempString = "";
+                    tempString.clear();
                     ++objPosition;
                 }
                 if(objPosition > 5)
@@ -62,9 +62,10 @@ Question* FileUtils::readFileQuestion(string path)
                     obj = new string[6];
                 }
             }
-            cout << "tempo de execucao " << (double)(clock() - tStart)/CLOCKS_PER_SEC;
+            cout << "tempo de execucao " << (double)(clock() - tStart)/CLOCKS_PER_SEC << endl;
             delete []buffer;
             delete []obj;
+            return questionList;
         }
         else throw exception();
     }
