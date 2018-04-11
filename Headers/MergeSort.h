@@ -8,6 +8,10 @@
 
 class MergeSort {
 
+    static void intercala(int *vet, int inicio, int meio, int fim);
+
+public:
+    static void mergeSort(int *vet, int inicio, int fim);
 };
 
 

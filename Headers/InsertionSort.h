@@ -11,7 +11,7 @@ using namespace std;
 
 class InsertionSort {
 public:
-    static void insertionSort(int *vet, const int &tam); //https://stackoverflow.com/questions/31305717/member-function-with-static-linkage
+    static void insertionSort(int *vet, const int &tam);
 };
 
 
