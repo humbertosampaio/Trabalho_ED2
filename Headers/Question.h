@@ -20,6 +20,7 @@ public:
     Question(string* question);
     ~Question();
     void printComponents ();
+    int getQuestionId() const;
 };
 
 

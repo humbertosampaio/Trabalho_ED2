@@ -21,3 +21,8 @@ void Question::printComponents()
     cout << "score: " << score << endl;
     cout << "title: " << title << endl;
 }
+
+int Question::getQuestionId() const {
+    return questionId;
+}
+

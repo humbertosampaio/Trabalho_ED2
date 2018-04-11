@@ -12,4 +12,4 @@ add_executable(Trabalho_ED2 main.cpp
         Source/Answer.cpp
         Source/Question.cpp
         Source/FileUtils.cpp
-        )
+        Source/InsertionSort.cpp Headers/InsertionSort.h Source/SelectionSort.cpp Headers/SelectionSort.h Source/QuickSort.cpp Headers/QuickSort.h Source/HeapSort.cpp Headers/HeapSort.h Source/MergeSort.cpp Headers/MergeSort.h)
