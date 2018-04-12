@@ -10,9 +10,12 @@
 using namespace std;
 
 class Tag {
+
 private:
     int questionId;
     string tag;
+public:
+    Tag(int questionId, string tag);
 };
 
 

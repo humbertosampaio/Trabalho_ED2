@@ -6,34 +6,29 @@
 
 vector<Question*>* FileUtils::readFileQuestion(string path)
 {
-fstream file;
+    fstream file;
     file.open(path.c_str());
-    string str;
-    vector<Question*>* questionList = new vector<Question*>();
-    if (file.is_open())
-    {
+
+    if (file.is_open()) {
+        vector<Question*>* questionList = new vector<Question*>();
         //variavel para calcular tempo de execucao
         clock_t tStart = clock();
-        //pegando o numero de bytes do arquivo
-        file.seekg(0, file.end);
-        //int length = file.tellg();
-        unsigned int length = 1024*2014;
-        file.seekg(0, file.beg);
+        //lendo o arquivo em blocos de 4MB
+        unsigned int length = 1024 * 1024;
         //criando e inicializando buffer
-        char* buffer = new char[length];
-        file.read(buffer,length);
+        char *buffer = new char[length];
+        file.read(buffer, length);
         //variaveis auxiliares
         string tempString;
-        string* obj = new string[6];
+        string *obj = new string[6];
         int objPosition = 0;
         int quotationMarksCount = 0;
         long registriesCount = 0;
-        int i = -1;
+        int i = 0;
 
         //ignorando cabecalho
         for (; buffer[i] != '\n'; ++i);
         //iteracao principal
-
         while (!file.eof())
         {
             for (; ++i < length && buffer[i] != char_traits<char>::eof();)
@@ -43,9 +38,7 @@ fstream file;
                     if (buffer[i] == '"')
                         quotationMarksCount++;
                     tempString.push_back(buffer[i]);
-                }
-                else if (quotationMarksCount % 2 == 0)
-                {
+                } else if (quotationMarksCount % 2 == 0) {
                     obj[objPosition] = tempString;
                     tempString.clear();
                     ++objPosition;
@@ -63,15 +56,37 @@ fstream file;
                     obj = new string[6];
                 }
             }
-            file.read(buffer,length);
+            file.read(buffer, length);
             i = -1;
         }
-        cout << "tempo de execucao " << (double)(clock() - tStart)/CLOCKS_PER_SEC << endl;
-        delete []buffer;
-        delete []obj;
+        cout << "tempo de execucao " << (double) (clock() - tStart) / CLOCKS_PER_SEC << endl;
+        file.close();
+        delete[]buffer;
+        delete[]obj;
         return questionList;
     }
-return nullptr;
+    cout << "falha na leitura do arquivo!" << endl;
+    return nullptr;
 }
 
+vector<Tag*>* FileUtils::readFileTag(string path)
+{
+    fstream file;
+    file.open(path.c_str());
 
+    if (file.is_open())
+    {
+        vector<Tag*>* tagList = new vector<Tag*>();
+        string tag;
+        int questionId;
+        file >> tag >> tag;
+
+        while (file >> questionId >> tag) {
+            tag.erase(0,1);
+            tagList->push_back(new Tag(questionId, tag));
+        }
+        return tagList;
+    }
+    cout << "falha na leitura do arquivo!" << endl;
+    return nullptr;
+}
