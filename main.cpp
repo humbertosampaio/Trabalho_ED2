@@ -12,11 +12,11 @@ int *getVetQuestionIdAleatorios(vector<Question*>* listQuestions, const int &n);
 
 int main(int argc, char** argv)
 {
-    string path = "/home/edson/pythonquestions/Questions.csv"; //edson
+    //string path = "/home/edson/pythonquestions/Questions.csv"; //edson
     //string path = "/media/viniman/Files/Google Drive/UFJF/2018/1/ED2/Trabalho/pythonquestions/Questions.csv";
-    //vector<Question*>* listQuestions = FileUtils::readFileQuestion(path);
-    vector<Tag*>* listTag = FileUtils::readFileTag("/home/edson/pythonquestions/Tags.csv");
-    //int *vetQuestionId = getVetQuestionIdAleatorios(listQuestions, 1000);
+    string path = "../../pythonquestions/Questions.csv";
+    vector<Question*>* listQuestions = FileUtils::readFileQuestion(path);
+    int *vetQuestionId = getVetQuestionIdAleatorios(listQuestions, 1000);
     int n = 10;
 
     /*
