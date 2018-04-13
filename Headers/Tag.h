@@ -12,10 +12,10 @@ using namespace std;
 class Tag {
 
 private:
-    int questionId;
+    unsigned int questionId;
     string tag;
 public:
-    Tag(int questionId, string tag);
+    Tag(unsigned int questionId, string tag);
 };
 
 

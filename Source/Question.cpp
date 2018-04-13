@@ -13,6 +13,11 @@ Question::Question(string *question)
     this->title = question[4];
 }
 
+Question::~Question()
+{
+
+}
+
 void Question::printComponents()
 {
     cout << "questionId: " << questionId << endl;

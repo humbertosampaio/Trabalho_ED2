@@ -4,13 +4,12 @@
 
 #include "../Headers/FileUtils.h"
 
-vector<Question*>* FileUtils::readFileQuestion(string path)
+void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
 {
     fstream file;
     file.open(path.c_str());
 
     if (file.is_open()) {
-        vector<Question*>* questionList = new vector<Question*>();
         //variavel para calcular tempo de execucao
         clock_t tStart = clock();
         //lendo o arquivo em blocos de 4MB
@@ -44,7 +43,7 @@ vector<Question*>* FileUtils::readFileQuestion(string path)
                     ++objPosition;
                 }
                 if (objPosition > 5) {
-                    questionList->push_back(new Question(obj));
+                    questionList.emplace_back(obj);
                     registriesCount++;
 
                     if (registriesCount % 50000 == 0)
@@ -59,14 +58,14 @@ vector<Question*>* FileUtils::readFileQuestion(string path)
             file.read(buffer, length);
             i = -1;
         }
+        cout << registriesCount << endl;
         cout << "tempo de execucao " << (double) (clock() - tStart) / CLOCKS_PER_SEC << endl;
         file.close();
         delete[]buffer;
         delete[]obj;
-        return questionList;
+        return;
     }
     cout << "falha na leitura do arquivo!" << endl;
-    return nullptr;
 }
 
 vector<Tag*>* FileUtils::readFileTag(string path)

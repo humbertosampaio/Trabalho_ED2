@@ -11,8 +11,8 @@ using namespace std;
 
 class Question {
 private:
-    int questionId;
-    int userId;
+    unsigned int questionId;
+    unsigned int userId;
     int score;
     string date;
     string title;
