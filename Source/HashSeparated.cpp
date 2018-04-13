@@ -4,25 +4,11 @@
 
 #include "HashSeparated.h"
 
-HashSeparated::HashSeparated(unsigned int size)
-{
-    this->size = size;
-    collisionTable = new Vertex[size];
-    hashTable = new int[size];
-    collisionCounter = 0;
-    for (int i = 0; i < size; ++i)
-        hashTable[i] = 0;
-}
 
 HashSeparated::~HashSeparated()
 {
     delete []collisionTable;
     delete []hashTable;
-}
-
-unsigned int HashSeparated::keyFunction(int value)
-{
-    return value%size;
 }
 
 void HashSeparated::insert(int value)

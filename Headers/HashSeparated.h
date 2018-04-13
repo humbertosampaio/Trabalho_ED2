@@ -14,10 +14,14 @@ using namespace std;
 
 class HashSeparated : public Hash{
 public:
-    HashSeparated(unsigned int size);
+    HashSeparated(unsigned int size):Hash(size)
+    {
+        for (int i = 0; i < size; ++i)
+            hashTable[i] = 0;
+    };
+
     ~HashSeparated();
 
-    unsigned int keyFunction (int value);
     void insert (int value);
     void printElements();
 
@@ -34,9 +38,6 @@ public:
         Vertex* next;
     };
 private:
-    unsigned int size;
-    unsigned int collisionCounter;
-    int* hashTable;
     Vertex* collisionTable;
 };
 
