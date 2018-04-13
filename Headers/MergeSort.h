@@ -5,13 +5,17 @@
 #ifndef TRABALHO_ED2_MERGESORT_H
 #define TRABALHO_ED2_MERGESORT_H
 
+#include <vector>
+#include "Question.h"
+
+//class vector;
 
 class MergeSort {
 
-    static void intercala(int *vet, int inicio, int meio, int fim);
+    template <class T> static void intercala(vector<T> &vet, int inicio, int meio, int fim);
 
 public:
-    static void mergeSort(int *vet, int inicio, int fim);
+    template <class T> static void mergeSort(vector<T> &vet, int inicio, int fim);
 };
 
 
