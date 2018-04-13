@@ -4,6 +4,22 @@
 
 #include "../Headers/Question.h"
 
+bool Question::operator<(const Question &b) {
+    return this->getQuestionId() < b.getQuestionId();
+}
+
+bool Question::operator>(const Question &b) {
+    return this->getQuestionId() > b.getQuestionId();
+}
+
+bool Question::operator<=(const Question &b) {
+    return this->getQuestionId() < b.getQuestionId();
+}
+
+bool Question::operator>=(const Question &b) {
+    return this->getQuestionId() > b.getQuestionId();
+}
+
 Question::Question(string *question)
 {
     this->questionId = stoi(question[0], nullptr, 10);
