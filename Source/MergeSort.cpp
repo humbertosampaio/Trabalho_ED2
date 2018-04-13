@@ -4,15 +4,12 @@
 
 #include "../Headers/MergeSort.h"
 
-
-void MergeSort::intercala(int *vet, int inicio, int meio, int fim)
+template <class T> void MergeSort::intercala(vector<T> &vet, int inicio, int meio, int fim)
 {
     int indInicio = inicio;
     int indMeio = meio+1;
     int indAux = 0;
-    auto *vetAux = new int[inicio+fim+1];
-    for(int i=0; i<inicio+fim+1; i++)
-        vetAux[i] = vet[i];
+    vector<T> vetAux(vet);
 
     while (indInicio < meio+1 || indMeio < fim+1)
     {
@@ -46,7 +43,7 @@ void MergeSort::intercala(int *vet, int inicio, int meio, int fim)
         vet[indInicio] = vetAux[indInicio-inicio];
 }
 
-void MergeSort::mergeSort(int *vet, int inicio, int fim)
+template <class T> void MergeSort::mergeSort(vector<T> &vet, int inicio, int fim)
 {
 
     if(inicio < fim)

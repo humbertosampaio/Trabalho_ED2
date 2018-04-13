@@ -1,20 +1,28 @@
 //
 // Created by viniman on 11/04/18.
 //
-
-#include <iostream>
 #include "../Headers/InsertionSort.h"
 
+using namespace std;
 
-void InsertionSort::insertionSort(int *vet, const int &tam)
+/// Uso de sobrecarga de operadores
+//bool operator< (const Question &a, const Question &b) {
+  //  return a.getQuestionId() < b.getQuestionId();
+//}
+
+//void InsertionSort::insertionSort(vector<Question*> vet, const int &tam)
+
+template <class T> void InsertionSort::insertionSort(vector<T> &vet)
 {
     clock_t tStart = clock();
-    for(unsigned int i=1; i<tam; i++)
+    int size = vet.size();
+    for(unsigned int i=1; i<size; i++)
     {
-        int pivo = vet[i];
+        T pivo = vet[i];
         int j = i-1;
         while(j>=0 && vet[j] > pivo)
         {
+            //cout << vet[j] << " > " << pivo << endl;
             vet[j+1] = vet[j];
             j--;
         }

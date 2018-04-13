@@ -1,43 +1,69 @@
 #include <iostream>
 #include <random>
 #include <chrono>
+#include <algorithm>
 #include "Headers/FileUtils.h"
 #include "Headers/InsertionSort.h"
 #include "Headers/MergeSort.h"
+#include "../Source/InsertionSort.cpp"
+#include "../Source/MergeSort.cpp"
+
 
 using namespace std;
 
-int *getVetQuestionIdAleatorios(vector<Question> listQuestions, const int &n);
+vector<int> getVetQuestionIdAleatorios(const vector<Question> &listQuestions, const int &n);
+
 
 
 int main(int argc, char** argv)
 {
-    string path = "/home/edson/pythonquestions/Questions.csv"; //edson
+    //string path = "/home/edson/pythonquestions/Questions.csv"; //edson
     //string path = "/media/viniman/Files/Google Drive/UFJF/2018/1/ED2/Trabalho/pythonquestions/Questions.csv";
-    //string path = "../../pythonquestions/Questions.csv";
+    string path = "../../pythonquestions/Questions.csv";
     vector<Question> listQuestions;
     FileUtils::readFileQuestion(path, listQuestions);
-    int *vetQuestionId = getVetQuestionIdAleatorios(listQuestions, 1000);
-    int n = 10;
 
-    /*
-    for(int i = 0; i < n; i++)
-        cout << vetQuestionId[i] << " ";
+    cout << "Tam: " << listQuestions.size() << endl << endl;
+    cout << "Ordenacao ListQuestions" << endl;
+    random_shuffle ( listQuestions.begin(), listQuestions.end() );
+
+    for(const auto &it : listQuestions)
+        cout << it.getQuestionId() << " ";
+    cout << endl << endl;
+
+    //InsertionSort::insertionSort(listQuestions);
+    MergeSort::mergeSort(listQuestions, 0, listQuestions.size());
+
+
+    cout << "Ordenado\n";
+    for(const auto &it : listQuestions)
+        cout << it.getQuestionId() << " ";
     cout << endl << endl;
 
 
-    MergeSort::mergeSort(vetQuestionId, 0, n-1);
+    cout << "Ordenando Inteiros" << endl;
+    vector<int> vetQuestionId = getVetQuestionIdAleatorios(listQuestions, 10);
+    random_shuffle ( vetQuestionId.begin(), vetQuestionId.end() );
 
-    for(int i = 0; i < n; i++)
-        cout << vetQuestionId[i] << " ";
-    cout << endl;
-*/
+    for(const auto it : vetQuestionId)
+        cout << it << " ";
+    cout << endl << endl;
+
+    //InsertionSort::insertionSort(vetQuestionId);
+    MergeSort::mergeSort(vetQuestionId, 0, listQuestions.size()-1);
+
+    cout << "Ordenado\n";
+    for(const auto it : vetQuestionId)
+        cout << it << " ";
+    cout << endl << endl;
+
+
     return 0;
 }
 
-int *getVetQuestionIdAleatorios(vector<Question> listQuestions, const int &n)
+vector<int> getVetQuestionIdAleatorios(const vector<Question> &listQuestions, const int &n)
 {
-    auto *vetQuestionId = new int[n];
+    vector<int> vetQuestionId;// = new vector<int>;
     long seed = std::chrono::system_clock::now().time_since_epoch().count();
     mt19937 eng(seed);    ///mersenne twister engine
     uniform_int_distribution<unsigned long> distAleatoria(0,listQuestions.size()-1);
@@ -46,7 +72,7 @@ int *getVetQuestionIdAleatorios(vector<Question> listQuestions, const int &n)
 
     for(int i = 0; i < n; i++)
     {
-        vetQuestionId[i] = listQuestions.at(distAleatoria(eng)).getQuestionId();
+        vetQuestionId.emplace_back(listQuestions[distAleatoria(eng)].getQuestionId());
         //vetQuestionId[i] = listQuestions->at(rand()%(listQuestions->size()-1))->getQuestionId();
     }
 

@@ -21,6 +21,10 @@ public:
     ~Question();
     void printComponents ();
     int getQuestionId() const;
+    bool operator<(const Question &b);
+    bool operator>(const Question &b);
+    bool operator<=(const Question &b);
+    bool operator>=(const Question &b);
 };
 
 
