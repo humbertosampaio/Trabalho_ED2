@@ -2,16 +2,16 @@
 // Created by edson on 13/04/18.
 //
 
-#include "Hash.h"
+#include "../Headers/Hash.h"
 
 Hash::Hash(unsigned int size)
 {
     this->size = size;
     this->collisionCounter = 0;
     this->hashTable = new int [size];
+    for (int i = 0; i < size; ++i)
+        hashTable[i] = 0;
 }
-
-Hash::Hash() = default;
 
 unsigned int Hash::keyFunction(int value)
 {

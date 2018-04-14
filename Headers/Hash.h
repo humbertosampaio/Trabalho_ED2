@@ -14,8 +14,8 @@ protected:
 
 public:
     static unsigned int keyFunction (int value);
-    Hash();
     Hash(unsigned int size);
+    //virtual void insert(int value);
 };
 
 

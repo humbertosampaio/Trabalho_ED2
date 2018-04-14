@@ -14,17 +14,18 @@ using namespace std;
 
 class HashSeparated : public Hash{
 public:
+    //construtor e destrutor
     HashSeparated(unsigned int size):Hash(size)
     {
-        for (int i = 0; i < size; ++i)
-            hashTable[i] = 0;
+        collisionTable = new Vertex[size];
     };
-
     ~HashSeparated();
 
+    //metodos
     void insert (int value);
     void printElements();
 
+    //classe auxiliar para a lista de colisoes
     class Vertex
     {
     public:

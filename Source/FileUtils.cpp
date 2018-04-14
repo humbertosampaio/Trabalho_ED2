@@ -30,8 +30,6 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
         //iteracao principal
         while (!file.eof())
         {
-            if(registriesCount >=10)
-                break;
             for (; ++i < length && buffer[i] != char_traits<char>::eof();)
             {
                 if (buffer[i] != ',' && buffer[i] != '\n')

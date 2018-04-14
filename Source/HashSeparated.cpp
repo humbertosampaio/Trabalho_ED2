@@ -2,7 +2,7 @@
 // Created by edson on 13/04/18.
 //
 
-#include "HashSeparated.h"
+#include "../Headers/HashSeparated.h"
 
 
 HashSeparated::~HashSeparated()
