@@ -9,6 +9,7 @@
 #include "Source/MergeSort.cpp"
 #include "Headers/HeapSort.h"
 #include "Source/HeapSort.cpp"
+#include "Headers/CoalescedHash.h"
 
 using namespace std;
 
@@ -21,15 +22,29 @@ int main(int argc, char** argv)
 {
 	//string path = "/home/edson/pythonquestions/Questions.csv"; //edson
 	//string path = "/media/viniman/Files/Google Drive/UFJF/2018/1/ED2/Trabalho/pythonquestions/Questions.csv";
-	string path = "../pythonquestions/OriginalFiles/Questions.csv";
+	//string path = "../pythonquestions/OriginalFiles/Questions.csv";
 
 	vector<Question> listQuestions;
-	FileUtils::readFileQuestion(path, listQuestions);
-	sortQuestions(listQuestions);
+	//FileUtils::readFileQuestion(path, listQuestions);
+
+
+    CoalescedHash cl(200);
+
+
+    for (int i = 0; i < 200; ++i) {
+        cl.insert(i+1);
+        //cl.printElements();
+        cout << endl;
+    }
+    cl.printElements();
+    cout << "numero de colisoes " << cl.getCollisionCounter();
+
+    /*
+    sortQuestions(listQuestions);
 
 	vector<int> vetQuestionId = getVetQuestionIdAleatorios(listQuestions, 20);
 	sortIntegers(vetQuestionId);
-
+*/
 	return 0;
 }
 
