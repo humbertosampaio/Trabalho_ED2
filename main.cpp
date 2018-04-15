@@ -5,8 +5,10 @@
 #include "Headers/FileUtils.h"
 #include "Headers/InsertionSort.h"
 #include "Headers/MergeSort.h"
-#include "../Source/InsertionSort.cpp"
-#include "../Source/MergeSort.cpp"
+#include "Source/InsertionSort.cpp"
+#include "Source/MergeSort.cpp"
+#include "Headers/HeapSort.h"
+#include "Source/HeapSort.cpp"
 
 
 using namespace std;
@@ -19,7 +21,7 @@ int main(int argc, char** argv)
 {
     //string path = "/home/edson/pythonquestions/Questions.csv"; //edson
     //string path = "/media/viniman/Files/Google Drive/UFJF/2018/1/ED2/Trabalho/pythonquestions/Questions.csv";
-    string path = "../../pythonquestions/Questions.csv";
+    string path = "../pythonquestions/OriginalFiles/Questions.csv";
     vector<Question> listQuestions;
     FileUtils::readFileQuestion(path, listQuestions);
 
@@ -31,8 +33,7 @@ int main(int argc, char** argv)
         cout << it.getQuestionId() << " ";
     cout << endl << endl;
 
-    //InsertionSort::insertionSort(listQuestions);
-    MergeSort::mergeSort(listQuestions, 0, listQuestions.size());
+    HeapSort::heapSort(listQuestions);
 
 
     cout << "Ordenado\n";
@@ -49,8 +50,7 @@ int main(int argc, char** argv)
         cout << it << " ";
     cout << endl << endl;
 
-    //InsertionSort::insertionSort(vetQuestionId);
-    MergeSort::mergeSort(vetQuestionId, 0, listQuestions.size()-1);
+    HeapSort::heapSort(vetQuestionId);
 
     cout << "Ordenado\n";
     for(const auto it : vetQuestionId)

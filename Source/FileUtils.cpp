@@ -12,11 +12,14 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
     if (file.is_open()) {
         //variavel para calcular tempo de execucao
         clock_t tStart = clock();
+
         //lendo o arquivo em blocos de 4MB
-        unsigned int length = 1024 * 1024;
+        unsigned int length = 4 * 1024 * 1024;
+
         //criando e inicializando buffer
         char *buffer = new char[length];
         file.read(buffer, length);
+
         //variaveis auxiliares
         string tempString;
         string *obj = new string[6];
@@ -27,10 +30,11 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
 
         //ignorando cabecalho
         for (; buffer[i] != '\n'; ++i);
+
         //iteracao principal
         while (!file.eof())
         {
-            for (; ++i < length && buffer[i] != char_traits<char>::eof();)
+            while (++i < length && buffer[i] != char_traits<char>::eof())
             {
                 if (buffer[i] != ',' && buffer[i] != '\n')
                 {
@@ -53,12 +57,15 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
                     quotationMarksCount = 0;
                     delete[]obj;
                     obj = new string[6];
-                    if(registriesCount >=10)
+                    if(registriesCount >= 20)
                         break;
                 }
             }
             file.read(buffer, length);
             i = -1;
+
+            if(registriesCount >= 20)
+                break;
         }
         cout << registriesCount << endl;
         cout << "tempo de execucao " << (double) (clock() - tStart) / CLOCKS_PER_SEC << endl;

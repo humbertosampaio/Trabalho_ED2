@@ -4,12 +4,11 @@
 
 #ifndef TRABALHO_ED2_INSERTIONSORT_H
 #define TRABALHO_ED2_INSERTIONSORT_H
+
 #include <iostream>
 #include <ctime>
 #include <vector>
 #include "Question.h"
-
-
 
 class InsertionSort {
 public:
