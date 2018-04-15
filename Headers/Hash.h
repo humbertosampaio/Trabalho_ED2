@@ -5,6 +5,9 @@
 #ifndef TRABALHO_ED2_HASH_H
 #define TRABALHO_ED2_HASH_H
 
+#include <cmath>
+#include <iostream>
+using namespace std;
 
 class Hash {
 protected:
@@ -13,8 +16,10 @@ protected:
     int* hashTable;
 
 public:
-    static unsigned int keyFunction (int value);
+    unsigned int keyFunction (unsigned int value);
     Hash(unsigned int size);
+
+    unsigned int getCollisionCounter() const;
     //virtual void insert(int value);
 };
 

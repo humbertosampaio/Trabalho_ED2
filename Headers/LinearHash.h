@@ -13,9 +13,10 @@ using namespace std;
 class LinearHash : public Hash{
 
 public:
-    LinearHash(unsigned int size):Hash(size)
+    LinearHash(unsigned int size, bool quadratic):Hash(size)
     {
         elementCounter = 0;
+        this->quadratic = quadratic;
     };
     //metodos
     void insert (int value);
@@ -23,6 +24,11 @@ public:
 
 private:
     int elementCounter;
+    //true para sondagem quadratica e false para sondagem linear
+    bool quadratic;
+    //funcoes auxiliares
+    void insertLinear(int value);
+    void insertQuadratic(int value);
 };
 
 
