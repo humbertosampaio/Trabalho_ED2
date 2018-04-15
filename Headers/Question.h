@@ -1,3 +1,4 @@
+
 //
 // Created by edson on 31/03/18.
 //
@@ -21,10 +22,12 @@ public:
     ~Question();
     void printComponents ();
     int getQuestionId() const;
-    bool operator<(const Question &b);
-    bool operator>(const Question &b);
-    bool operator<=(const Question &b);
-    bool operator>=(const Question &b);
+
+    bool operator<(const Question &rhs) const;
+    bool operator>(const Question &rhs) const;
+    bool operator<=(const Question &rhs) const;
+    bool operator>=(const Question &rhs) const;
+
 };
 
 

@@ -4,21 +4,20 @@
 
 #include "../Headers/Question.h"
 
-bool Question::operator<(const Question &b) {
-    return this->getQuestionId() < b.getQuestionId();
+/// Uso de sobrecarga de operadores
+bool Question::operator<(const Question &rhs) const {
+    return questionId < rhs.questionId;
+}
+bool Question::operator>(const Question &rhs) const {
+    return rhs < *this;
+}
+bool Question::operator<=(const Question &rhs) const {
+    return !(rhs < *this);
+}
+bool Question::operator>=(const Question &rhs) const {
+    return !(*this < rhs);
 }
 
-bool Question::operator>(const Question &b) {
-    return this->getQuestionId() > b.getQuestionId();
-}
-
-bool Question::operator<=(const Question &b) {
-    return this->getQuestionId() < b.getQuestionId();
-}
-
-bool Question::operator>=(const Question &b) {
-    return this->getQuestionId() > b.getQuestionId();
-}
 
 Question::Question(string *question)
 {
