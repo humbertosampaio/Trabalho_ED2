@@ -57,15 +57,10 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
                     quotationMarksCount = 0;
                     delete[]obj;
                     obj = new string[6];
-                    if(registriesCount >= 20)
-                        break;
                 }
             }
             file.read(buffer, length);
             i = -1;
-
-            if(registriesCount >= 20)
-                break;
         }
         cout << registriesCount << endl;
         cout << "tempo de execucao " << (double) (clock() - tStart) / CLOCKS_PER_SEC << endl;

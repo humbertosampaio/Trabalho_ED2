@@ -28,4 +28,4 @@ add_executable(Trabalho_ED2
         Source/QuestionList.cpp
         Source/QuickSort.cpp
         Source/Tag.cpp
-        main.cpp)
+        main.cpp Source/DoubleHash.cpp Headers/DoubleHash.h)

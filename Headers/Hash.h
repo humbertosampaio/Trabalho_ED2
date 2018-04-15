@@ -17,6 +17,7 @@ protected:
 
 public:
     unsigned int keyFunction (unsigned int value);
+    void printElements();
     Hash(unsigned int size);
 
     unsigned int getCollisionCounter() const;

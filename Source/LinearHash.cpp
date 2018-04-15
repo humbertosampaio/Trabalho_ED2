@@ -46,14 +46,3 @@ void LinearHash::insertQuadratic(int value)
         ++collisionCounter;
     }
 }
-
-void LinearHash::printElements()
-{
-    for (int i = 0; i < size; ++i)
-    {
-        cout << i << ":";
-        if (hashTable[i] != 0)
-           cout <<" " << hashTable[i];
-        cout << endl;
-    }
-}
