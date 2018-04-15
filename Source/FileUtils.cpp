@@ -62,8 +62,8 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
             file.read(buffer, length);
             i = -1;
         }
-        cout << registriesCount << endl;
-        cout << "tempo de execucao " << (double) (clock() - tStart) / CLOCKS_PER_SEC << endl;
+        cout << "Quantidade de registros lidos: " << registriesCount << endl;
+        cout << "Tempo gasto na leitura: " << (double) (clock() - tStart) / CLOCKS_PER_SEC << "s" << endl << endl;
         file.close();
         delete[]buffer;
         delete[]obj;

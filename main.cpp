@@ -10,71 +10,79 @@
 #include "Headers/HeapSort.h"
 #include "Source/HeapSort.cpp"
 
-
 using namespace std;
 
+void sortQuestions(vector<Question> &questionVector);
+void sortIntegers(vector<int> &intVector);
 vector<int> getVetQuestionIdAleatorios(const vector<Question> &listQuestions, const int &n);
-
-
+template<class T> void printVector(const vector<T> &vector);
 
 int main(int argc, char** argv)
 {
-    //string path = "/home/edson/pythonquestions/Questions.csv"; //edson
-    //string path = "/media/viniman/Files/Google Drive/UFJF/2018/1/ED2/Trabalho/pythonquestions/Questions.csv";
-    string path = "../pythonquestions/OriginalFiles/Questions.csv";
-    vector<Question> listQuestions;
-    FileUtils::readFileQuestion(path, listQuestions);
+	//string path = "/home/edson/pythonquestions/Questions.csv"; //edson
+	//string path = "/media/viniman/Files/Google Drive/UFJF/2018/1/ED2/Trabalho/pythonquestions/Questions.csv";
+	string path = "../pythonquestions/OriginalFiles/Questions.csv";
 
-    cout << "Tam: " << listQuestions.size() << endl << endl;
-    cout << "Ordenacao ListQuestions" << endl;
-    random_shuffle ( listQuestions.begin(), listQuestions.end() );
+	vector<Question> listQuestions;
+	FileUtils::readFileQuestion(path, listQuestions);
+	sortQuestions(listQuestions);
 
-    for(const auto &it : listQuestions)
-        cout << it.getQuestionId() << " ";
-    cout << endl << endl;
+	vector<int> vetQuestionId = getVetQuestionIdAleatorios(listQuestions, 20);
+	sortIntegers(vetQuestionId);
 
-    HeapSort::heapSort(listQuestions);
-
-
-    cout << "Ordenado\n";
-    for(const auto &it : listQuestions)
-        cout << it.getQuestionId() << " ";
-    cout << endl << endl;
-
-
-    cout << "Ordenando Inteiros" << endl;
-    vector<int> vetQuestionId = getVetQuestionIdAleatorios(listQuestions, 10);
-    random_shuffle ( vetQuestionId.begin(), vetQuestionId.end() );
-
-    for(const auto it : vetQuestionId)
-        cout << it << " ";
-    cout << endl << endl;
-
-    HeapSort::heapSort(vetQuestionId);
-
-    cout << "Ordenado\n";
-    for(const auto it : vetQuestionId)
-        cout << it << " ";
-    cout << endl << endl;
-
-
-    return 0;
+	return 0;
 }
 
-vector<int> getVetQuestionIdAleatorios(const vector<Question> &listQuestions, const int &n)
+void sortQuestions(vector<Question> &questionVector)
 {
-    vector<int> vetQuestionId;// = new vector<int>;
-    long seed = std::chrono::system_clock::now().time_since_epoch().count();
-    mt19937 eng(seed);    ///mersenne twister engine
-    uniform_int_distribution<unsigned long> distAleatoria(0,listQuestions.size()-1);
+	cout << "### Ordenacao Questions ###" << endl;
+	random_shuffle(questionVector.begin(), questionVector.end());
 
-    //srand(static_cast<unsigned int>(time(nullptr)));
+	cout << "Vetor Original:" << endl;
+	printVector(questionVector);
+	HeapSort::heapSort(questionVector);
 
-    for(int i = 0; i < n; i++)
-    {
-        vetQuestionId.emplace_back(listQuestions[distAleatoria(eng)].getQuestionId());
-        //vetQuestionId[i] = listQuestions->at(rand()%(listQuestions->size()-1))->getQuestionId();
-    }
+	cout << "Vetor Ordenado:" << endl;
+	printVector(questionVector);
+}
 
-    return vetQuestionId;
+void sortIntegers(vector<int> &intVector)
+{
+	cout << "### Ordenacao Inteiros ###" << endl;
+	random_shuffle(intVector.begin(), intVector.end());
+
+	cout << "Vetor Original:" << endl;
+	printVector (intVector);
+	HeapSort::heapSort(intVector);
+
+	cout << "Vetor Ordenado:" << endl;
+	printVector(intVector);
+}
+
+vector<int> getVetQuestionIdAleatorios(const vector<Question> &listQuestions,
+		const int &n)
+{
+	vector<int> vetQuestionId;    // = new vector<int>;
+	long seed = std::chrono::system_clock::now().time_since_epoch().count();
+	mt19937 eng(seed);    ///mersenne twister engine
+	uniform_int_distribution<unsigned long> distAleatoria(0,
+			listQuestions.size() - 1);
+
+	//srand(static_cast<unsigned int>(time(nullptr)));
+
+	for (int i = 0; i < n; i++)
+	{
+		vetQuestionId.emplace_back(
+				listQuestions[distAleatoria(eng)].getQuestionId());
+		//vetQuestionId[i] = listQuestions->at(rand()%(listQuestions->size()-1))->getQuestionId();
+	}
+
+	return vetQuestionId;
+}
+
+template<class T> void printVector(const vector<T> &vector)
+{
+	for (const auto it : vector)
+		cout << it << " ";
+	cout << endl << endl;
 }

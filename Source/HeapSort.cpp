@@ -20,7 +20,7 @@ template <class T> void HeapSort::heapSort(vector<T> &vector)
     	makeHeapForOneRamification(vector, 0, --length);
     }
 
-    cout << "Tempo de execucao Heap Sort: " << fixed << (double)(clock() - tStart) / CLOCKS_PER_SEC << endl;
+    cout << "Tempo de execucao Heap Sort: " << fixed << (double)(clock() - tStart) / CLOCKS_PER_SEC << endl << endl;
 }
 
 template <class T> void HeapSort::makeHeapForOneRamification(vector<T> &vector, int rootIndex, int length)
