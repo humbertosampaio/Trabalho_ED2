@@ -8,14 +8,21 @@
 bool Question::operator<(const Question &rhs) const {
     return questionId < rhs.questionId;
 }
+
 bool Question::operator>(const Question &rhs) const {
     return rhs < *this;
 }
+
 bool Question::operator<=(const Question &rhs) const {
     return !(rhs < *this);
 }
+
 bool Question::operator>=(const Question &rhs) const {
     return !(*this < rhs);
+}
+
+ostream& operator << (ostream &o, const Question &q) {
+	return o << q.getQuestionId();
 }
 
 
