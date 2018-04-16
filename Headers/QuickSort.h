@@ -8,13 +8,27 @@
 #include <iostream>
 #include <algorithm>
 #include <utility>
+#include <vector>
+#include "Question.h"
+
 
 class QuickSort {
 public:
-    static void quickSort(int *vet, int inicio, int fim);
+    //template<class T>
+    //static void quickSort(vector<T> &vet);
+    //template<class T> static void quickSort(vector<T> &vet, int left, int right);
+    template<class T> static void quickSort(vector<T> &vet, int began, int end);
+
+    template<class T>
+    static void quickSortMediana(vector<T> &values, int began, int end);
 
 private:
-    static int particiona(int *vet, int left, int right, double pivo);
+    //template<class T> static int particiona(vector<T> &vet, int left, int right, T pivo);
+
+    template<class T>
+    static int mediana(vector<T> &vet, int k);
+
+
 };
 
 
