@@ -4,93 +4,9 @@
 
 #include <ctime>
 #include <set>
+#include <random>
+#include <chrono>
 #include "../Headers/QuickSort.h"
-/*
-//int QuickSort::particiona(int *vet, int left, int right, double pivo)
-template<class T> int QuickSort::particiona(vector<T> &vet, int left, int right, T pivo)
-{
-    int leftPtr = left-1;
-    int rightPtr = right;
-
-    while (true)
-    {
-        while (vet[++leftPtr] < pivo);
-        while(rightPtr > 0 &&vet[--rightPtr] > pivo);
-
-        if(leftPtr >= rightPtr)
-            break;
-        else
-        {
-            //std::swap(leftPtr, rightPtr);
-            int aux = leftPtr;
-            leftPtr = rightPtr;
-            rightPtr = aux;
-        }
-
-    }
-
-    //std::swap(leftPtr, rightPtr-1);
-    int aux = leftPtr;
-    leftPtr = right;
-    right = aux;
-
-    return  leftPtr;
-}
-
-template<class T> void QuickSort::quickSort(vector<T> &vet, int left, int right)
-{
-    if(right-left <=0)
-        return;
-    else
-    {
-        T pivo = vet[right];
-
-        int partition = particiona(vet, left, right, pivo);
-        quickSort(vet, left,partition-1);
-        quickSort(vet, partition+1, right);
-    }
-}
-*/
-
-/*template <class T>
-void QuickSort::quickSort(vector<T> &vet)
-{
-    if(vet.size() <=0)
-        return;
-    else
-    {
-        int pivo = vet[vet.size()-1];
-
-        int left,right;
-        //int partition = particiona(vet, left, right, pivo);
-        quickSort(vet);
-        quickSort(vet);
-
-
-
-
-        while (true) {
-            while (vet[++left] < pivo);
-            while (right > 0 && vet[--right] > pivo);
-
-            if (left >= right)
-                break;
-            else {
-                //std::swap(leftPtr, rightPtr);
-                int aux = left;
-                left = right;
-                right = aux;
-            }
-        }
-
-        int aux = left;
-        left = right;
-        right = aux;
-
-        return  left;
-    }
-}
-*/
 
 template<class T>
 void QuickSort::quickSort(vector<T> &values, int began, int end)
@@ -126,51 +42,79 @@ void QuickSort::quickSort(vector<T> &values, int began, int end)
 
 
 template<class T>
-void QuickSort::quickSortMediana(vector<T> &values, int began, int end)
+void QuickSort::quickSortMediana(vector<T> &vet, int began, int end , int k)
 {
-    int i, j;
-    i = began;
-    j = end-1;
-    T pivo = values[(began + end) / 2];
-    while(i <= j)
-    {
-        while(values[i] < pivo && i < end)
+    if(k==3 || k==5) {
+        ///Se o vetor tiver menos de 10 elementos, ordena com InsertionSort (Knuth)
+        if(end-began < 10)
         {
-            i++;
+            for(unsigned int i=began+1; i<end; i++)
+            {
+                T pivo = vet[i];
+                int j = i-1;
+                while(j>=began && vet[j] > pivo)
+                {
+                    vet[j+1] = vet[j];
+                    j--;
+                }
+                vet[j+1] = pivo;
+            }
         }
-        while(values[j] > pivo && j > began)
-        {
-            j--;
-        }
-        if(i <= j)
-        {
-            T aux = values[i];
-            values[i] = values[j];
-            values[j] = aux;
-            i++;
-            j--;
+        else {
+            /***Mediana***/
+            srand((time(nullptr)));
+            long long int seed = std::chrono::system_clock::now().time_since_epoch().count();
+            mt19937 eng(seed);    ///mersenne twister engine
+            uniform_int_distribution<unsigned long> uniformDistribution(began, end-1);
+            vector<T> vecMediana;
+            while (vecMediana.size() < k) {
+                unsigned int rnd = uniformDistribution(eng);
+                if (count(vecMediana.begin(), vecMediana.end(), vet[rnd]) == 0)
+                    vecMediana.push_back(vet[rnd]);
+            }
+
+            sort(vecMediana.begin(), vecMediana.end());
+            auto meio = vet.begin() + began + (end - began + 1) / 2;
+            auto mediana = find(vet.begin(), vet.end(), vecMediana[vecMediana.size() / 2]);
+
+            iter_swap(mediana, meio);
+            auto aux = meio;
+            T pivo = vet[(began + end) / 2];
+            /***Fim Mediana***/
+
+
+            /***QuickSort***/
+            int i, j;
+            i = began;
+            j = end - 1;
+            while (i <= j) {
+                while (vet[i] < pivo && i < end) {
+                    i++;
+                }
+                while (vet[j] > pivo && j > began) {
+                    j--;
+                }
+                if (i <= j) {
+                    T aux = vet[i];
+                    vet[i] = vet[j];
+                    vet[j] = aux;
+                    i++;
+                    j--;
+                }
+            }
+            if (j > began)
+                quickSortMediana(vet, began, j + 1, k);
+            if (i < end)
+                quickSortMediana(vet, i, end, k);
         }
     }
-    if(j > began)
-        quickSortMediana(values, began, j+1);
-    if(i < end)
-        quickSortMediana(values, i, end);
+    else
+        cout << "Erro! Experimente com k=3 ou k=5." << endl;
 }
 
 
-///k=3,k=5
 template<class T>
-int QuickSort::mediana(vector<T> &vet, int k)
+void QuickSort::quickSortInsercao(vector<T> &vet, int began, int end , int k)
 {
-    srand(static_cast<unsigned int>(time(nullptr)));
-    set<T> s;
-    int mediana;
-    while (s.size() < k)
-        s.insert(vet[rand()%vet.size()]);
-    if(s)
-    mediana = s.[s.size()/2];
 
-    //colocar pivo na direita
-    swap(vet[center], vet[right-1]);
-    return vet[right-1];
 }

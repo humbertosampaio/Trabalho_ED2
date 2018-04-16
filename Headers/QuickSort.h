@@ -11,24 +11,11 @@
 #include <vector>
 #include "Question.h"
 
-
 class QuickSort {
 public:
-    //template<class T>
-    //static void quickSort(vector<T> &vet);
-    //template<class T> static void quickSort(vector<T> &vet, int left, int right);
     template<class T> static void quickSort(vector<T> &vet, int began, int end);
-
-    template<class T>
-    static void quickSortMediana(vector<T> &values, int began, int end);
-
-private:
-    //template<class T> static int particiona(vector<T> &vet, int left, int right, T pivo);
-
-    template<class T>
-    static int mediana(vector<T> &vet, int k);
-
-
+    template<class T> static void quickSortMediana(vector<T> &values, int began, int end, int k);
+    template<class T> static void quickSortInsercao(vector<T> &vet, int began, int end, int k);
 };
 
 
