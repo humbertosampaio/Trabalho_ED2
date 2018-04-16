@@ -6,14 +6,14 @@
 using namespace std;
 
 
-template <class T> void InsertionSort::insertionSort(vector<T> &vet)
+template <class T>
+void InsertionSort::insertionSort(vector<T> &vet, int ini, int fim)
 {
-    int size = vet.size();
-    for(unsigned int i=1; i<size; i++)
+    for(int i=ini+1; i<fim; i++)
     {
         T pivo = vet[i];
         int j = i-1;
-        while(j>=0 && vet[j] > pivo)
+        while(j>=ini && vet[j] > pivo)
         {
             vet[j+1] = vet[j];
             j--;

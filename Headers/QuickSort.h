@@ -15,7 +15,7 @@ class QuickSort {
 public:
     template<class T> static void quickSort(vector<T> &vet, int began, int end);
     template<class T> static void quickSortMediana(vector<T> &values, int began, int end, int k);
-    template<class T> static void quickSortInsercao(vector<T> &vet, int began, int end, int k);
+    template<class T> static void quickSortInsercao(vector<T> &vet, int m);
 };
 
 
