@@ -17,7 +17,10 @@ public:
     //static void insertionSort(vector<Question> vet, const int &tam);
 
     //static void insertionSort(vector<Question *> vet, const int &tam);
-    template <class T> static void insertionSort(vector<T> &vet);
+    template <class T> static void insertionSort(vector<T> &vet, int ini, int fim);
+
+    template<class T, class T>
+    void insertionSort(vector<T> &vet);
 };
 
 #endif //TRABALHO_ED2_INSERTIONSORT_H
