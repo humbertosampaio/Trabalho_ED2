@@ -19,7 +19,8 @@ using namespace std;
 
 void sortQuestions(vector<Question> &questionVector);
 void sortIntegers(vector<int> &intVector);
-vector<int> getVetQuestionIdAleatorios(const vector<Question> &listQuestions, const int &n);
+vector<int> getVetQuestionsIdRand(vector<Question> &vetQuestions, const int &n);
+vector<Question> getVetQuestionsRand(vector<Question> &vetQuestions, const int &n);
 template<class T> void printVector(const vector<T> &vector);
 void openMenu();
 
@@ -95,23 +96,49 @@ void sortIntegers(vector<int> &intVector)
 	printVector(intVector);
 }
 
-vector<int> getVetQuestionIdAleatorios(const vector<Question> &listQuestions, const int &n)
-{
-	vector<int> vetQuestionId;    // = new vector<int>;
-	long seed = std::chrono::system_clock::now().time_since_epoch().count();
-	mt19937 eng(seed);    ///mersenne twister engine
-	uniform_int_distribution<unsigned long> distAleatoria(0, listQuestions.size() - 1);
 
-	//srand(static_cast<unsigned int>(time(nullptr)));
+vector<int> getVetQuestionsIdRand(vector<Question> &vetQuestions, const int &n)
+{
+	vector<Question> vetQuestionsCopy(vetQuestions);
+	vector<int> vetQuestionsAleatorio; /// Vector de questions gerados aleatoriamente
+	long long int seed = std::chrono::system_clock::now().time_since_epoch().count();
+	mt19937 eng(seed);    ///mersenne twister engine
+	uniform_int_distribution<unsigned long> distAleatoria(0, vetQuestions.size() - 1);
 
 	for (int i = 0; i < n; i++)
 	{
-		vetQuestionId.emplace_back(listQuestions[distAleatoria(eng)].getQuestionId());
-		//vetQuestionId[i] = listQuestions->at(rand()%(listQuestions->size()-1))->getQuestionId();
+		unsigned int indice;
+		do {
+			indice = distAleatoria(eng);
+		}
+		while (vetQuestionsCopy[indice].getQuestionId() == -1);
+		vetQuestionsAleatorio.emplace_back(vetQuestionsCopy[indice].getQuestionId());
+		vetQuestionsCopy[indice].setQuestionId(-1);
 	}
-
-	return vetQuestionId;
+	return vetQuestionsAleatorio;
 }
+
+vector<Question> getVetQuestionsRand(vector<Question> &vetQuestions, const int &n)
+{
+	vector<Question> vetQuestionsCopy(vetQuestions);
+	vector<Question> vetQuestionsAleatorio; /// Vector de questions gerados aleatoriamente
+	long long int seed = std::chrono::system_clock::now().time_since_epoch().count();
+	mt19937 eng(seed);    ///mersenne twister engine
+	uniform_int_distribution<unsigned long> distAleatoria(0, vetQuestions.size() - 1);
+
+	for (int i = 0; i < n; i++)
+	{
+		unsigned int indice;
+		do {
+			indice = distAleatoria(eng);
+		}
+		while (vetQuestionsCopy[indice].getQuestionId() == -1);
+		vetQuestionsAleatorio.emplace_back(vetQuestionsCopy[indice]);
+		vetQuestionsCopy[indice].setQuestionId(-1);
+	}
+	return vetQuestionsAleatorio;
+}
+
 
 template<class T> void printVector(const vector<T> &vector)
 {
@@ -178,7 +205,7 @@ void openMenu()
 					switch (entrada)
 					{
 						case 1: // Secao 1, Cenario 1, Entrada 1
-							intVec = getVetQuestionIdAleatorios(questionVec, N);
+							intVec = getVetQuestionsIdRand(questionVec, N);
 							// Chamar QuickSort para inteiros
 							break;
 						case 2: // Secao 1, Cenario 1, Entrada 2
@@ -193,7 +220,7 @@ void openMenu()
 					printEntries_Cenary2_Section1();
 					cin >> entrada;
 
-					intVec = getVetQuestionIdAleatorios(questionVec, N);
+					intVec = getVetQuestionsIdRand(questionVec, N);
 
 					switch (entrada)
 					{
@@ -211,7 +238,7 @@ void openMenu()
 					}
 					break;
 				case 3: // Secao 1, Cenario 3
-					intVec = getVetQuestionIdAleatorios(questionVec, N);
+					intVec = getVetQuestionsIdRand(questionVec, N);
 
 					// Chamar QuickSort
 					MergeSort::mergeSort(vecMergeSort, 0, vecMergeSort.size() - 1);

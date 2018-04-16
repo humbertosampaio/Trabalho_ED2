@@ -25,7 +25,6 @@ ostream& operator << (ostream &o, const Question &q) {
 	return o << q.getQuestionId();
 }
 
-
 Question::Question(string *question)
 {
     this->questionId = stoi(question[0], nullptr, 10);
@@ -51,5 +50,9 @@ void Question::printComponents()
 
 int Question::getQuestionId() const {
     return questionId;
+}
+
+void Question::setQuestionId(const unsigned int questionId) {
+    Question::questionId = questionId;
 }
 
