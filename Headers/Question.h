@@ -30,6 +30,10 @@ public:
     bool operator>=(const Question &rhs) const;
     friend ostream& operator <<(ostream &o, const Question &q);
 
+    bool operator==(const Question &rhs) const;
+
+    bool operator!=(const Question &rhs) const;
+
 };
 
 

@@ -5,9 +5,35 @@
 
 using namespace std;
 
+/**
+ * insertionSort sobrecarregado
+ * @tparam T: template para aceitar qualquer classe ou tipo
+ * @param vet: vector<T> parametrizado com template
+ */
+template <class T> void InsertionSort::insertionSort(vector<T> &vet)
+{
+    int size = vet.size();
+    for(unsigned int i=1; i<size; i++)
+    {
+        T pivo = vet[i];
+        int j = i-1;
+        while(j>=0 && vet[j] > pivo)
+        {
+            vet[j+1] = vet[j];
+            j--;
+        }
+        vet[j+1] = pivo;
+    }
+}
 
-template <class T>
-void InsertionSort::insertionSort(vector<T> &vet, int ini, int fim)
+/**
+ * InsertionSort sobrecarregado com inicio e fim, para ordenar partições/pedaços de um vector
+ * @tparam T: template para aceitar qualquer classe ou tipo
+ * @param vet: vector<T> parametrizado com template
+ * @param ini: posição inicial para ordenar o vector
+ * @param fim: posição final para ordenar o vector
+ */
+template <class T> void InsertionSort::insertionSort(vector<T> &vet, int ini, int fim)
 {
     for(int i=ini+1; i<fim; i++)
     {
