@@ -4,53 +4,47 @@
 
 #include "../Headers/MergeSort.h"
 
-template <class T> void MergeSort::intercala(vector<T> &vet, int inicio, int meio, int fim)
-{
-    int indInicio = inicio;
-    int indMeio = meio+1;
-    int indAux = 0;
-    vector<T> vetAux(vet);
+using namespace std;
 
-    while (indInicio < meio+1 || indMeio < fim+1)
+template<class T>
+void MergeSort::mergeSort(vector<T> &vet) {
+
+    if (vet.size() > 1)
     {
-        if(indInicio == meio+1)
-        {
-            vetAux[indAux] = vet[indMeio];
-            indMeio++;
-            indAux++;
-        }
-        else if(indMeio == fim+1)
-        {
-            vetAux[indAux] = vet[indInicio];
-            indInicio++;
-            indAux++;
-        }
-        else if(vet[indInicio] <= vet[indMeio])
-        {
-            vetAux[indAux] = vet[indInicio];
-            indInicio++;
-            indAux++;
-        }
-        else
-        {
-            vetAux[indAux] = vet[indMeio];
-            indMeio++;
-            indAux++;
-        }
-    }
+        typename vector<T>::iterator meio = vet.begin() + (vet.size() / 2);
 
-    for(indInicio = inicio; indInicio <= fim; indInicio++)
-        vet[indInicio] = vetAux[indInicio-inicio];
-}
+        vector<T> left(vet.begin(), meio);
+        vector<T> right(meio, vet.end());
 
-template <class T> void MergeSort::mergeSort(vector<T> &vet, int inicio, int fim)
-{
+        MergeSort::mergeSort(left);
+        MergeSort::mergeSort(right);
 
-    if(inicio < fim)
-    {
-        int meio = (inicio+fim)/2;
-        mergeSort(vet, inicio, meio);
-        mergeSort(vet, meio+1, fim);
-        intercala(vet, inicio, meio, fim);
+        //Intercala
+        unsigned int itLeft = 0, itRight = 0, itVet = 0;
+
+        while (itLeft < left.size() && itRight < right.size()) {
+            //incrementCount(1);
+            if (left[itLeft] < right[itRight]) {
+                vet[itVet++] = left[itLeft++];
+                //itLeft++;
+            } else {
+                vet[itVet++] = right[itRight++];
+                //itRight++;
+            }
+
+            //itVet++;
+        }
+
+        while (itLeft < left.size()) {
+            vet[itVet++] = left[itLeft++];
+            //itLeft++;
+            //itVet++;
+        }
+
+        while (itRight < right.size()) {
+            vet[itVet++] = right[itRight++];
+            //itRight++;
+            //itVet++;
+        }
     }
 }

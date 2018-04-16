@@ -11,11 +11,8 @@
 //class vector;
 
 class MergeSort {
-
-    template <class T> static void intercala(vector<T> &vet, int inicio, int meio, int fim);
-
 public:
-    template <class T> static void mergeSort(vector<T> &vet, int inicio, int fim);
+    template<class T> static  void mergeSort(vector<T> &vet);
 };
 
 
