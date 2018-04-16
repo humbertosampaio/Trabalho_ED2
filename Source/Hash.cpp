@@ -11,6 +11,10 @@ Hash::Hash(unsigned int size)
     this->hashTable = new int [size];
     for (int i = 0; i < size; ++i)
         hashTable[i] = 0;
+    this->memorySpend = 4*size + 4;
+    extraMemory = 0;
+    comparsionCounter = 0;
+    numberOfComparsions = 0;
 }
 /*
  * funcao djb2 de hash para strings com nossa adaptacao para inteiros

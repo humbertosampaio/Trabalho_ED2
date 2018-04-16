@@ -7,6 +7,7 @@
 
 #include <cmath>
 #include <iostream>
+
 using namespace std;
 
 class Hash {
@@ -14,11 +15,15 @@ protected:
     unsigned int size;
     unsigned int collisionCounter;
     int* hashTable;
+    unsigned int memorySpend;
+    unsigned int extraMemory;
 
 public:
     unsigned int keyFunction (unsigned int value);
     void printElements();
     Hash(unsigned int size);
+    unsigned int numberOfComparsions;
+    unsigned int comparsionCounter;
 
     unsigned int getCollisionCounter() const;
     //virtual void insert(int value);

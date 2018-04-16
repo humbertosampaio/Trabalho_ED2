@@ -11,7 +11,7 @@ HashSeparated::~HashSeparated()
     delete []hashTable;
 }
 
-void HashSeparated::insert(int value)
+void HashSeparated::insert(unsigned int value)
 {
     unsigned int key = keyFunction(value);
     if (hashTable[key] == 0)
@@ -26,6 +26,25 @@ void HashSeparated::insert(int value)
             while (vertex->next != nullptr)
                 vertex = vertex->next;
             vertex->next = new Vertex(value, nullptr);
+        }
+    }
+}
+
+void HashSeparated::find(unsigned int value)
+{
+    ++numberOfComparsions;
+    ++comparsionCounter;
+    unsigned int key = keyFunction(value);
+    if (hashTable[key] == value)
+        return;
+    else
+    {
+        ++numberOfComparsions;
+        Vertex* vertex = this->collisionTable;
+        while (vertex->value != value)
+        {
+            vertex = vertex->next;
+            ++numberOfComparsions;
         }
     }
 }

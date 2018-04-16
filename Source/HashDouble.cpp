@@ -2,10 +2,10 @@
 // Created by edson on 15/04/18.
 //
 
-#include "../Headers/DoubleHash.h"
+#include "../Headers/HashDouble.h"
 
 
-void DoubleHash::insert(int value)
+void HashDouble::insert(int value)
 {
     if (elementCounter < size) {
         unsigned int key = keyFunction(value);
@@ -27,7 +27,7 @@ void DoubleHash::insert(int value)
         cout << "hash cheio, nao foi possivel inserir " << value << endl;
 }
 
-unsigned int DoubleHash::secondaryFunction(unsigned int value)
+unsigned int HashDouble::secondaryFunction(unsigned int value)
 {
     return value;
 }

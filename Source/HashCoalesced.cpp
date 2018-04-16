@@ -2,10 +2,10 @@
 // Created by edson on 15/04/18.
 //
 
-#include "../Headers/CoalescedHash.h"
+#include "../Headers/HashCoalesced.h"
 
 
-void CoalescedHash::insert(unsigned int value)
+void HashCoalesced::insert(unsigned int value)
 {
 
     if (elementCounter < size) {
@@ -47,7 +47,21 @@ void CoalescedHash::insert(unsigned int value)
         cout << "hash cheio, nao foi possivel inserir " << value << endl;
 }
 
-void CoalescedHash::printElements()
+void HashCoalesced::find(unsigned int value)
+{
+    ++comparsionCounter;
+    ++numberOfComparsions;
+    unsigned int key = keyFunction(value);
+    int i = key;
+    while (hashTable[i] != value && i >= 0)
+    {
+        i = pointerTable[i];
+        ++numberOfComparsions;
+    }
+
+}
+
+void HashCoalesced::printElements()
 {
     for (int i = 0; i < size; ++i)
         cout << i << ": " << hashTable[i] << " " << pointerTable[i] << endl;

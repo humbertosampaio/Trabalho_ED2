@@ -9,7 +9,8 @@
 #include "Source/MergeSort.cpp"
 #include "Headers/HeapSort.h"
 #include "Source/HeapSort.cpp"
-#include "Headers/CoalescedHash.h"
+#include "Headers/HashCoalesced.h"
+#include "Headers/Cenario4.h"
 
 using namespace std;
 
@@ -28,16 +29,18 @@ int main(int argc, char** argv)
 	//FileUtils::readFileQuestion(path, listQuestions);
 
 
-    CoalescedHash cl(200);
+    HashCoalesced cl(20);
 
 
-    for (int i = 0; i < 200; ++i) {
+    for (int i = 0; i < 20; ++i) {
         cl.insert(i+1);
         //cl.printElements();
-        cout << endl;
     }
+    for (int i = 0; i < 20; ++i)
+        cl.find(i+1);
     cl.printElements();
-    cout << "numero de colisoes " << cl.getCollisionCounter();
+    cout << "numero de colisoes " << cl.getCollisionCounter() << endl;
+    cout << "numero de comparacoes " << cl.numberOfComparsions << " numero de vezes " << cl.comparsionCounter;
 
     /*
     sortQuestions(listQuestions);

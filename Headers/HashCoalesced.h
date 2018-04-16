@@ -10,18 +10,21 @@
 
 using namespace std;
 
-class CoalescedHash : public Hash {
+class HashCoalesced : public Hash {
 public:
 
     void insert (unsigned int value);
+    void find (unsigned int value);
     void printElements();
 
-    CoalescedHash(unsigned int size):Hash(size)
+    HashCoalesced(unsigned int size):Hash(size)
     {
         pointerTable = new int[size];
         for (int i = 0; i < size; ++i)
             pointerTable[i] = -2;
         elementCounter = 0;
+        //4*size da lista auxliar de ponteiros, +4 do ponteiro do inicio da lista + 4 de element counter
+        extraMemory += 4*size + 4 + 4;
     }
 
 private:

@@ -10,12 +10,14 @@
 
 using namespace std;
 
-class DoubleHash : public Hash{
+class HashDouble : public Hash{
 public:
     void insert (int value);
-DoubleHash(unsigned int size):Hash(size){
+
+HashDouble(unsigned int size):Hash(size){
     elementCounter = 0;
     this->size = 1.1*size;
+    extraMemory += 4 + 1.1*size*4;
     };
 private:
     unsigned int elementCounter;
