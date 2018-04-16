@@ -10,13 +10,14 @@
 
 using namespace std;
 
-class LinearHash : public Hash{
+class HashLinear : public Hash{
 
 public:
-    LinearHash(unsigned int size, bool quadratic):Hash(size)
+    HashLinear(unsigned int size, bool quadratic):Hash(size)
     {
         elementCounter = 0;
         this->quadratic = quadratic;
+        extraMemory += 4;
     };
     //metodos
     void insert (int value);
