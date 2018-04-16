@@ -5,12 +5,15 @@
 #include "Headers/FileUtils.h"
 #include "Headers/InsertionSort.h"
 #include "Headers/MergeSort.h"
-#include "Source/InsertionSort.cpp"
-#include "Source/MergeSort.cpp"
 #include "Headers/HeapSort.h"
-#include "Source/HeapSort.cpp"
 #include "Headers/HashCoalesced.h"
 #include "Headers/Cenario4.h"
+#include "Headers/CombSort.h"
+
+#include "Source/InsertionSort.cpp"
+#include "Source/MergeSort.cpp"
+#include "Source/HeapSort.cpp"
+#include "Source/CombSort.cpp"
 
 using namespace std;
 
@@ -27,8 +30,8 @@ int main(int argc, char** argv)
 
 	string path = "../pythonquestions/OriginalFiles/Questions.csv";
 	FileUtils::readFileQuestion(path, listQuestions);
-//	sortQuestions(listQuestions);
-	openMenu();
+	sortQuestions(listQuestions);
+//	openMenu();
 
 	//string path = "/home/edson/pythonquestions/Questions.csv"; //edson
 	//string path = "/media/viniman/Files/Google Drive/UFJF/2018/1/ED2/Trabalho/pythonquestions/Questions.csv";
@@ -73,7 +76,7 @@ void sortQuestions(vector<Question> &questionVector)
 
 	cout << "Vetor Original:" << endl;
 	printVector(questionVector);
-	HeapSort::heapSort(questionVector);
+	CombSort::combSort(questionVector);
 
 	cout << "Vetor Ordenado:" << endl;
 	printVector(questionVector);
