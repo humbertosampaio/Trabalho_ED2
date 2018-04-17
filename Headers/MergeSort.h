@@ -7,8 +7,8 @@
 
 #include <vector>
 #include "Question.h"
-
-//class vector;
+#include "CompareCount.h"
+#include <FileUtils.h>
 
 class MergeSort {
 public:
