@@ -6,6 +6,7 @@
 #include <set>
 #include <random>
 #include <chrono>
+#include <InsertionSort.h>
 #include "../Headers/QuickSort.h"
 
 template<class T>
@@ -48,17 +49,7 @@ void QuickSort::quickSortMediana(vector<T> &vet, int began, int end , int k)
         ///Se o vetor tiver menos de 10 elementos, ordena com InsertionSort (Knuth)
         if(end-began < 10)
         {
-            for(unsigned int i=began+1; i<end; i++)
-            {
-                T pivo = vet[i];
-                int j = i-1;
-                while(j>=began && vet[j] > pivo)
-                {
-                    vet[j+1] = vet[j];
-                    j--;
-                }
-                vet[j+1] = pivo;
-            }
+            InsertionSort::insertionSort(vet, began, end);
         }
         else {
             /***Mediana***/
@@ -72,8 +63,11 @@ void QuickSort::quickSortMediana(vector<T> &vet, int began, int end , int k)
                 if (count(vecMediana.begin(), vecMediana.end(), vet[rnd]) == 0)
                     vecMediana.push_back(vet[rnd]);
             }
-
-            sort(vecMediana.begin(), vecMediana.end());
+            for(auto it : vecMediana)
+                cout << it << " ";
+            cout << endl;
+            ///Ordenar vector para selecionar a mediana entre os valores
+            InsertionSort::insertionSort(vecMediana, 0, vecMediana.size());
             auto meio = vet.begin() + began + (end - began + 1) / 2;
             auto mediana = find(vet.begin(), vet.end(), vecMediana[vecMediana.size() / 2]);
 
@@ -81,7 +75,6 @@ void QuickSort::quickSortMediana(vector<T> &vet, int began, int end , int k)
             auto aux = meio;
             T pivo = vet[(began + end) / 2];
             /***Fim Mediana***/
-
 
             /***QuickSort***/
             int i, j;
@@ -112,9 +105,18 @@ void QuickSort::quickSortMediana(vector<T> &vet, int began, int end , int k)
         cout << "Erro! Experimente com k=3 ou k=5." << endl;
 }
 
-
 template<class T>
-void QuickSort::quickSortInsercao(vector<T> &vet, int began, int end , int k)
+void QuickSort::quickSortInsercao(vector<T> &vet, int m)
 {
-
+    if(m==10 || m==100)
+    {
+        for(int i = 0; i*m < vet.size(); i++)
+        {
+            InsertionSort::insertionSort(vet,i*m,((i*m+m<=vet.size()) ? i*m+m : vet.size()));
+        }
+        ///Chamada do quickSort recursivo para terminar as ordenação que começaram a ser feita por partições de inserção
+        quickSort(vet, 0, vet.size());
+    }
+    else
+        cout << "Erro! Experimente com m=10 ou m=100." << endl;
 }
