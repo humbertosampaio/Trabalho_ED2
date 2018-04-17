@@ -6,8 +6,6 @@
 
 template <class T> void HeapSort::heapSort(vector<T> &vector)
 {
-    clock_t tStart = clock();
-
     int length = vector.size();
     for(int i = (length / 2) - 1; i >= 0; i--)
     	makeHeapForOneRamification(vector, i, length);
@@ -19,8 +17,6 @@ template <class T> void HeapSort::heapSort(vector<T> &vector)
     	vector[length - 1] = maior;
     	makeHeapForOneRamification(vector, 0, --length);
     }
-
-    cout << "Tempo de execucao Heap Sort: " << fixed << (double)(clock() - tStart) / CLOCKS_PER_SEC << endl << endl;
 }
 
 template <class T> void HeapSort::makeHeapForOneRamification(vector<T> &vector, int rootIndex, int length)
