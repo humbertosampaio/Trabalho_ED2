@@ -14,7 +14,7 @@ using namespace std;
 class HashSeparated : public Hash{
 public:
     //construtor e destrutor
-    HashSeparated(unsigned int size):Hash(size)
+    HashSeparated(unsigned int size):Hash(size, false)
     {
         collisionTable = new Vertex[size];
         //2*4*size para os ponteiros e variaveis de armazenamento de vertex, + 4 do ponteiro para
@@ -27,7 +27,6 @@ public:
     void insert (unsigned int value);
     void find (unsigned int value);
     void printElements();
-    void churos();
 
     //classe auxiliar para a lista de colisoes
     class Vertex

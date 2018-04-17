@@ -23,6 +23,15 @@ add_executable(Trabalho_ED2
         Headers/QuestionList.h
         Headers/QuickSort.h
         Headers/Tag.h
+        Headers/CombSort.h
+        Headers/HashDouble.h
+        Headers/HashLinear.h
+        Headers/Cenario4.h
+        Headers/HashCoalesced.h
+        Source/CombSort.cpp
+        Source/HashCoalesced.cpp
+        Source/HashDouble.cpp
+        Source/HashLinear.cpp
         Source/Answer.cpp
         Source/CombSort.cpp
         Source/CompareCount.cpp

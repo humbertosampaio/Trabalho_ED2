@@ -14,7 +14,7 @@
 
 using namespace std;
 
-void funcao (vector<int> vetQuestionId)
+void funcao (vector<int>& vetQuestionId)
 {
     unsigned int n = vetQuestionId.size();
     HashSeparated hashSeparated(n);
@@ -22,7 +22,14 @@ void funcao (vector<int> vetQuestionId)
     HashLinear hashLinear(n, false);
     HashLinear hashQuadratic(n, true);
     HashDouble hashDouble(n);
+    for (vector<int>::iterator it = vetQuestionId.begin(); it != vetQuestionId.end(); ++it)
+    {
+    }
 }
 
+void section2 (vector<int>& vetQuestionId)
+{
+    
+}
 
 #endif //TRABALHO_ED2_CENARIO4_H

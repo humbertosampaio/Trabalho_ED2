@@ -4,8 +4,15 @@
 
 #include "../Headers/Tag.h"
 
-Tag::Tag(unsigned int questionId, string tag)
+Tag::Tag(unsigned int questionId, list<string> tagList)
 {
     this->questionId = questionId;
-    this->tag = tag;
+    this->tagList = tagList;
+}
+
+void Tag::printTags()
+{
+    for (list<string>::iterator it = tagList.begin(); it != tagList.end(); ++it)
+        cout << (*it) << " ";
+    cout << endl;
 }

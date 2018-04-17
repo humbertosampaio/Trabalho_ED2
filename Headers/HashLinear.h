@@ -13,7 +13,7 @@ using namespace std;
 class HashLinear : public Hash{
 
 public:
-    HashLinear(unsigned int size, bool quadratic):Hash(size)
+    HashLinear(unsigned int size, bool quadratic):Hash(size, quadratic)
     {
         elementCounter = 0;
         this->quadratic = quadratic;
@@ -21,7 +21,7 @@ public:
     };
     //metodos
     void insert (int value);
-    void printElements();
+    void find (int value);
 
 private:
     int elementCounter;
@@ -30,6 +30,9 @@ private:
     //funcoes auxiliares
     void insertLinear(int value);
     void insertQuadratic(int value);
+    void findLinear (int value);
+    void findQuadratic (int value);
+
 };
 
 

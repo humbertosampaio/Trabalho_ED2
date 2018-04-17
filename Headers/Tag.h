@@ -6,6 +6,8 @@
 #define TRABALHO_ED2_TAG_H
 
 #include <iostream>
+#include <list>
+#include <vector>
 
 using namespace std;
 
@@ -13,9 +15,10 @@ class Tag {
 
 private:
     unsigned int questionId;
-    string tag;
+    list<string> tagList;
 public:
-    Tag(unsigned int questionId, string tag);
+    Tag(unsigned int questionId, list<string> tagList);
+    void printTags();
 };
 
 
