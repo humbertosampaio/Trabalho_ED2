@@ -13,6 +13,7 @@
 class MergeSort {
 public:
     template<class T> static  void mergeSort(vector<T> &vet);
+    template<class T> static void mergeSortRec(vector<T> &vet);
 };
 
 

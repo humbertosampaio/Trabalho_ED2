@@ -6,15 +6,22 @@
 
 using namespace std;
 
+template<class T> void MergeSort::mergeSort(vector<T> &vet)
+{
+    CompareCount::initializeCounters("Merge Sort");
+    CompareCount::setTimeStart();
+    MergeSort::mergeSortRec(vet);
+    CompareCount::timeEnd();
+    FileUtils::writeToOutputFile(CompareCount::getDataString());
+}
+
 /**
  * Algoritmo MergeSort
  * @tparam T: Generelização de método por template
  * @param vet: vector parametrizado para ordenação (int ou Question)
  */
-template<class T> void MergeSort::mergeSort(vector<T> &vet) {
+template<class T> void MergeSort::mergeSortRec(vector<T> &vet) {
 
-    CompareCount::initializeCounters("Merge Sort");
-    CompareCount::setTimeStart();
     if (vet.size() > 1)
     {
         typename vector<T>::iterator meio = vet.begin() + (vet.size() / 2);
@@ -24,8 +31,8 @@ template<class T> void MergeSort::mergeSort(vector<T> &vet) {
         for(int i = 0; i < vet.size(); i++)
             CompareCount::incrementCopia();
 
-        MergeSort::mergeSort(left);
-        MergeSort::mergeSort(right);
+        MergeSort::mergeSortRec(left);
+        MergeSort::mergeSortRec(right);
 
 
         ///Intercala
@@ -56,7 +63,6 @@ template<class T> void MergeSort::mergeSort(vector<T> &vet) {
             CompareCount::incrementCopia();
         }
         CompareCount::incrementComparison();
-        CompareCount::incrementComparison();
 
         while (itRight < right.size())
         {
@@ -65,8 +71,5 @@ template<class T> void MergeSort::mergeSort(vector<T> &vet) {
             CompareCount::incrementCopia();
         }
         CompareCount::incrementComparison();
-        CompareCount::incrementComparison();
     }
-    CompareCount::timeEnd();
-    FileUtils::writeToOutputFile(CompareCount::getDataString());
 }

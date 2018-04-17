@@ -11,7 +11,7 @@ int CompareCount::countNumComparisons;
 int CompareCount::countNumCopias;
 clock_t CompareCount::timeStart;
 double CompareCount::runtime;
-bool CompareCount::runtimeCalc;
+bool CompareCount::runtimeCalc = true;
 
 /**
  * Método resposável por inicializar os contadores para uma nova contagem
@@ -85,7 +85,7 @@ string CompareCount::getDataString()
 	string data = "Algoritmo: " + nameOfAlgorithm + "\n";
 
 	data += "Comparacoes: " + to_string(countNumComparisons) + "\nCopias: " +
-			to_string(countNumComparisons) + "\nTempo de Execução: ";
+			to_string(countNumCopias) + "\nTempo de Execução: ";
 
 	data += runtimeCalc ? (to_string(runtime) + "\n\n") : "Nao foi calculado\n\n";
 
