@@ -17,7 +17,7 @@ public:
     void find (unsigned int value);
     void printElements();
 
-    HashCoalesced(unsigned int size):Hash(size)
+    HashCoalesced(unsigned int size):Hash(size, false)
     {
         pointerTable = new int[size];
         for (int i = 0; i < size; ++i)

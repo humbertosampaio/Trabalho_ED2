@@ -21,8 +21,8 @@ private:
    // static clock_t tStart;
 public:
     static void readFileQuestion(string path, vector<Question> &questionList);
-    static vector<Tag*>* readFileTag (string path);
-    static vector<Answer*>* readFileAnswer(string path);
+    static void readFileTag (string path, vector<Tag> &tagList);
+    static void readFileAnswer(string path, vector<Answer> &answerList);
     //static void timeStart();
     //static double timeEnd();
 };

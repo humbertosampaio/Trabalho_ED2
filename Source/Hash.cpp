@@ -4,8 +4,10 @@
 
 #include "../Headers/Hash.h"
 
-Hash::Hash(unsigned int size)
+Hash::Hash(unsigned int size, bool extraSize)
 {
+    if (extraSize)
+        size *= 1.1;
     this->size = size;
     this->collisionCounter = 0;
     this->hashTable = new int [size];
@@ -16,6 +18,12 @@ Hash::Hash(unsigned int size)
     comparsionCounter = 0;
     numberOfComparsions = 0;
 }
+
+Hash::~Hash()
+{
+    delete hashTable;
+}
+
 /*
  * funcao djb2 de hash para strings com nossa adaptacao para inteiros
  * referencia: http://www.cse.yorku.ca/~oz/hash.html

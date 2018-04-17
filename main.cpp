@@ -15,6 +15,7 @@
 #include "Source/HeapSort.cpp"
 #include "Source/CombSort.cpp"
 
+
 using namespace std;
 
 void sortQuestions(vector<Question> &questionVector);
@@ -26,15 +27,36 @@ void openMenu();
 
 int main(int argc, char** argv)
 {
-	string sourceFileName = argv[1];
+	//string sourceFileName = argv[1];
 	vector<Question> listQuestions;
+    vector<Answer> listAnswer;
+    vector<Tag> listTag;
 
-	string path = "../pythonquestions/OriginalFiles/Questions.csv";
-	FileUtils::readFileQuestion(path, listQuestions);
-	sortQuestions(listQuestions);
+	string path = "/home/edson/pythonquestions/Questions.csv"; //edson
+	//string path = "../pythonquestions/OriginalFiles/Questions.csv";
+	//FileUtils::readFileQuestion(path, listQuestions);
+
+    //FileUtils::readFileAnswer("/home/edson/pythonquestions/Answers.csv", listAnswer);
+    FileUtils::readFileTag("/home/edson/pythonquestions/Tags.csv", listTag);
+
+    /*
+	HashDouble cl(20);
+
+	for (int i = 0; i < 20; ++i)
+	{
+		cl.insert(i+1);
+	}
+    cl.printElements();
+	for (int i = 0; i < 20; ++i)
+		cl.find(i+1);
+
+	cout << "numero de colisoes " << cl.getCollisionCounter() << endl;
+	cout << "numero de comparacoes " << cl.numberOfComparsions << " numero de vezes " << cl.comparsionCounter;
+*/
+
+	//sortQuestions(listQuestions);
 //	openMenu();
 
-	//string path = "/home/edson/pythonquestions/Questions.csv"; //edson
 	//string path = "/media/viniman/Files/Google Drive/UFJF/2018/1/ED2/Trabalho/pythonquestions/Questions.csv";
 
 //
@@ -46,19 +68,6 @@ int main(int argc, char** argv)
 	//string path = "../pythonquestions/OriginalFiles/Questions.csv";
 
 	//FileUtils::readFileQuestion(path, listQuestions);
-
-	HashCoalesced cl(20);
-
-	for (int i = 0; i < 20; ++i)
-	{
-		cl.insert(i + 1);
-		//cl.printElements();
-	}
-	for (int i = 0; i < 20; ++i)
-		cl.find(i + 1);
-	cl.printElements();
-	cout << "numero de colisoes " << cl.getCollisionCounter() << endl;
-	cout << "numero de comparacoes " << cl.numberOfComparsions << " numero de vezes " << cl.comparsionCounter;
 
 	/*
 	 sortQuestions(listQuestions);
@@ -241,7 +250,7 @@ void openMenu()
 					intVec = getVetQuestionsIdRand(questionVec, N);
 
 					// Chamar QuickSort
-					MergeSort::mergeSort(vecMergeSort, 0, vecMergeSort.size() - 1);
+					//MergeSort::mergeSort(vecMergeSort, 0, vecMergeSort.size() - 1);
 					InsertionSort::insertionSort(vecInsertionSort);
 					HeapSort::heapSort(vecHeapSort);
 					// Chamar MeuSort

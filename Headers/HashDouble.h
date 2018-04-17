@@ -12,11 +12,11 @@ using namespace std;
 
 class HashDouble : public Hash{
 public:
-    void insert (int value);
+    void insert (unsigned int value);
+    void find (unsigned int value);
 
-HashDouble(unsigned int size):Hash(size){
+HashDouble(unsigned int size):Hash(size, true){
     elementCounter = 0;
-    this->size = 1.1*size;
     extraMemory += 4 + 1.1*size*4;
     };
 private:

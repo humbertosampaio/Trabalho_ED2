@@ -12,9 +12,12 @@ using namespace std;
 class Answer {
 private:
     int answerId;
-    unsigned int userId;
-    unsigned int questionId;
+    int userId;
     string date;
+    unsigned int questionId;
+    int score;
+public:
+    Answer(string* answer);
 };
 
 

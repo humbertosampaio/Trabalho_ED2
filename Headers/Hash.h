@@ -17,11 +17,13 @@ protected:
     int* hashTable;
     unsigned int memorySpend;
     unsigned int extraMemory;
+    bool extraSize;
 
 public:
     unsigned int keyFunction (unsigned int value);
     void printElements();
-    Hash(unsigned int size);
+    Hash(unsigned int size, bool extraSize);
+    ~Hash();
     unsigned int numberOfComparsions;
     unsigned int comparsionCounter;
 

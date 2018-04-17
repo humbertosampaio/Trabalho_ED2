@@ -58,7 +58,6 @@ void HashCoalesced::find(unsigned int value)
         i = pointerTable[i];
         ++numberOfComparsions;
     }
-
 }
 
 void HashCoalesced::printElements()

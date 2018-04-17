@@ -39,10 +39,52 @@ void HashLinear::insertQuadratic(int value)
     else
     {
         int i = 1;
-        while (hashTable[key+(i*i) % size] != 0){
+        while (hashTable[(key+(i*i)) % size] != 0){
             ++i;
             }
-        hashTable[key+(i*i) % size] = value;
+        hashTable[(key+(i*i)) % size] = value;
         ++collisionCounter;
+    }
+}
+
+void HashLinear::find(int value)
+{
+    if (quadratic) findQuadratic(value);
+    else findLinear(value);
+}
+
+void HashLinear::findLinear(int value)
+{
+    ++numberOfComparsions;
+    ++comparsionCounter;
+    unsigned int key = Hash::keyFunction(value);
+    if (hashTable[key] == value)
+        return;
+    else
+    {
+        ++numberOfComparsions;
+        for (int i = key + 1; i <= size  + key; ++i) {
+            ++numberOfComparsions;
+            if (hashTable[i % size] == value) {
+                return;
+            }
+        }
+    }
+}
+
+void HashLinear::findQuadratic(int value)
+{
+    ++numberOfComparsions;
+    ++comparsionCounter;
+    unsigned int key = Hash::keyFunction(value);
+    if (hashTable[key] == value)
+        return;
+    else
+    {
+        int i = 1;
+        while (hashTable[(key+(i*i)) % size] != value){
+            ++numberOfComparsions;
+            ++i;
+        }
     }
 }

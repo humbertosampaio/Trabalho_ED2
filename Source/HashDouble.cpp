@@ -5,7 +5,7 @@
 #include "../Headers/HashDouble.h"
 
 
-void HashDouble::insert(int value)
+void HashDouble::insert(unsigned int value)
 {
     if (elementCounter < size) {
         unsigned int key = keyFunction(value);
@@ -25,6 +25,27 @@ void HashDouble::insert(int value)
         ++elementCounter;
     } else
         cout << "hash cheio, nao foi possivel inserir " << value << endl;
+}
+
+void HashDouble::find(unsigned int value)
+{
+    ++comparsionCounter;
+    ++numberOfComparsions;
+    unsigned int key = keyFunction(value);
+    if (hashTable[key] == value)
+        return;
+    else
+    {
+        unsigned int i = 1;
+        unsigned int secKeyConst = secondaryFunction(value);
+        unsigned int secKey = secKeyConst;
+        ++numberOfComparsions;
+        while (hashTable[(key + secKey) % size] != value) {
+            secKey = i * secKeyConst;
+            ++i;
+            ++numberOfComparsions;
+        }
+    }
 }
 
 unsigned int HashDouble::secondaryFunction(unsigned int value)
