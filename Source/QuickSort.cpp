@@ -6,7 +6,7 @@
 #include <set>
 #include <random>
 #include <chrono>
-#include <InsertionSort.h>
+#include "../Headers/InsertionSort.h"
 #include "../Headers/QuickSort.h"
 
 template<class T>

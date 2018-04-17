@@ -16,22 +16,13 @@
 
 using namespace std;
 
-class FileUtils {
-private:
-   // static clock_t tStart;
-public:
-    static void readFileQuestion(string path, vector<Question> &questionList);
-    static void readFileTag (string path, vector<Tag> &tagList);
-    static void readFileAnswer(string path, vector<Answer> &answerList);
-    //static void timeStart();
-    //static double timeEnd();
+class FileUtils
+{
+	public:
+		static void readFileQuestion(string path, vector<Question> &questionList);
+		static void readFileTag(string path, vector<Tag> &tagList);
+		static void readFileAnswer(string path, vector<Answer> &answerList);
+		static void writeToOutputFile(string text);
 };
-
-class runtime_error : public exception{
-public:
-    explicit runtime_error (const string& what_arg){};
-};
-
-
 
 #endif //TRABALHO_ED2_FILEUTILS_H

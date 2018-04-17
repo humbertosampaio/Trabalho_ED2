@@ -193,3 +193,10 @@ void FileUtils::readFileAnswer(string path, vector<Answer> &answerList)
     }
     cout << "falha na leitura do arquivo!" << endl;
 }
+
+void FileUtils::writeToOutputFile(string text)
+{
+	ofstream writer;
+	writer.open("saida.txt");
+	writer << text;
+}

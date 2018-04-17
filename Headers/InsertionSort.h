@@ -9,13 +9,13 @@
 #include <ctime>
 #include <vector>
 #include "Question.h"
-#include "../Headers/CompareCount.h"
+#include "CompareCount.h"
 
 
 class InsertionSort {
 public:
     template <class T> static void insertionSort(vector<T> &vet, int ini, int fim);
-    template<class T> static void insertionSort(vector<T> &vet);
+    template <class T> static void insertionSort(vector<T> &vet);
 };
 
 #endif //TRABALHO_ED2_INSERTIONSORT_H
