@@ -4,6 +4,12 @@
 
 #include "../Headers/CompareCount.h"
 
+int CompareCount::countNumComparisons;
+int CompareCount::countNumCopias;
+clock_t CompareCount::timeStart;
+double CompareCount::runtime;
+bool CompareCount::runtimeCalc;
+
 void CompareCount::clearCounters()
 {
     if(runtimeCalc)
@@ -40,7 +46,7 @@ void CompareCount::timeEnd()
 void CompareCount::printData()
 {
     std::cout << "Comparacoes: " << countNumComparisons << std::endl;
-    std::cout << "Copias: " << countNumCopias << std::cout;
+    std::cout << "Copias: " << countNumCopias << std::endl;
     std::cout << "Tempo de Execução: ";
     runtimeCalc ?  std::cout << runtime << std::endl : std::cout << "Nao foi calculado" << std::endl;
 }
