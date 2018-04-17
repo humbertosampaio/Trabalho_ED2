@@ -5,8 +5,14 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_executable(Trabalho_ED2
         Headers/Answer.h
+        Headers/Cenario4.h
+        Headers/CombSort.h
+        Headers/CompareCount.h
         Headers/FileUtils.h
         Headers/Hash.h
+        Headers/HashCoalesced.h
+        Headers/HashDouble.h
+        Headers/HashLinear.h
         Headers/HashSeparated.h
         Headers/HeapSort.h
         Headers/InsertionSort.h
@@ -25,8 +31,13 @@ add_executable(Trabalho_ED2
         Source/HashDouble.cpp
         Source/HashLinear.cpp
         Source/Answer.cpp
+        Source/CombSort.cpp
+        Source/CompareCount.cpp
         Source/FileUtils.cpp
         Source/Hash.cpp
+        Source/HashCoalesced.cpp
+        Source/HashDouble.cpp
+        Source/HashLinear.cpp
         Source/HashSeparated.cpp
         Source/HeapSort.cpp
         Source/InsertionSort.cpp
@@ -35,4 +46,4 @@ add_executable(Trabalho_ED2
         Source/QuestionList.cpp
         Source/QuickSort.cpp
         Source/Tag.cpp
-        main.cpp)
+        main.cpp )

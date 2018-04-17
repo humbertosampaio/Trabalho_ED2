@@ -25,6 +25,14 @@ ostream& operator << (ostream &o, const Question &q) {
 	return o << q.getQuestionId();
 }
 
+bool Question::operator==(const Question &rhs) const {
+    return questionId == rhs.questionId;
+}
+
+bool Question::operator!=(const Question &rhs) const {
+    return !(rhs == *this);
+}
+
 Question::Question(string *question)
 {
     this->questionId = stoi(question[0], nullptr, 10);
