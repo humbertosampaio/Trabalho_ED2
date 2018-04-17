@@ -12,18 +12,27 @@ using namespace std;
  */
 template <class T> void InsertionSort::insertionSort(vector<T> &vet)
 {
+    CompareCount::clearCounters();
+    CompareCount::setTimeStart();
     int size = vet.size();
     for(unsigned int i=1; i<size; i++)
     {
         T pivo = vet[i];
+        CompareCount::incrementCopia();
         int j = i-1;
         while(j>=0 && vet[j] > pivo)
         {
+            CompareCount::incrementComparison();
+            CompareCount::incrementComparison();
             vet[j+1] = vet[j];
             j--;
         }
+        CompareCount::incrementComparison();
+        CompareCount::incrementComparison();
         vet[j+1] = pivo;
     }
+    CompareCount::timeEnd();
+    CompareCount::printData();
 }
 
 /**

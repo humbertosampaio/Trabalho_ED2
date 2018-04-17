@@ -1,7 +1,9 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.10)
 project(Trabalho_ED2)
 
 set(CMAKE_CXX_STANDARD 11)
+
+include_directories(Headers)
 
 add_executable(Trabalho_ED2
         Headers/Answer.h
@@ -37,4 +39,4 @@ add_executable(Trabalho_ED2
         Source/QuestionList.cpp
         Source/QuickSort.cpp
         Source/Tag.cpp
-        main.cpp )
+        main.cpp)
