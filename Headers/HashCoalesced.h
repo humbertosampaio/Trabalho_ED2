@@ -13,8 +13,8 @@ using namespace std;
 class HashCoalesced : public Hash {
 public:
 
-    void insert (unsigned int value);
-    void find (unsigned int value);
+    void insert (unsigned int value)override;
+    void find (unsigned int value)override;
     void printElements();
 
     HashCoalesced(unsigned int size):Hash(size, false)

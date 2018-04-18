@@ -21,14 +21,17 @@ protected:
 
 public:
     unsigned int keyFunction (unsigned int value);
+    float getAvergareComparsions();
+    unsigned int getMemorySpend();
     void printElements();
+    virtual void insert(unsigned int value){};
+    virtual void find (unsigned int value){};
     Hash(unsigned int size, bool extraSize);
     ~Hash();
     unsigned int numberOfComparsions;
     unsigned int comparsionCounter;
 
     unsigned int getCollisionCounter() const;
-    //virtual void insert(int value);
 };
 
 

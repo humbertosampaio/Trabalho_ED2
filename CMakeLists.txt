@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.9.6)
 project(Trabalho_ED2)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -26,7 +26,9 @@ add_executable(Trabalho_ED2
         Headers/HashDouble.h
         Headers/HashLinear.h
         Headers/Cenario4.h
+        Headers/HashSeparatedS.h
         Headers/HashCoalesced.h
+        Source/HashSeparatedS.cpp
         Source/CombSort.cpp
         Source/HashCoalesced.cpp
         Source/HashDouble.cpp
@@ -46,4 +48,4 @@ add_executable(Trabalho_ED2
         Source/Question.cpp
         Source/QuickSort.cpp
         Source/Tag.cpp
-        main.cpp)
+        main.cpp Source/Vertex.cpp Headers/Vertex.h)

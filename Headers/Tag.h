@@ -19,6 +19,10 @@ private:
 public:
     Tag(unsigned int questionId, list<string> tagList);
     void printTags();
+
+    list<string> getTagList();
+
+    unsigned int getQuestionId() const;
 };
 
 

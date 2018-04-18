@@ -17,3 +17,11 @@ void Tag::printTags()
         cout << (*it) << " ";
     cout << endl;
 }
+
+list<string> Tag::getTagList(){
+    return tagList;
+}
+
+unsigned int Tag::getQuestionId() const {
+    return questionId;
+}

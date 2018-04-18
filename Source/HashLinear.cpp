@@ -4,7 +4,7 @@
 
 #include "../Headers/HashLinear.h"
 
-void HashLinear::insert(int value)
+void HashLinear::insert(unsigned int value)
 {
     if (elementCounter < size) {
         if (quadratic) insertQuadratic(value);
@@ -47,7 +47,7 @@ void HashLinear::insertQuadratic(int value)
     }
 }
 
-void HashLinear::find(int value)
+void HashLinear::find(unsigned int value)
 {
     if (quadratic) findQuadratic(value);
     else findLinear(value);

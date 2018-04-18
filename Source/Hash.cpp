@@ -22,7 +22,7 @@ Hash::Hash(unsigned int size, bool extraSize)
 
 Hash::~Hash()
 {
-    delete hashTable;
+    delete []hashTable;
 }
 
 /*
@@ -58,4 +58,14 @@ void Hash::printElements()
             cout <<" " << hashTable[i];
         cout << endl;
     }
+}
+
+float Hash::getAvergareComparsions()
+{
+    return (comparsionCounter == 0 ? 0 : (float)numberOfComparsions/comparsionCounter);
+}
+
+unsigned int Hash::getMemorySpend()
+{
+    return memorySpend+extraMemory;
 }

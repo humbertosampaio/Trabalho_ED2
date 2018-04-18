@@ -13,3 +13,35 @@ Answer::Answer(string *answer)
     this->questionId = stoi(answer[3], nullptr, 10);
     this->questionId = stoi(answer[4], nullptr, 10);
 }
+
+bool Answer::operator==(const Answer &rhs) const {
+    return questionId == rhs.questionId;
+}
+
+bool Answer::operator!=(const Answer &rhs) const {
+    return !(rhs == *this);
+}
+
+bool Answer::operator<(const Answer &rhs) const {
+    return questionId < rhs.questionId;
+}
+
+bool Answer::operator>(const Answer &rhs) const {
+    return rhs < *this;
+}
+
+bool Answer::operator<=(const Answer &rhs) const {
+    return !(rhs < *this);
+}
+
+bool Answer::operator>=(const Answer &rhs) const {
+    return !(*this < rhs);
+}
+
+unsigned int Answer::getQuestionId() const {
+    return questionId;
+}
+
+int Answer::getUserId() const {
+    return userId;
+}

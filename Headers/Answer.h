@@ -18,6 +18,22 @@ private:
     int score;
 public:
     Answer(string* answer);
+
+    bool operator==(const Answer &rhs) const;
+
+    bool operator!=(const Answer &rhs) const;
+
+    bool operator<(const Answer &rhs) const;
+
+    bool operator>(const Answer &rhs) const;
+
+    bool operator<=(const Answer &rhs) const;
+
+    bool operator>=(const Answer &rhs) const;
+
+    unsigned int getQuestionId() const;
+
+    int getUserId() const;
 };
 
 

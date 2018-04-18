@@ -17,11 +17,12 @@ public:
     {
         elementCounter = 0;
         this->quadratic = quadratic;
+        //4 do contador de elementos
         extraMemory += 4;
     };
     //metodos
-    void insert (int value);
-    void find (int value);
+    void insert (unsigned int value)override ;
+    void find (unsigned int value)override ;
 
 private:
     int elementCounter;

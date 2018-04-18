@@ -50,5 +50,5 @@ void HashDouble::find(unsigned int value)
 
 unsigned int HashDouble::secondaryFunction(unsigned int value)
 {
-    return value;
+    return value%size;
 }

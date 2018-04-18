@@ -65,23 +65,24 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
 					registriesCount++;
 
 					if (registriesCount % 50000 == 0)
-						cout << "Registros lidos: " << registriesCount << endl;
+						cout << "Registros lidos: " << registriesCount << "\r" << std::flush;
 
 					objPosition = 0;
 					quotationMarksCount = 0;
 					delete[] obj;
 					obj = new string[6];
 
-					if (registriesCount > 100)
-						break;
+					/*if (registriesCount > 100)
+						break;*/
 				}
 			}
 			file.read(buffer, length);
 			i = -1;
 
-			if (registriesCount > 100)
-				break;
+			/*if (registriesCount > 100)
+				break;*/
 		}
+        cout << endl;
 		cout << "Quantidade de registros lidos: " << registriesCount << endl;
 		cout << "Tempo gasto na leitura: " << (double) (clock() - tStart) / CLOCKS_PER_SEC << "s" << endl << endl;
 		file.close();
@@ -102,14 +103,16 @@ void FileUtils::readFileTag(string path, vector<Tag> &tagList)
 		string tag;
 		int questionId;
         int atualId;
-		file >> tag >> tag;
+		file >> tag;
         file >> questionId >> tag;
+        tag.erase(0, 1);
         atualId = questionId;
         list<string> atualList;
         atualList.push_back(tag);
-        int i = 0;
+		int i = 0;
 		while (file >> questionId >> tag)
 		{
+            //apaga a virgua da string
 			tag.erase(0, 1);
             if (atualId != questionId) {
                 tagList.emplace_back(atualId, atualList);
@@ -117,10 +120,10 @@ void FileUtils::readFileTag(string path, vector<Tag> &tagList)
             }
             atualList.push_back(tag);
             atualId = questionId;
-            //cout <<atualId << endl;
+			//if (++i > 16)
+			//	break;
 		}
-        for (vector<Tag>::iterator it = tagList.begin(); it != tagList.end(); ++it)
-            (*it).printTags();
+        tagList.emplace_back(atualId, atualList);
         return;
     }
 	cout << "falha na leitura do arquivo!" << endl;

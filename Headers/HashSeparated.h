@@ -8,41 +8,39 @@
 #include <iostream>
 #include <vector>
 #include "Hash.h"
+#include "Vertex.h"
 
 using namespace std;
 
 class HashSeparated : public Hash{
 public:
     //construtor e destrutor
-    HashSeparated(unsigned int size):Hash(size, false)
+    HashSeparated(unsigned int size, bool frequenceCounter):Hash(size, false)
     {
         collisionTable = new Vertex[size];
-        //2*4*size para os ponteiros e variaveis de armazenamento de vertex, + 4 do ponteiro para
+        //2*4*size para os ponteiros e variaveis de armazenamento de vertex, + 8 do ponteiro para
         //o inicio da lista
-        extraMemory = 2*(4*size) + 4;
+        extraMemory = 2*(4*size) + 8;
+        if (frequenceCounter)
+        {
+            frequenceTable = new int[size];
+            for (int i = 0; i < size; ++i)
+                frequenceTable = 0;
+        }
+        else frequenceTable = nullptr;
     };
     ~HashSeparated();
 
     //metodos
-    void insert (unsigned int value);
-    void find (unsigned int value);
+    void insert (unsigned int value)override ;
+    void find (unsigned int value)override ;
     void printElements();
+    void insertElementsVector(vector<Vertex>& vertexVec);
 
     //classe auxiliar para a lista de colisoes
-    class Vertex
-    {
-    public:
-        Vertex() {value = 0; next = nullptr;};
-        Vertex(int value, Vertex* next)
-        {
-            this->value = value;
-            this->next = next;
-        };
-        int value;
-        Vertex* next;
-    };
 private:
     Vertex* collisionTable;
+    int* frequenceTable;
 };
 
 #endif //TRABALHO_ED2_HASHING_H
