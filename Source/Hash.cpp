@@ -3,6 +3,7 @@
 //
 
 #include "../Headers/Hash.h"
+#include <string>
 
 Hash::Hash(unsigned int size, bool extraSize)
 {

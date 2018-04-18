@@ -3,6 +3,16 @@
 //
 
 #include "../Headers/FileUtils.h"
+#include <string>
+
+void FileUtils::clearFileContent(string path)
+{
+	ofstream writer(path, std::ofstream::out | std::ofstream::trunc);
+	if(writer.is_open())
+		writer.clear();
+	else
+		cout << "Falha ao limpar o conteudo do arquivo \"" << path << "\"." << endl;
+}
 
 void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
 {
@@ -194,9 +204,38 @@ void FileUtils::readFileAnswer(string path, vector<Answer> &answerList)
     cout << "falha na leitura do arquivo!" << endl;
 }
 
+vector<int> FileUtils::readInputFile(string path)
+{
+	ifstream reader(path, std::ifstream::in);
+	vector<int> vector;
+	if (reader.is_open())
+	{
+		int line, n, i = 0;
+		reader >> n;
+		while (reader >> line)
+		{
+			vector.push_back(line);
+			i++;
+		}
+
+		if (n != i)
+		{
+			cout << "Arquivo de entrada fora do padrao!" << endl;
+			cout << "O numero fornecido na primeira linha do arquivo nao reflete a quantidade de N's." << endl;
+		}
+	}
+	return vector;
+}
+
 void FileUtils::writeToOutputFile(string text)
 {
-	ofstream writer;
-	writer.open("saida.txt");
-	writer << text;
+	string outputFileName = "saida.txt";
+	ofstream writer(outputFileName, ios::app);
+	if (writer.is_open())
+	{
+		writer << text;
+		writer.close();
+	}
+	else
+		cout << "Falha ao escrever no arquivo \"" << outputFileName << "\"." << endl;
 }

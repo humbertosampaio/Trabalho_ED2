@@ -2,6 +2,7 @@
 #include <random>
 #include <chrono>
 #include <algorithm>
+
 #include "Headers/FileUtils.h"
 #include "Headers/InsertionSort.h"
 #include "Headers/MergeSort.h"
@@ -26,20 +27,21 @@ template<class T> void printVector(const vector<T> &vector);
 
 struct Variables
 {
-		vector<Question> questionVec;
-		vector<Answer> answerVec;
-		vector<Tag> tagVec;
-		vector<int> intVec;
+	vector<Question> questionVector;
+	vector<Answer> answerVector;
+	vector<Tag> tagVector;
+	vector<int> intVector;
 
-		string sourceFileName;
-		string questionPath;
-		string answerPath;
-		string tagPath;
+	string sourceFileName;
+	string questionPath;
+	string answerPath;
+	string tagPath;
 
-		int N; // N será lido do arquivo "entrada.txt"
-		int section;
-		int cenary;
-		int entry;
+	vector<int> Ns;
+	int N;
+	int section;
+	int cenary;
+	int entry;
 };
 
 void openMenu(Variables vars);
@@ -54,47 +56,20 @@ void section2(Variables vars);
 
 int main(int argc, char** argv)
 {
-	Variables vars;
-	vars.sourceFileName = argv[1];
-
-//	string path = "../pythonquestions/OriginalFiles/Questions.csv";
-//	FileUtils::readFileQuestion(path, listQuestions);
-//	sortQuestions(listQuestions);
-	openMenu(vars);
-
-	//string path = "/home/edson/pythonquestions/Questions.csv"; //edson
-	//string path = "/media/viniman/Files/Google Drive/UFJF/2018/1/ED2/Trabalho/pythonquestions/Questions.csv";
-
-//
-//	vector<int> vetQuestionId = getVetQuestionIdAleatorios(listQuestions, 20);
-//	sortIntegers(vetQuestionId);
-
-	//string path = "/home/edson/pythonquestions/Questions.csv"; //edson
-	//string path = "/media/viniman/Files/Google Drive/UFJF/2018/1/ED2/Trabalho/pythonquestions/Questions.csv";
-	//string path = "../pythonquestions/OriginalFiles/Questions.csv";
-
-	//FileUtils::readFileQuestion(path, listQuestions);
-
-	HashCoalesced cl(20);
-
-	for (int i = 0; i < 20; ++i)
+	if (argv[1] == nullptr)
 	{
-		cl.insert(i + 1);
-		//cl.printElements();
+		cout << "Erro. Insira um arquivo de entrada como parametro da aplicacao." << endl;
+		system("pause");
+		return 0;
 	}
-	for (int i = 0; i < 20; ++i)
-		cl.find(i + 1);
-	cl.printElements();
-	cout << "numero de colisoes " << cl.getCollisionCounter() << endl;
-	cout << "numero de comparacoes " << cl.numberOfComparsions << " numero de vezes " << cl.comparsionCounter;
 
-	/*
-	 sortQuestions(listQuestions);
+	const string sourceFileName = argv[1];
+	Variables vars;
+	vars.sourceFileName = sourceFileName;
 
-	 vector<int> vetQuestionId = getVetQuestionIdAleatorios(listQuestions, 20);
-	 sortIntegers(vetQuestionId);
-	 */
+	//openMenu(vars);
 
+	system("pause");
 	return 0;
 }
 
@@ -105,7 +80,7 @@ void sortQuestions(vector<Question> &questionVector)
 
 	cout << "Vetor Original:" << endl;
 	printVector(questionVector);
-	CombSort::combSort(questionVector);
+	InsertionSort::insertionSort(questionVector);
 
 	cout << "Vetor Ordenado:" << endl;
 	printVector(questionVector);
@@ -173,17 +148,18 @@ template<class T> void printVector(const vector<T> &vector)
 	cout << endl << endl;
 }
 
-/// Menu
 void openMenu(Variables vars)
 {
-	vars.N = 100;
-	vars.answerPath = "";
-	vars.answerVec.clear();
-	vars.intVec.clear();
+	vars.Ns = FileUtils::readInputFile(vars.sourceFileName);
+	vars.N = vars.Ns.size();
 	vars.questionPath = "";
-	vars.questionVec.clear();
+	vars.answerPath = "";
 	vars.tagPath = "";
-	vars.tagVec.clear();
+	vars.answerVector.clear();
+	vars.intVector.clear();
+	vars.questionVector.clear();
+	vars.tagVector.clear();
+	FileUtils::clearFileContent("saida.txt");
 
 	cout << "Escolha a secao: " << endl;
 	cout << "Secao 1: Analise dos Algoritmos" << endl;
@@ -211,12 +187,12 @@ void openMenu(Variables vars)
 void section1(Variables vars)
 {
 	string path = "../pythonquestions/OriginalFiles/Questions.csv";
-	FileUtils::readFileQuestion(path, vars.questionVec);
+	FileUtils::readFileQuestion(path, vars.questionVector);
 
 	cout << "\tEscolha o cenario:" << endl;
 	cout << "\tCenario 1: Impacto de diferentes estruturas de dados" << endl;
-	cout << "\tCenario 2: Impacto de variações do Quicksort" << endl;
-	cout << "\tCenario 3: Quicksort X InsertionSort X Mergesort X Heapsort X Meusort" << endl;
+	cout << "\tCenario 2: Impacto de variacoes do Quicksort" << endl;
+	cout << "\tCenario 3: QuickSort X InsertionSort X MergeSort X HeapSort X MeuSort(CombSort)" << endl;
 	cout << "\tCenario 4: Tratamento de Colisoes: Enderecamento X Encadeamento" << endl;
 	cout << "\t0: Voltar" << endl;
 	cout << "\t";
@@ -273,30 +249,30 @@ void section1_cenary1(Variables vars)
 
 void section1_cenary1_entry1(Variables vars)
 {
-	vars.intVec.clear();
-	vars.intVec = getVetQuestionsIdRand(vars.questionVec, vars.N);
-	QuickSort::quickSort(vars.intVec, 0, vars.intVec.size() - 1);
-	printVector(vars.intVec);
+	vars.intVector.clear();
+	vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.N);
+	QuickSort::quickSort(vars.intVector, 0, vars.intVector.size() - 1);
+	printVector(vars.intVector);
 }
 
 void section1_cenary1_entry2(Variables vars)
 {
-	QuickSort::quickSort(vars.questionVec, 0, vars.questionVec.size() - 1);
-	printVector(vars.questionVec);
+	QuickSort::quickSort(vars.questionVector, 0, vars.questionVector.size() - 1);
+	printVector(vars.questionVector);
 }
 
 void section1_cenary2(Variables vars)
 {
 	cout << "\t\tEscolha uma entrada:" << endl;
-	cout << "\t\tEntrada 1: QuickSort recursivo" << endl;
+	cout << "\t\tEntrada 1: QuickSort Recursivo" << endl;
 	cout << "\t\tEntrada 2: QuickSort Mediana(k)" << endl;
-	cout << "\t\tEntrada 3: QuickSort insercao(m)" << endl;
+	cout << "\t\tEntrada 3: QuickSort Insercao(m)" << endl;
 	cout << "\t\t0: Voltar" << endl;
 	cout << "\t\t";
 
 	int entrada;
 	cin >> entrada;
-	int lastIndex = vars.intVec.size() - 1;
+	int lastIndex = vars.intVector.size() - 1;
 
 	switch (entrada)
 	{
@@ -304,53 +280,53 @@ void section1_cenary2(Variables vars)
 			section1(vars);
 			break;
 		case 1: // Secao 1, Cenario 2, Entrada 1
-			QuickSort::quickSort(vars.intVec, 0, lastIndex);
+			QuickSort::quickSort(vars.intVector, 0, lastIndex);
 			break;
 		case 2: // Secao 1, Cenario 2, Entrada 2
-			QuickSort::quickSortMediana(vars.intVec, 0, lastIndex, 5);
+			QuickSort::quickSortMediana(vars.intVector, 0, lastIndex, 5);
 			break;
 		case 3: // Secao 1, Cenario 2, Entrada 3
-			QuickSort::quickSortInsercao(vars.intVec, 0, lastIndex, 5);
+			QuickSort::quickSortInsercao(vars.intVector, 100);
 			break;
 		default:
 			cout << "Entrada Invalida. Tente novamente." << endl;
 			section1_cenary2(vars);
 	}
-	printVector(vars.intVec);
+	printVector(vars.intVector);
 }
 
 void section1_cenary3(Variables vars)
 {
-	vars.intVec = getVetQuestionsIdRand(vars.questionVec, vars.N);
-	vector<int> auxVec(vars.intVec);
+	vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.N);
+	vector<int> auxVec(vars.intVector);
 	QuickSort::quickSort(auxVec, 0, auxVec.size() - 1);
 	cout << "Ordenacao por Quick Sort" << endl;
 	printVector(auxVec);
 	auxVec.clear();
 
-	auxVec = vars.intVec;
-	vector<int> vecMergeSort(vars.intVec);
+	auxVec = vars.intVector;
+	vector<int> vecMergeSort(vars.intVector);
 	MergeSort::mergeSort(auxVec);
 	cout << "Ordenacao por Merge Sort" << endl;
 	printVector(auxVec);
 	auxVec.clear();
 
-	auxVec = vars.intVec;
-	vector<int> vecInsertionSort(vars.intVec);
+	auxVec = vars.intVector;
+	vector<int> vecInsertionSort(vars.intVector);
 	InsertionSort::insertionSort(auxVec);
 	cout << "Ordenacao por Insertion Sort" << endl;
 	printVector(auxVec);
 	auxVec.clear();
 
-	auxVec = vars.intVec;
-	vector<int> vecHeapSort(vars.intVec);
+	auxVec = vars.intVector;
+	vector<int> vecHeapSort(vars.intVector);
 	HeapSort::heapSort(auxVec);
 	cout << "Ordenacao por Heap Sort" << endl;
 	printVector(auxVec);
 	auxVec.clear();
 
-	auxVec = vars.intVec;
-	vector<int> vecCombSort(vars.intVec);
+	auxVec = vars.intVector;
+	vector<int> vecCombSort(vars.intVector);
 	CombSort::combSort(auxVec);
 	cout << "Ordenacao por Comb Sort" << endl;
 	printVector(auxVec);

@@ -19,10 +19,12 @@ using namespace std;
 class FileUtils
 {
 	public:
-		static void readFileQuestion(string path, vector<Question> &questionList);
-		static void readFileTag(string path, vector<Tag> &tagList);
-		static void readFileAnswer(string path, vector<Answer> &answerList);
-		static void writeToOutputFile(string text);
+	static void clearFileContent(string path);
+	static vector<int> readInputFile(string path);
+	static void readFileQuestion(string path, vector<Question> &questionList);
+	static void readFileTag(string path, vector<Tag> &tagList);
+	static void readFileAnswer(string path, vector<Answer> &answerList);
+	static void writeToOutputFile(string text);
 };
 
 #endif //TRABALHO_ED2_FILEUTILS_H

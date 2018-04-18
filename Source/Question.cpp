@@ -3,6 +3,7 @@
 //
 
 #include "../Headers/Question.h"
+#include <string>
 
 /// Uso de sobrecarga de operadores
 bool Question::operator<(const Question &rhs) const {

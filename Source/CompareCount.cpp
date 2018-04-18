@@ -3,6 +3,7 @@
 //
 
 #include "../Headers/CompareCount.h"
+#include <string>
 
 using namespace std;
 
