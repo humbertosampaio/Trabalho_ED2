@@ -2,18 +2,17 @@
 // Created by viniman on 11/04/18.
 //
 #include "../Headers/InsertionSort.h"
-#include "../Headers/FileUtils.h"
 
 using namespace std;
 
 /**
- * insertionSort sobrecarregado
+ * insertionSort sobrecarregado para receber apenas um vector a ordenar
  * @tparam T: template para aceitar qualquer classe ou tipo
  * @param vet: vector<T> parametrizado com template
  */
 template<class T> void InsertionSort::insertionSort(vector<T> &vet)
 {
-	CompareCount::clearCounters();
+    CompareCount::initializeCounters("Insertion Sort");
 	CompareCount::setTimeStart();
 	int size = vet.size();
 	for (unsigned int i = 1; i < size; i++)
@@ -40,6 +39,8 @@ template<class T> void InsertionSort::insertionSort(vector<T> &vet)
 
 /**
  * InsertionSort sobrecarregado com inicio e fim, para ordenar partições/pedaços de um vector
+ * Algoritmo usado apenas como auxiliar em outros algoritmos de ordenação
+ * Portanto não necessita de limpar os contatores, chamar os métodos de contagem de tempo e imprimir no arquivo de saida
  * @tparam T: template para aceitar qualquer classe ou tipo
  * @param vet: vector<T> parametrizado com template
  * @param ini: posição inicial para ordenar o vector
@@ -47,8 +48,6 @@ template<class T> void InsertionSort::insertionSort(vector<T> &vet)
  */
 template<class T> void InsertionSort::insertionSort(vector<T> &vet, int ini, int fim)
 {
-	CompareCount::clearCounters();
-	CompareCount::setTimeStart();
 	for (int i = ini + 1; i < fim; i++)
 	{
 		T pivo = vet[i];
@@ -67,6 +66,4 @@ template<class T> void InsertionSort::insertionSort(vector<T> &vet, int ini, int
 		vet[j + 1] = pivo;
 		CompareCount::incrementCopia();
 	}
-	CompareCount::timeEnd();
-	FileUtils::writeToOutputFile(CompareCount::getDataString());
 }

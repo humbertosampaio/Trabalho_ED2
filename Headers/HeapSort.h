@@ -9,6 +9,8 @@
 #include <ctime>
 #include <vector>
 #include "Question.h"
+#include <FileUtils.h>
+#include <CompareCount.h>
 
 class HeapSort
 {

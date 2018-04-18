@@ -11,6 +11,7 @@
 class CompareCount
 {
 	private:
+        static std::string nameOfAlgorithm;
 		static int countNumComparisons;
 		static int countNumCopias;
 		static clock_t timeStart;
@@ -18,7 +19,7 @@ class CompareCount
 		static bool runtimeCalc;
 
 	public:
-		static void clearCounters();
+		static void initializeCounters(std::string name);
 		static void incrementComparison();
 		static void incrementCopia();
 		static void setTimeStart();
