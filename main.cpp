@@ -67,7 +67,7 @@ int main(int argc, char** argv)
 	Variables vars;
 	vars.sourceFileName = sourceFileName;
 
-	//openMenu(vars);
+	openMenu(vars);
 
 	system("pause");
 	return 0;
@@ -252,13 +252,13 @@ void section1_cenary1_entry1(Variables vars)
 {
 	vars.intVector.clear();
 	vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.N);
-	QuickSort::quickSort(vars.intVector, 0, vars.intVector.size() - 1);
+	QuickSort::quickSort(vars.intVector, 0);
 	printVector(vars.intVector);
 }
 
 void section1_cenary1_entry2(Variables vars)
 {
-	QuickSort::quickSort(vars.questionVector, 0, vars.questionVector.size() - 1);
+	QuickSort::quickSort(vars.questionVector, 0);
 	printVector(vars.questionVector);
 }
 
@@ -280,14 +280,14 @@ void section1_cenary2(Variables vars)
 		case 0:
 			section1(vars);
 			break;
-		case 1: // Secao 1, Cenario 2, Entrada 1
-			QuickSort::quickSort(vars.intVector, 0, lastIndex);
+		case 1: // Secao 1, Cenario 2, Entrada 1 -- Quick Sort Recursivo
+			QuickSort::quickSort(vars.intVector, 0);
 			break;
-		case 2: // Secao 1, Cenario 2, Entrada 2
-			QuickSort::quickSortMediana(vars.intVector, 0, lastIndex, 5);
+		case 2: // Secao 1, Cenario 2, Entrada 2 -- Quick Sort Mediana
+			QuickSort::quickSort(vars.intVector, 5);
 			break;
-		case 3: // Secao 1, Cenario 2, Entrada 3
-			QuickSort::quickSortInsercao(vars.intVector, 100);
+		case 3: // Secao 1, Cenario 2, Entrada 3 -- Quick Sort Insercao
+			QuickSort::quickSort(vars.intVector, 100);
 			break;
 		default:
 			cout << "Entrada Invalida. Tente novamente." << endl;
@@ -300,7 +300,7 @@ void section1_cenary3(Variables vars)
 {
 	vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.N);
 	vector<int> auxVec(vars.intVector);
-	QuickSort::quickSort(auxVec, 0, auxVec.size() - 1);
+	QuickSort::quickSort(auxVec, 0);
 	cout << "Ordenacao por Quick Sort" << endl;
 	printVector(auxVec);
 	auxVec.clear();

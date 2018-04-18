@@ -6,6 +6,7 @@
 #include <set>
 #include <random>
 #include <chrono>
+#include <string>
 #include "../Headers/InsertionSort.h"
 #include "../Headers/QuickSort.h"
 

@@ -7,13 +7,13 @@
 
 #include <vector>
 #include "Question.h"
-#include <FileUtils.h>
+#include "FileUtils.h"
 
 class CombSort
 {
 
 	public:
-		template<class T> static void combSort(vector<T> &vet);
+	template<class T> static void combSort(vector<T> &vet);
 
 };
 

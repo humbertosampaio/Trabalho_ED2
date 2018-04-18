@@ -8,12 +8,12 @@
 #include <vector>
 #include "Question.h"
 #include "CompareCount.h"
-#include <FileUtils.h>
+#include "FileUtils.h"
 
 class MergeSort {
-public:
-    template<class T> static  void mergeSort(vector<T> &vet);
-    template<class T> static void mergeSortRec(vector<T> &vet);
+	public:
+	template<class T> static  void mergeSort(vector<T> &vet);
+	template<class T> static void mergeSortRec(vector<T> &vet);
 };
 
 

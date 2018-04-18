@@ -2,7 +2,7 @@
 // Created by Luis on 15/04/2018.
 //
 
-#include <CompareCount.h>
+#include "../Headers/CompareCount.h"
 #include "../Headers/CombSort.h"
 
 /**
