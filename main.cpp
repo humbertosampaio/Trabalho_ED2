@@ -187,6 +187,7 @@ void openMenu(Variables vars)
 void section1(Variables vars)
 {
 	string path = "../pythonquestions/OriginalFiles/Questions.csv";
+	cout << "NAO ESQUECER DE COLOCAR O CIN AQUI PRO USUARIO DIGITAR O PATH DO ARQUIVO QUESTIONS!!!" << endl;
 	FileUtils::readFileQuestion(path, vars.questionVector);
 
 	cout << "\tEscolha o cenario:" << endl;
