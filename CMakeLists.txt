@@ -20,7 +20,6 @@ add_executable(Trabalho_ED2
         Headers/InsertionSort.h
         Headers/MergeSort.h
         Headers/Question.h
-        Headers/QuestionList.h
         Headers/QuickSort.h
         Headers/Tag.h
         Headers/CombSort.h
@@ -45,7 +44,6 @@ add_executable(Trabalho_ED2
         Source/InsertionSort.cpp
         Source/MergeSort.cpp
         Source/Question.cpp
-        Source/QuestionList.cpp
         Source/QuickSort.cpp
         Source/Tag.cpp
         main.cpp)

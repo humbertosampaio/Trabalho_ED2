@@ -19,7 +19,7 @@ public:
 private:
     template<class T> static void quickSortRec(vector<T> &vet, int began, int fim);
     template<class T> static void quickSortMediana(vector<T> &values, int ini, int fim, int k);
-    template<class T> static void quickSortInsercao(vector<T> &vet, int m);
+    template<class T> static void quickSortInsercao(vector<T> &vet, unsigned int m);
 };
 
 

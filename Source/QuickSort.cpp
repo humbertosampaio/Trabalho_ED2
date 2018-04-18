@@ -10,8 +10,13 @@
 #include "../Headers/InsertionSort.h"
 #include "../Headers/QuickSort.h"
 
-template<class T>
-void QuickSort::quickSort(vector<T> &vect, int codigAlgorithm)
+/**
+ *
+ * @tparam T
+ * @param vect
+ * @param codigAlgorithm
+ */
+template<class T> void QuickSort::quickSort(vector<T> &vect, int codigAlgorithm)
 {
     if (codigAlgorithm == 0)
     {
@@ -44,14 +49,20 @@ void QuickSort::quickSort(vector<T> &vect, int codigAlgorithm)
     FileUtils::writeToOutputFile(CompareCount::getDataString());
 }
 
-
-template<class T>
-void QuickSort::quickSortRec(vector<T> &vect, int ini, int fim) {
+/**
+ *
+ * @tparam T
+ * @param vect
+ * @param ini
+ * @param fim
+ */
+template<class T> void QuickSort::quickSortRec(vector<T> &vect, int ini, int fim) {
     int i, j;
     i = ini;
     j = fim - 1;
     T pivo = vect[(ini + fim) / 2];
     CompareCount::incrementCopia();
+    ///Inicio Particionamento
     while (i <= j) {
         CompareCount::incrementComparison();
         while (vect[i] < pivo && i < fim) {
@@ -78,6 +89,9 @@ void QuickSort::quickSortRec(vector<T> &vect, int ini, int fim) {
         }
         CompareCount::incrementComparison();
     }
+    ///Fim Particionamento
+
+    ///Chamadas recursivas
     CompareCount::incrementComparison();
     if (j > ini)
         quickSortRec(vect, ini, j + 1);
@@ -88,8 +102,15 @@ void QuickSort::quickSortRec(vector<T> &vect, int ini, int fim) {
 }
 
 
-template<class T>
-void QuickSort::quickSortMediana(vector<T> &vect, int ini, int fim, int k) {
+/**
+ *
+ * @tparam T
+ * @param vect
+ * @param ini
+ * @param fim
+ * @param k
+ */
+template<class T> void QuickSort::quickSortMediana(vector<T> &vect, int ini, int fim, int k) {
     ///Se o vetor tiver menos de 10 elementos, ordena com InsertionSort (Knuth)
     if (fim - ini < 10) {
         InsertionSort::insertionSort(vect, ini, fim);
@@ -126,6 +147,7 @@ void QuickSort::quickSortMediana(vector<T> &vect, int ini, int fim, int k) {
         int i, j;
         i = ini;
         j = fim - 1;
+        ///Inicio Particionamento
         while (i <= j) {
             CompareCount::incrementComparison();
             while (vect[i] < pivo && i < fim) {
@@ -152,6 +174,9 @@ void QuickSort::quickSortMediana(vector<T> &vect, int ini, int fim, int k) {
             }
             CompareCount::incrementComparison();
         }
+        ///Fim Particionamento
+
+        ///Chamadas recursivas
         CompareCount::incrementComparison();
         if (j > ini)
             quickSortMediana(vect, ini, j + 1, k);
@@ -161,12 +186,22 @@ void QuickSort::quickSortMediana(vector<T> &vect, int ini, int fim, int k) {
         CompareCount::incrementComparison();
     }
 }
-
-template<class T>
-void QuickSort::quickSortInsercao(vector<T> &vet, int m) {
+/**
+ * Ordenação feita por blocos de m=10 ou m=100 com o Insertion Sort, e depois terminado a ordenação com Quick Sort
+ * @tparam T: template
+ * @param vet: vector para ser ordenado
+ * @param m número de objetos em cada bloco para ordenar (m=10 ou m=100)
+ */
+template<class T> void QuickSort::quickSortInsercao(vector<T> &vet, unsigned int m) {
     for (int i = 0; i * m < vet.size(); i++) {
-        InsertionSort::insertionSort(vet, i * m, ((i * m + m <= vet.size()) ? i * m + m : vet.size()));
+        ///Calcula indicie inicial do bloco
+        unsigned int ini = i * m;
+        ///Calcula indice final do bloco
+        unsigned int fim = (i * m + m <= vet.size()) ? i * m + m : vet.size();
+        InsertionSort::insertionSort(vet, ini, fim);
     }
     ///Chamada do quickSort recursivo para terminar as ordenação que começaram a ser feita por partições de inserção
     quickSortRec(vet, 0, vet.size());
 }
+
+
