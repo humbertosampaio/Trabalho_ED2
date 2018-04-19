@@ -11,27 +11,27 @@
 using namespace std;
 
 class Hash {
-protected:
-    unsigned int size;
-    unsigned int collisionCounter;
-    int* hashTable;
-    unsigned int memorySpend;
-    unsigned int extraMemory;
-    bool extraSize;
+	protected:
+	unsigned int size;
+	unsigned int collisionCounter;
+	int* hashTable;
+	unsigned int memorySpend;
+	unsigned int extraMemory;
+	bool extraSize;
 
-public:
-    unsigned int keyFunction (unsigned int value);
-    float getAvergareComparsions();
-    unsigned int getMemorySpend();
-    void printElements();
-    virtual void insert(unsigned int value){};
-    virtual void find (unsigned int value){};
-    Hash(unsigned int size, bool extraSize);
-    ~Hash();
-    unsigned int numberOfComparsions;
-    unsigned int comparsionCounter;
+	public:
+	unsigned int keyFunction(unsigned int value);
+	float getAvergareComparsions();
+	unsigned int getMemorySpend();
+	void printElements();
+	virtual void insert(unsigned int value) {};
+	virtual void find(unsigned int value) {};
+	Hash(unsigned int size, bool extraSize);
+	~Hash();
+	unsigned int numberOfComparsions;
+	unsigned int comparsionCounter;
 
-    unsigned int getCollisionCounter() const;
+	unsigned int getCollisionCounter() const;
 };
 
 
