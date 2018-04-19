@@ -11,7 +11,7 @@ Answer::Answer(string *answer)
     this->userId = (answer[1] != "NA" ? stoi(answer[1], nullptr, 10) : -1);
     this->date = answer[2];
     this->questionId = stoi(answer[3], nullptr, 10);
-    this->questionId = stoi(answer[4], nullptr, 10);
+    this->score = stoi(answer[4], nullptr, 10);
 }
 
 bool Answer::operator==(const Answer &rhs) const {

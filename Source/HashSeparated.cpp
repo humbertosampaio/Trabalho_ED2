@@ -60,7 +60,7 @@ void HashSeparated::find(unsigned int value)
 void HashSeparated::printElements()
 {
     Vertex* vertex;
-    for (int i = 0; i < size; ++i)
+    for (int i = 0; i < 30; ++i)
     {
         cout << i+1 << ": ";
         if (hashTable[i] != 0) {
@@ -85,13 +85,13 @@ void HashSeparated::insertElementsVector(vector<Vertex>& vertexVec)
     for (int i = 0; i < size; ++i)
     {
         if (hashTable[i] != 0) {
-            //vertexVec.emplace_back(hashTable[i], hashTable[i].next, hashTable[i].frequence);
+            vertexVec.emplace_back(hashTable[i], nullptr, frequenceTable[i]);
         }
         vertex = &collisionTable[i];
         if (vertex != nullptr)
             if (!vertex->valueStr.empty()) {
                 while (vertex != nullptr) {
-                    vertexVec.emplace_back(vertex->valueStr, vertex->next, vertex->frequence);
+                    vertexVec.emplace_back(vertex->valueStr, nullptr, vertex->frequence);
                     vertex = vertex->next;
                 }
             }

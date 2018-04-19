@@ -65,3 +65,6 @@ void Question::setQuestionId(const unsigned int questionId) {
     Question::questionId = questionId;
 }
 
+unsigned int Question::getUserId() const {
+    return userId;
+}

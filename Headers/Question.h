@@ -34,6 +34,8 @@ public:
 
     bool operator!=(const Question &rhs) const;
 
+    unsigned int getUserId() const;
+
 };
 
 

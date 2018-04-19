@@ -4,6 +4,7 @@
 
 #include "../Headers/FileUtils.h"
 #include <string>
+#include <iomanip>
 
 void FileUtils::clearFileContent(string path)
 {
@@ -42,10 +43,11 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
 		int i = 0;
 
 		//ignorando cabecalho
-		for (; buffer[i] != '\n'; ++i)
-			;
+		for (; buffer[i] != '\n'; ++i);
 
 		//iteracao principal
+        string progressBar = "=";
+        cout<< "lendo Question.csv\n";
 		while (!file.eof())
 		{
 			while (++i < length && buffer[i] != char_traits<char>::eof())
@@ -55,8 +57,7 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
 					if (buffer[i] == '"')
 						quotationMarksCount++;
 					tempString.push_back(buffer[i]);
-				}
-				else if (quotationMarksCount % 2 == 0)
+				} else if (quotationMarksCount % 2 == 0)
 				{
 					obj[objPosition] = tempString;
 					tempString.clear();
@@ -67,27 +68,24 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
 					questionList.emplace_back(obj);
 					registriesCount++;
 
-					if (registriesCount % 50000 == 0)
-						cout << "Registros lidos: " << registriesCount << "\r" << std::flush;
+                    if (registriesCount % 24000 == 0)
+                    {
+                        progressBar += "=";
+                        cout << right<< "["<< progressBar<< setw(25-(registriesCount/24000)) << "]" << "\r" << std::flush;
+                    }
 
 					objPosition = 0;
 					quotationMarksCount = 0;
 					delete[] obj;
 					obj = new string[6];
-
-					/*if (registriesCount > 10000)
-						break;*/
 				}
 			}
 			file.read(buffer, length);
 			i = -1;
-
-			/*if (registriesCount > 10000)
-				break;*/
 		}
-		cout << endl;
-		cout << "Quantidade de registros lidos: " << registriesCount << endl;
-		cout << "Tempo gasto na leitura: " << (double)(clock() - tStart) / CLOCKS_PER_SEC << "s" << endl << endl;
+        cout << endl;
+        resetiosflags;
+		cout << "Tempo gasto na leitura: " << (double) (clock() - tStart) / CLOCKS_PER_SEC << "s" << endl << endl;
 		file.close();
 		delete[] buffer;
 		delete[] obj;
@@ -103,32 +101,45 @@ void FileUtils::readFileTag(string path, vector<Tag> &tagList)
 
 	if (file.is_open())
 	{
+        clock_t tStart = clock();
+        int registriesCount = 0;
 		string tag;
 		int questionId;
 		int atualId;
 		file >> tag;
-		file >> questionId >> tag;
-		tag.erase(0, 1);
-		atualId = questionId;
-		list<string> atualList;
-		atualList.push_back(tag);
-		int i = 0;
+        file >> questionId >> tag;
+        tag.erase(0, 1);
+        atualId = questionId;
+        list<string> atualList;
+        atualList.push_back(tag);
+
+        string progressBar = "=";
+        cout<< "lendo Tags.csv\n";
 		while (file >> questionId >> tag)
 		{
 			//apaga a virgua da string
 			tag.erase(0, 1);
-			if (atualId != questionId) {
-				tagList.emplace_back(atualId, atualList);
-				atualList.clear();
-			}
-			atualList.push_back(tag);
-			atualId = questionId;
-			//if (++i > 16)
-			//	break;
+            if (atualId != questionId) {
+                tagList.emplace_back(atualId, atualList);
+                atualList.clear();
+            }
+            ++registriesCount;
+            atualList.push_back(tag);
+            atualId = questionId;
+
+            if (registriesCount % 75000 == 0)
+            {
+                progressBar += "=";
+                cout << right<< "["<< progressBar<< setw(25-(registriesCount/75000)) << "]" << "\r" << std::flush;
+            }
 		}
-		tagList.emplace_back(atualId, atualList);
-		return;
-	}
+        cout << endl;
+        resetiosflags;
+        cout << "Tempo gasto na leitura: " << (double) (clock() - tStart) / CLOCKS_PER_SEC << "s" << endl << endl;
+        tagList.emplace_back(atualId, atualList);
+        file.close();
+        return;
+    }
 	cout << "falha na leitura do arquivo!" << endl;
 }
 
@@ -161,54 +172,53 @@ void FileUtils::readFileAnswer(string path, vector<Answer> &answerList)
 		for (; buffer[i] != '\n'; ++i)
 			;
 
-		//iteracao principal
-		while (!file.eof())
-		{
-			while (++i < length && buffer[i] != char_traits<char>::eof())
-			{
-				if (buffer[i] != ',' && buffer[i] != '\n')
-				{
-					if (buffer[i] == '"')
-						quotationMarksCount++;
-					tempString.push_back(buffer[i]);
-				}
-				else if (quotationMarksCount % 2 == 0)
-				{
-					obj[objPosition] = tempString;
-					tempString.clear();
-					++objPosition;
-				}
-				if (objPosition > 5)
-				{
-					answerList.emplace_back(obj);
-					registriesCount++;
+        //iteracao principal
+        string progressBar = "==";
+        cout<< "lendo Answers.csv\n";
+        while (!file.eof())
+        {
+            while (++i < length && buffer[i] != char_traits<char>::eof())
+            {
+                if (buffer[i] != ',' && buffer[i] != '\n')
+                {
+                    if (buffer[i] == '"')
+                        quotationMarksCount++;
+                    tempString.push_back(buffer[i]);
+                } else if (quotationMarksCount % 2 == 0)
+                {
+                    obj[objPosition] = tempString;
+                    tempString.clear();
+                    ++objPosition;
+                }
+                if (objPosition > 5)
+                {
+                    answerList.emplace_back(obj);
+                    registriesCount++;
 
-					if (registriesCount % 50000 == 0)
-						cout << "Registros lidos: " << registriesCount << endl;
+                    if (registriesCount % 40000 == 0)
+                    {
+                        progressBar += "=";
+                        cout << right<< "["<< progressBar<< setw(25-(registriesCount/40000)) << "]" << "\r" << std::flush;
+                    }
 
-					objPosition = 0;
-					quotationMarksCount = 0;
-					delete[] obj;
-					obj = new string[6];
-
-					//if (registriesCount > 50)
-					  //  break;
-				}
-			}
-			file.read(buffer, length);
-			i = -1;
-
-			//if (registriesCount > 50)
-			  //  break;
-		}
-		cout << "Quantidade de registros lidos: " << registriesCount << endl;
-		cout << "Tempo gasto na leitura: " << (double)(clock() - tStart) / CLOCKS_PER_SEC << "s" << endl << endl;
-		file.close();
-		delete[] buffer;
-		delete[] obj;
-		return;
-	}
-	cout << "falha na leitura do arquivo!" << endl;
+                    objPosition = 0;
+                    quotationMarksCount = 0;
+                    delete[] obj;
+                    obj = new string[6];
+                }
+            }
+            file.read(buffer, length);
+            i = -1;
+        }
+        cout << endl;
+        resetiosflags;
+        cout << "Tempo gasto na leitura: " << (double) (clock() - tStart) / CLOCKS_PER_SEC << "s" << endl << endl;
+        file.close();
+        delete[] buffer;
+        delete[] obj;
+        return;
+    }
+    cout << "falha na leitura do arquivo!" << endl;
 }
 
 vector<int> FileUtils::readInputFile(string path)

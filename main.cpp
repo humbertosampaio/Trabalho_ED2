@@ -2,6 +2,8 @@
 #include <random>
 #include <chrono>
 #include <algorithm>
+#include <iomanip>
+#include <fstream>
 
 #include "Headers/FileUtils.h"
 #include "Headers/InsertionSort.h"
@@ -203,7 +205,7 @@ void openMenu(Variables &vars)
 			int param;
 			section2(vars);
 			break;
-		default:
+    		default:
 			cout << "Opcao invalida. Tente novamente:" << endl;
 			openMenu(vars);
 	}
@@ -442,55 +444,78 @@ void section1_cenary4_hashComparison(Variables &vars)
 	}
 }
 
-void section2(Variables &vars)
+void section2 (Variables& vars)
 {
-	FileUtils::readFileQuestion(vars.questionPath, vars.questionVector);
-	FileUtils::readFileTag(vars.tagPath, vars.tagVector);
-	//FileUtils::readFileAnswer("/home/edson/pythonquestions/Answers.csv", vars.answerVector);
-	int param;
-	cout << "Digite o numero (positivo) de Questions desejados na leitura" << endl;
-	cin >> param;
-	while (param < 0) {
-		cout << "Numero de questions invalido! digite novamente" << endl;
-		cin >> param;
-	}
-	vector<Vertex> sorteredTags;
-	section2_1(vars, param, sorteredTags);
-	for (int i = 0; i < 10; ++i)
-		cout << sorteredTags.at(i).valueStr << " " << sorteredTags.at(i).frequence << endl;
+    int N;
+    cout << "Digite um numero de Questions desejados na leitura: " << endl;
+    cin >> N;
+    while (N < 0) {
+        cout << "Numero de questions invalido! digite novamente:" << endl;
+        cin >> N;
+    }
+    vector<Vertex> sorteredTags;
+    section2_1(vars, N, sorteredTags);
+    vector<Vertex> sorteredUsers;
+    section2_2(vars, N, sorteredUsers);
+
+    cout << "Digite um numero de Tags e UserIDs mais frequentes:" << endl;
+    cin >> N;
+    while (N < 0) {
+        cout << "Parametro invalido! digite novamente:" << endl;
+        cin >> N;
+    }
+    ofstream saida;
+    saida.open("saida.txt");
+    string s = "################# SECAO 2-TAGS E USUARIOS FREQUENTES #################\n";
+    saida << s;
+    saida << setw(12)<< "frequencia" << setw(12) << "Tags\n";
+    for (int i = 0; i < N && i < sorteredTags.size(); ++i)
+        saida << left << setw(12) << sorteredTags.at(i).frequence << setw(25) << sorteredTags.at(i).valueStr << endl;
+    saida << "\n\n\n";
+    saida << setw(12)<< "frequencia" << setw(12) << "UserIDs\n";
+    for (int i = 0; i < N && i < sorteredUsers.size(); ++i) {
+        saida << left << setw(12)<< sorteredUsers.at(i).frequence << setw(12) << sorteredUsers.at(i).value << endl;
+    }
+    cout << setiosflags;
 }
 
 void section2_1(Variables vars, unsigned int N, vector<Vertex>& sorteredTags)
 {
 	vars.intVector.clear();
 	vars.intVector = getVetQuestionsIdRand(vars.questionVector, N);
-	QuickSort::quickSort(vars.intVector, 3);
-	HashSeparatedS hashTag((unsigned int)ceil(0.1*N));
-	vector<Tag>::iterator itTag = vars.tagVector.begin();
-	for (int &it : vars.intVector) {
-		for (; (*itTag).getQuestionId() < it; ++itTag);
-		if ((*itTag).getQuestionId() == it)
-			for (auto &itStr : (*itTag).getTagList())
-				hashTag.insert(itStr);
-	}
-	hashTag.insertElementsVector(sorteredTags);
-	QuickSort::quickSort(sorteredTags, 0);
+    QuickSort::quickSort(vars.intVector, 3);
+    HashSeparatedS hashTag ((unsigned int)ceil(0.1*N));
+    vector<Tag>::iterator itTag = vars.tagVector.begin();
+    for (int &it : vars.intVector) {
+        for (; (*itTag).getQuestionId() < it; ++itTag);
+        if ((*itTag).getQuestionId() == it)
+            for (auto &itStr : (*itTag).getTagList())
+                hashTag.insert(itStr);
+    }
+    hashTag.insertElementsVector(sorteredTags);
+    QuickSort::quickSort(sorteredTags, 0);
 }
 
-void section2_2(Variables vars, unsigned int N, vector<Vertex>& sorteredUsers)
+void section2_2 (Variables vars, unsigned int N, vector<Vertex>& sorteredUsers)
 {
 	vars.intVector.clear();
 	vars.intVector = getVetQuestionsIdRand(vars.questionVector, N);
 	QuickSort::quickSort(vars.intVector, 3);
-	HashSeparated hashAnswer((unsigned int)ceil(0.1*N), true);
-	QuickSort::quickSort(vars.answerVector, 3);
+	HashSeparated hashAnswer ((unsigned int)ceil(0.1*N), true);
+
+	QuickSort::quickSort(vars.answerVector, 0);
+    QuickSort::quickSort(vars.questionVector, 0);
 	vector<Answer>::iterator itAnswer = vars.answerVector.begin();
+    vector<Question>::iterator itQuestion = vars.questionVector.begin();
 
 	for (int &it : vars.intVector) {
 		if (it == -1) continue;
 		for (; (*itAnswer).getQuestionId() < it; ++itAnswer);
-		if ((*itAnswer).getQuestionId() == it)
-			hashAnswer.insert((*itAnswer).getUserId());
+        for (; (*itQuestion).getQuestionId() < it; ++itQuestion);
+		if ((*itAnswer).getQuestionId() == it && (*itAnswer).getUserId() != -1)
+				hashAnswer.insert((*itAnswer).getUserId());
+        if ((*itQuestion).getQuestionId() == it && (*itQuestion).getUserId() != -1)
+            hashAnswer.insert((*itQuestion).getUserId());
 	}
 	hashAnswer.insertElementsVector(sorteredUsers);
 	QuickSort::quickSort(sorteredUsers, 0);
