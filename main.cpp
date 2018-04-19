@@ -3,14 +3,23 @@
 #include <chrono>
 #include <algorithm>
 
+
 #include "Headers/FileUtils.h"
 #include "Headers/InsertionSort.h"
 #include "Headers/MergeSort.h"
 #include "Headers/HeapSort.h"
 #include "Headers/CombSort.h"
 #include "Headers/HashCoalesced.h"
-#include "Headers/Cenario4.h"
+#include <HashDouble.h>
+#include <HashSeparatedS.h>
+#include <HashSeparated.h>
+#include <HashLinear.h>
+#include <Vertex.h>
 
+
+/**arquivos .cpp dos algoritmos de ordena√ß√£o precisaram ser importados
+ * na main.cpp, pois sao classes com metodos que usam template.
+ */
 #include "Source/QuickSort.cpp"
 #include "Source/InsertionSort.cpp"
 #include "Source/MergeSort.cpp"
@@ -33,6 +42,7 @@ struct Variables
 	vector<int> intVector;
 
 	string sourceFileName;
+	string path;
 	string questionPath;
 	string answerPath;
 	string tagPath;
@@ -42,6 +52,17 @@ struct Variables
 	int section;
 	int cenary;
 	int entry;
+
+	void entryPath(string _path) {
+		path = _path;
+		if (path[path.size() - 1] != '\\')
+			path.push_back('\\');
+		cout << "Path informado: " << path << endl;
+		questionPath = path + "pythonquestions\\Questions.csv";
+		answerPath = path + "pythonquestions\\Answers.csv";
+		tagPath = path + "pythonquestions\\Tags.csv";
+		sourceFileName = path + "entrada.txt";
+	}
 };
 
 void openMenu(Variables &vars);
@@ -59,16 +80,23 @@ void section2_2(Variables vars, unsigned int N, vector<Vertex>& sorteredUsers);
 
 int main(int argc, char** argv)
 {
-	if (argv[1] == nullptr)
+	FileUtils::showTop();
+	if (argc != 2)
 	{
-		cout << "Erro. Insira um arquivo de entrada como parametro da aplicacao." << endl;
-		system("pause");
+        cout << "Erro na chamada do programa." << endl;
+        cout << "Informe corretamente o path (caminho) padrao inicial." << endl;
+        cout << "Certifique-se de no path estar o arquivo \"entrada.txt\" e a pasta \"pythonsquestions\"." << endl;
+        cout << "Eh necessario que os arquivos \"Answers.csv\", \"Questions.csv\" e \"Tags.csv\" estao no diretorio \"pythonsquestions\"." << endl;
+        cout << "Formato a inserir na linha de comando para execucao do algoritmo:" << endl;
+        cout << "<./executavel> <pathDoDiretorioInicial>" << endl;
+        FileUtils::endProgram();
 		return 0;
 	}
 
-	const string sourceFileName = argv[1];
 	Variables vars;
-	vars.sourceFileName = sourceFileName;
+	vars.entryPath(argv[1]);
+	vars.Ns = FileUtils::readInputFile(vars.sourceFileName);
+	vars.N = vars.Ns.size();
 
 	openMenu(vars);
 
@@ -153,27 +181,24 @@ template<class T> void printVector(const vector<T> &vector)
 
 void openMenu(Variables &vars)
 {
-	vars.Ns = FileUtils::readInputFile(vars.sourceFileName);
-	vars.N = vars.Ns.size();
-	vars.questionPath = "";
-	vars.answerPath = "";
-	vars.tagPath = "";
 	vars.answerVector.clear();
 	vars.intVector.clear();
 	vars.questionVector.clear();
 	vars.tagVector.clear();
 	FileUtils::clearFileContent("saida.txt");
 
+	cout << "-----------------------------------------------------------------------" << endl;
 	cout << "Escolha a secao: " << endl;
 	cout << "Secao 1: Analise dos Algoritmos" << endl;
 	cout << "Secao 2: Implementacao das Tags Frequentes e dos Usuarios Ativos" << endl;
 	cout << "0: Sair" << endl;
+    cin >> vars.section;
+    cout << "-----------------------------------------------------------------------" << endl;
 
-	cin >> vars.section;
 	switch (vars.section)
 	{
 		case 0:
-			exit(0);
+        FileUtils::endProgram();
 		case 1: // Secao 1
 			section1(vars);
 			break;
@@ -193,10 +218,7 @@ void openMenu(Variables &vars)
 
 void section1(Variables &vars)
 {
-	string path = "../pythonquestions/OriginalFiles/Questions.csv";
-	cout << "NAO ESQUECER DE COLOCAR O CIN AQUI PRO USUARIO DIGITAR O PATH DO ARQUIVO QUESTIONS!!!" << endl;
-	FileUtils::readFileQuestion(path, vars.questionVector);
-
+	FileUtils::readFileQuestion(vars.questionPath, vars.questionVector);
 	cout << "\tEscolha o cenario:" << endl;
 	cout << "\tCenario 1: Impacto de diferentes estruturas de dados" << endl;
 	cout << "\tCenario 2: Impacto de variacoes do Quicksort" << endl;
@@ -381,19 +403,19 @@ void section1_cenary4_hashComparison(Variables &vars)
 				break;
 			case 1:
 				hash = new HashCoalesced(n);
-				hashName = "Encadeamento Coalescido (sem por„o)";
+				hashName = "Encadeamento Coalescido (sem porÔøΩo)";
 				break;
 			case 2:
 				hash = new HashLinear(n, false);
-				hashName = "EndereÁamento ñ Sondagem Linear";
+				hashName = "EndereÔøΩamento ÔøΩ Sondagem Linear";
 				break;
 			case 3:
 				hash = new HashLinear(n, true);
-				hashName = "EndereÁamento ñ Sondagem Quadr·tica";
+				hashName = "EndereÔøΩamento ÔøΩ Sondagem QuadrÔøΩtica";
 				break;
 			case 4:
 				hash = new HashDouble(n);
-				hashName = "EndereÁamento ñ Duplo Hash";
+				hashName = "EndereÔøΩamento ÔøΩ Duplo Hash";
 				break;
 			default: break;
 		}

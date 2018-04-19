@@ -21,6 +21,8 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
 
 	if (file.is_open())
 	{
+	    cout << "Lendo arquivo de registros Questions.csv" << endl;
+	    cout << "Path (caminho): " << path << endl;
 		//variavel para calcular tempo de execucao
 		clock_t tStart = clock();
 
@@ -225,9 +227,21 @@ vector<int> FileUtils::readInputFile(string path)
 
 		if (n != i)
 		{
+			cout << "ERRO! Tente novamente!" << endl;
 			cout << "Arquivo de entrada fora do padrao!" << endl;
 			cout << "O numero fornecido na primeira linha do arquivo nao reflete a quantidade de N's." << endl;
+			FileUtils::endProgram();
 		}
+	}
+	else
+	{
+		cout << "ERRO! Tente novamente!" << endl;
+		cout << "Desculpe, mas aconteceu algo inesperado." << endl;
+		cout << "Verifique se o arquivo entrada.txt esta no diretorio indicado na execucao" << endl;
+		cout << "O caminho tentado foi: \"" << path << "\"." << endl;
+		cout << "VERIFIQUE tambem se digitou o nome do diretorio path corretamente." << endl;
+		cout << "O numero fornecido na primeira linha do arquivo nao reflete a quantidade de N's." << endl;
+		cout << "Obs: o arquivo \"entrada.txt\" precisa estar no path informado na execucao do programa." << endl;
 	}
 	return vector;
 }
@@ -243,4 +257,45 @@ void FileUtils::writeToOutputFile(string text)
 	}
 	else
 		cout << "Falha ao escrever no arquivo \"" << outputFileName << "\"." << endl;
+}
+
+
+void FileUtils::endProgram()
+{
+
+	cout << "\n\n         --             FIM DO PROGRAMA            --" << endl;
+	cout << "           Os resultados dos testes foram salvos no" << endl;
+	cout << "        arquivo \"saida.txt\" dentro do path informado." << endl;
+	cout << "\n----------------------- ALGORITMO FINALIZADO -------------------" << endl;
+	FileUtils::pauseScreen(false);
+	exit(-1);
+}
+
+void FileUtils::pauseScreen(bool continuar)
+{
+	int c;
+
+	cout << endl << "Pressione <Enter> para " << (continuar ? "continuar" : "fechar");
+	cout << " o algoritmo...." << endl;
+	clearerr(stdin);
+	while ((c = getchar()) != '\n' && c != EOF);//getchar();
+}
+
+void FileUtils::showTop()
+{
+    cout << "   --------------------------------------------" << endl;
+    cout << "   -  -  Trabalho de Estrutura de Dados 2  -  -" << endl;
+    cout << "   --------------------------------------------" << endl;
+    cout << "--------------------------------------------------" << endl;
+    cout << "---------       ---   GRUPO 5   ---    -----------" << endl;
+    cout << "---------          -> AUTORES <-         ---------" << endl;
+    cout << "--------            Edson Lopes        -----------" << endl;
+    cout << "--------         Humberto Sampaio          -------" << endl;
+    cout << "------------       Luis Henrique     -------------" << endl;
+    cout << "----------       Vinicius Oliveira      ----------" << endl;
+    cout << "--------------------------------------------------" << endl;
+    cout << "--------------------------------------------------" << endl << endl;
+    //cout << "Tecle <Enter> para continuar o algoritmo...." << endl;
+    //getchar();
+    pauseScreen(true);
 }

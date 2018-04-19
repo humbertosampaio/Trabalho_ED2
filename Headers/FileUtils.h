@@ -25,6 +25,9 @@ class FileUtils
 	static void readFileTag(string path, vector<Tag> &tagList);
 	static void readFileAnswer(string path, vector<Answer> &answerList);
 	static void writeToOutputFile(string text);
+	static void endProgram();
+	static void pauseScreen(bool continuar);
+    static void showTop();
 };
 
 #endif //TRABALHO_ED2_FILEUTILS_H

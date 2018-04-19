@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9.6)
+cmake_minimum_required(VERSION 3.10)
 project(Trabalho_ED2)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -7,7 +7,6 @@ include_directories(Headers)
 
 add_executable(Trabalho_ED2
         Headers/Answer.h
-        Headers/Cenario4.h
         Headers/CombSort.h
         Headers/CompareCount.h
         Headers/FileUtils.h
@@ -16,23 +15,14 @@ add_executable(Trabalho_ED2
         Headers/HashDouble.h
         Headers/HashLinear.h
         Headers/HashSeparated.h
+        Headers/HashSeparatedS.h
         Headers/HeapSort.h
         Headers/InsertionSort.h
         Headers/MergeSort.h
         Headers/Question.h
         Headers/QuickSort.h
         Headers/Tag.h
-        Headers/CombSort.h
-        Headers/HashDouble.h
-        Headers/HashLinear.h
-        Headers/Cenario4.h
-        Headers/HashSeparatedS.h
-        Headers/HashCoalesced.h
-        Source/HashSeparatedS.cpp
-        Source/CombSort.cpp
-        Source/HashCoalesced.cpp
-        Source/HashDouble.cpp
-        Source/HashLinear.cpp
+        Headers/Vertex.h
         Source/Answer.cpp
         Source/CombSort.cpp
         Source/CompareCount.cpp
@@ -42,10 +32,12 @@ add_executable(Trabalho_ED2
         Source/HashDouble.cpp
         Source/HashLinear.cpp
         Source/HashSeparated.cpp
+        Source/HashSeparatedS.cpp
         Source/HeapSort.cpp
         Source/InsertionSort.cpp
         Source/MergeSort.cpp
         Source/Question.cpp
         Source/QuickSort.cpp
         Source/Tag.cpp
-        main.cpp Source/Vertex.cpp Headers/Vertex.h)
+        Source/Vertex.cpp
+        main.cpp)
