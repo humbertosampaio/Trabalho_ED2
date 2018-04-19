@@ -3,18 +3,17 @@
 #include <chrono>
 #include <algorithm>
 
-
 #include "Headers/FileUtils.h"
 #include "Headers/InsertionSort.h"
 #include "Headers/MergeSort.h"
 #include "Headers/HeapSort.h"
 #include "Headers/CombSort.h"
 #include "Headers/HashCoalesced.h"
-#include <HashDouble.h>
-#include <HashSeparatedS.h>
-#include <HashSeparated.h>
-#include <HashLinear.h>
-#include <Vertex.h>
+#include "Headers/HashDouble.h"
+#include "Headers/HashSeparated.h"
+#include "Headers/HashSeparatedS.h"
+#include "Headers/HashLinear.h"
+#include "Headers/Vertex.h"
 
 
 /**arquivos .cpp dos algoritmos de ordenação precisaram ser importados
@@ -83,13 +82,13 @@ int main(int argc, char** argv)
 	FileUtils::showTop();
 	if (argc != 2)
 	{
-        cout << "Erro na chamada do programa." << endl;
-        cout << "Informe corretamente o path (caminho) padrao inicial." << endl;
-        cout << "Certifique-se de no path estar o arquivo \"entrada.txt\" e a pasta \"pythonsquestions\"." << endl;
-        cout << "Eh necessario que os arquivos \"Answers.csv\", \"Questions.csv\" e \"Tags.csv\" estao no diretorio \"pythonsquestions\"." << endl;
-        cout << "Formato a inserir na linha de comando para execucao do algoritmo:" << endl;
-        cout << "<./executavel> <pathDoDiretorioInicial>" << endl;
-        FileUtils::endProgram();
+		cout << "Erro na chamada do programa." << endl;
+		cout << "Informe corretamente o path (caminho) padrao inicial." << endl;
+		cout << "Certifique-se de no path estar o arquivo \"entrada.txt\" e a pasta \"pythonsquestions\"." << endl;
+		cout << "Eh necessario que os arquivos \"Answers.csv\", \"Questions.csv\" e \"Tags.csv\" estejam no diretorio \"pythonsquestions\"." << endl;
+		cout << "Formato a inserir na linha de comando para execucao do algoritmo:" << endl;
+		cout << "<./executavel> <pathDoDiretorioInicial>" << endl;
+		FileUtils::endProgram();
 		return 0;
 	}
 
@@ -99,8 +98,6 @@ int main(int argc, char** argv)
 	vars.N = vars.Ns.size();
 
 	openMenu(vars);
-
-	system("pause");
 	return 0;
 }
 
@@ -192,13 +189,13 @@ void openMenu(Variables &vars)
 	cout << "Secao 1: Analise dos Algoritmos" << endl;
 	cout << "Secao 2: Implementacao das Tags Frequentes e dos Usuarios Ativos" << endl;
 	cout << "0: Sair" << endl;
-    cin >> vars.section;
-    cout << "-----------------------------------------------------------------------" << endl;
+	cout << "-----------------------------------------------------------------------" << endl;
+	cin >> vars.section;
 
 	switch (vars.section)
 	{
 		case 0:
-        FileUtils::endProgram();
+			FileUtils::endProgram();
 		case 1: // Secao 1
 			section1(vars);
 			break;
@@ -213,18 +210,22 @@ void openMenu(Variables &vars)
 	char executarNovamente;
 	cout << "Executar novamente? (S/N)" << endl;
 	cin >> executarNovamente;
-	executarNovamente == 'S' || executarNovamente == 's' ? openMenu(vars) : exit(0);
+	while (executarNovamente != 'N' && executarNovamente != 'n' && executarNovamente != 'S' && executarNovamente != 's')
+		cout << "Entrada invalida! Tente novamente:" << endl;
+	executarNovamente == 'S' || executarNovamente == 's' ? openMenu(vars) : FileUtils::endProgram();
 }
 
 void section1(Variables &vars)
 {
 	FileUtils::readFileQuestion(vars.questionPath, vars.questionVector);
+	cout << "\t-----------------------------------------------------------------------" << endl;
 	cout << "\tEscolha o cenario:" << endl;
 	cout << "\tCenario 1: Impacto de diferentes estruturas de dados" << endl;
 	cout << "\tCenario 2: Impacto de variacoes do Quicksort" << endl;
 	cout << "\tCenario 3: QuickSort X InsertionSort X MergeSort X HeapSort X MeuSort(CombSort)" << endl;
 	cout << "\tCenario 4: Tratamento de Colisoes: Enderecamento X Encadeamento" << endl;
 	cout << "\t0: Voltar" << endl;
+	cout << "\t-----------------------------------------------------------------------" << endl;
 	cout << "\t";
 
 	cin >> vars.cenary;
@@ -246,17 +247,19 @@ void section1(Variables &vars)
 			section1_cenary4(vars);
 			break;
 		default:
-			cout << "Cenario Invalido. Tente novamente" << endl;
+			cout << "Cenario Invalido. Tente novamente:" << endl;
 			section1(vars);
 	}
 }
 
 void section1_cenary1(Variables &vars)
 {
+	cout << "\t\t-----------------------------------------------------------------------" << endl;
 	cout << "\t\tEscolha uma entrada:" << endl;
 	cout << "\t\tEntrada 1: Elementos do tipo Inteiro" << endl;
 	cout << "\t\tEntrada 2: Elementos do tipo Question" << endl;
 	cout << "\t\t0: Voltar" << endl;
+	cout << "\t\t-----------------------------------------------------------------------" << endl;
 	cout << "\t\t";
 
 	cin >> vars.entry;
@@ -307,11 +310,13 @@ void section1_cenary1_entry2(Variables &vars)
 
 void section1_cenary2(Variables &vars)
 {
+	cout << "\t\t-----------------------------------------------------------------------" << endl;
 	cout << "\t\tEscolha uma entrada:" << endl;
 	cout << "\t\tEntrada 1: QuickSort Recursivo" << endl;
 	cout << "\t\tEntrada 2: QuickSort Mediana(k)" << endl;
 	cout << "\t\tEntrada 3: QuickSort Insercao(m)" << endl;
 	cout << "\t\t0: Voltar" << endl;
+	cout << "\t\t-----------------------------------------------------------------------" << endl;
 	cout << "\t\t";
 
 	int entrada;
@@ -403,19 +408,19 @@ void section1_cenary4_hashComparison(Variables &vars)
 				break;
 			case 1:
 				hash = new HashCoalesced(n);
-				hashName = "Encadeamento Coalescido (sem por�o)";
+				hashName = "Encadeamento Coalescido (sem porao)";
 				break;
 			case 2:
 				hash = new HashLinear(n, false);
-				hashName = "Endere�amento � Sondagem Linear";
+				hashName = "Enderecamento - Sondagem Linear";
 				break;
 			case 3:
 				hash = new HashLinear(n, true);
-				hashName = "Endere�amento � Sondagem Quadr�tica";
+				hashName = "Enderecamento - Sondagem Quadr�tica";
 				break;
 			case 4:
 				hash = new HashDouble(n);
-				hashName = "Endere�amento � Duplo Hash";
+				hashName = "Enderecamento - Duplo Hash";
 				break;
 			default: break;
 		}
@@ -439,11 +444,11 @@ void section1_cenary4_hashComparison(Variables &vars)
 
 void section2(Variables &vars)
 {
-	FileUtils::readFileQuestion("/home/edson/pythonquestions/Questions.csv", vars.questionVector);
-	FileUtils::readFileTag("/home/edson/pythonquestions/Tags.csv", vars.tagVector);
+	FileUtils::readFileQuestion(vars.questionPath, vars.questionVector);
+	FileUtils::readFileTag(vars.tagPath, vars.tagVector);
 	//FileUtils::readFileAnswer("/home/edson/pythonquestions/Answers.csv", vars.answerVector);
 	int param;
-	cout << "Digite o numero(positivo) de Questions desejados na leitura" << endl;
+	cout << "Digite o numero (positivo) de Questions desejados na leitura" << endl;
 	cin >> param;
 	while (param < 0) {
 		cout << "Numero de questions invalido! digite novamente" << endl;

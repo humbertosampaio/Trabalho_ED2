@@ -265,7 +265,7 @@ void FileUtils::endProgram()
 
 	cout << "\n\n         --             FIM DO PROGRAMA            --" << endl;
 	cout << "           Os resultados dos testes foram salvos no" << endl;
-	cout << "        arquivo \"saida.txt\" dentro do path informado." << endl;
+	cout << "        arquivo \"saida.txt\" dentro do path do executavel." << endl;
 	cout << "\n----------------------- ALGORITMO FINALIZADO -------------------" << endl;
 	FileUtils::pauseScreen(false);
 	exit(-1);
