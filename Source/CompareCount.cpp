@@ -3,11 +3,11 @@
 //
 
 #include "../Headers/CompareCount.h"
-#include <string>
 
 using namespace std;
 
 std::string CompareCount::nameOfAlgorithm;
+unsigned long CompareCount::sizeVector;
 int CompareCount::countNumComparisons;
 int CompareCount::countNumCopias;
 clock_t CompareCount::timeStart;
@@ -20,11 +20,12 @@ bool CompareCount::runtimeCalc = true;
  * Seu código só executado se o tempo de execução (runtime) foi calculado (isso indica que já foi salvo os dados anteriores)
  * @param name: recebe uma string com o nome do algoritmo a salvar os dados
  */
-void CompareCount::initializeCounters(std::string name)
+void CompareCount::initializeCounters(std::string name, unsigned long size)
 {
 	if (runtimeCalc)
 	{
 	    nameOfAlgorithm = name;
+	    sizeVector = size;
 		countNumComparisons = 0;
 		countNumCopias = 0;
 		timeStart = 0;
@@ -84,10 +85,9 @@ void CompareCount::printData()
 string CompareCount::getDataString()
 {
 	string data = "Algoritmo: " + nameOfAlgorithm + "\n";
-
+	data += "QUantidade de elementos a ordenar: " + to_string(sizeVector) + "\n";
 	data += "Comparacoes: " + to_string(countNumComparisons) + "\nCopias: " +
 			to_string(countNumCopias) + "\nTempo de Execução: ";
-
 	data += runtimeCalc ? (to_string(runtime) + "\n") : "Nao foi calculado\n";
 
 	return data;

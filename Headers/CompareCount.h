@@ -6,6 +6,7 @@
 #define TRABALHO_ED2_COMPARECOUNT_H
 
 #include <iostream>
+#include <string>
 #include <ctime>
 
 class CompareCount
@@ -17,9 +18,10 @@ class CompareCount
 		static clock_t timeStart;
 		static double runtime;
 		static bool runtimeCalc;
+		static unsigned long sizeVector;
 
 	public:
-		static void initializeCounters(std::string name);
+		static void initializeCounters(std::string name, unsigned long size);
 		static void incrementComparison();
 		static void incrementCopia();
 		static void setTimeStart();

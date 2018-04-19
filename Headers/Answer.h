@@ -6,6 +6,7 @@
 #define TRABALHO_ED2_ANSWER_H
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 

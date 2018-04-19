@@ -3,7 +3,6 @@
 //
 
 #include "../Headers/Answer.h"
-#include <string>
 
 Answer::Answer(string *answer)
 {

@@ -7,6 +7,7 @@
 #define TRABALHO_ED2_QUESTION_H
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 

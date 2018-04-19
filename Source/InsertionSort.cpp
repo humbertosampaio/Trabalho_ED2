@@ -12,9 +12,9 @@ using namespace std;
  */
 template<class T> void InsertionSort::insertionSort(vector<T> &vet)
 {
-    CompareCount::initializeCounters("Insertion Sort");
+	unsigned long size = vet.size();
+    CompareCount::initializeCounters("Insertion Sort", size);
 	CompareCount::setTimeStart();
-	int size = vet.size();
 	for (unsigned int i = 1; i < size; i++)
 	{
 		T pivo = vet[i];

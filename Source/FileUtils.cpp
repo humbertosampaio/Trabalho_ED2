@@ -3,9 +3,6 @@
 //
 
 #include "../Headers/FileUtils.h"
-#include <string>
-#include <iomanip>
-#include <limits>
 
 void FileUtils::clearFileContent(string path)
 {
@@ -256,13 +253,14 @@ vector<int> FileUtils::readInputFile(string path)
 	}
 	else
 	{
-		cout << "ERRO! Tente novamente!" << endl;
-		cout << "Desculpe, mas aconteceu algo inesperado." << endl;
+		cout << "ERRO na leitura do arquivo de entrada!" << endl;
 		cout << "Verifique se o arquivo entrada.txt esta no diretorio indicado na execucao" << endl;
 		cout << "O caminho tentado foi: \"" << path << "\"." << endl;
 		cout << "VERIFIQUE tambem se digitou o nome do diretorio path corretamente." << endl;
-		cout << "O numero fornecido na primeira linha do arquivo nao reflete a quantidade de N's." << endl;
+		cout << "Estamos considerando o diretorio do executavel caso nao tenha informado o path" << endl;
 		cout << "Obs: o arquivo \"entrada.txt\" precisa estar no path informado na execucao do programa." << endl;
+		pauseScreen(true);
+		endProgram();
 	}
 	return vector;
 }
@@ -283,13 +281,13 @@ void FileUtils::writeToOutputFile(string text)
 
 void FileUtils::endProgram()
 {
-
-	cout << "\n\n          --             FIM DO PROGRAMA             --" << endl;
-	cout << "            Os resultados dos testes foram salvos no" << endl;
-	cout << "         arquivo \"saida.txt\" dentro do path do executavel." << endl;
+    cout << "\n\n*---------------------------------------------------------------------------------*" << endl;
+	cout << "*                  --             FIM DO PROGRAMA             --                  *" << endl;
+	cout << "*                    Os resultados dos testes foram salvos no                     *" << endl;
+	cout << "*               arquivo \"saida.txt\" dentro do path do executavel.                 *" << endl;
 	cout << "**Obs: Salve seu arquivo de saida, pois ele sera sobreescrito na proxima execucao**" << endl;
-	cout << "*-------------------------------- ALGORITMO FINALIZADO ---------------------------*" << endl;
-	FileUtils::pauseScreen(false);
+	cout << "*---------------------------------------------------------------------------------*" << endl;
+	pauseScreen(false);
 	exit(0);
 }
 
@@ -298,8 +296,8 @@ void FileUtils::pauseScreen(bool continuar)
 	int c;
 	cout << endl << "Pressione <Enter> para " << (continuar ? "continuar" : "fechar");
 	cout << " o algoritmo...." << endl;
+    while ((c = getchar()) != '\n' && c != EOF);
 	clearerr(stdin);
-	while ((c = getchar()) != '\n' && c != EOF);
 	//getchar();
 }
 
@@ -318,9 +316,12 @@ void FileUtils::showTop()
     cout << "\t\t\t--------------------------------------------------" << endl;
     cout << "\t\t\t--------------------------------------------------" << endl << endl;
     cout << "------------------------------ INFORMACOES ---------------------------" << endl;
-    cout << "-> O arquivo saida.txt sera gerado no diretorio do executavel" << endl;
+    cout << "-> O arquivo saida.txt sera gerado no diretorio do executavel." << endl;
+    cout << "-> Para executar use: <./NomeDoExecutavelCompilado> <path>" << endl;
+	cout << "-> Caso nao passe a path por linha de comando, o diretorio onde esta" << endl;
+	cout << "   executavel sera considerado como path." << endl;
     cout << "-> O path (caminho do diretorio) informado precisa conter o" << endl;
-    cout << "   arquivo entrada.txt e o diretorio pythonsquestions" << endl;
+    cout << "   arquivo entrada.txt e o diretorio pythonsquestions." << endl;
     cout << "-> Os arquivos usados (Answers.csv, Questions.csv, Tags.csv) precisam" << endl;
     cout << "   estar na pasta pythonquestions que fica no diretorio informado." << endl;
 	cout << "------------------------------ INFORMACOES ---------------------------" << endl;

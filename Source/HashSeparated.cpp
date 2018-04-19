@@ -3,7 +3,6 @@
 //
 
 #include "../Headers/HashSeparated.h"
-#include <string>
 
 
 HashSeparated::~HashSeparated()

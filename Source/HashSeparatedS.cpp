@@ -3,7 +3,6 @@
 //
 
 #include "../Headers/HashSeparatedS.h"
-#include <string>
 
 HashSeparatedS::HashSeparatedS(unsigned int size)
 {

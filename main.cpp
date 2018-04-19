@@ -48,16 +48,19 @@ struct Variables
 	string tagPath;
 
 	vector<int> Ns;
-	int N;
+	unsigned long N;
 	int section;
 	int cenary;
 	int entry;
 
 	void entryPath(string _path) {
 		path = _path;
-		if (path[path.size() - 1] != '\\' && path[path.size() - 1] != '/')
+		if (path[path.size() - 1] != '\\' && path[path.size() - 1] != '/' && !path.empty())
 			path.push_back('/');
-		cout << "Path informado: " << path << endl;
+		if(!path.empty())
+            cout << "Path informado: " << path << endl;
+		else
+            cout << "Como nao foi informado a path, consideraremos o diretorio do executavel como path" << endl;
 		questionPath = path + "pythonquestions/Questions.csv";
 		answerPath = path + "pythonquestions/Answers.csv";
 		tagPath = path + "pythonquestions/Tags.csv";
@@ -86,12 +89,12 @@ void section2_2(Variables vars, unsigned int N, vector<Vertex>& sorteredUsers);
 int main(int argc, char** argv)
 {
 	FileUtils::showTop();
-	if (argc != 2)
+	if (argc != 2 && argc != 1)
 	{
-        cout << "Erro na chamada do programa." << endl;
-        cout << "Informe corretamente o path (caminho) padrao inicial." << endl;
-        cout << "Certifique-se de no path estar o arquivo \"entrada.txt\" e a pasta \"pythonsquestions\"." << endl;
-        cout << "Eh necessario que os arquivos \"Answers.csv\", \"Questions.csv\" e \"Tags.csv\" estao no diretorio \"pythonsquestions\"." << endl;
+        cout << "Erro na chamada do programa. Informe corretamente o path (caminho) padrao inicial." << endl;
+        cout << "Ou deixe em branco, caso queira considerar o diretorio do executavel como path" << endl;
+        cout << R"(Certifique-se de no path estar o arquivo "entrada.txt" e a pasta "pythonsquestions".)" << endl;
+        cout << R"(Eh necessario que os arquivos "Answers.csv", "Questions.csv" e "Tags.csv" estao no diretorio "pythonsquestions".)" << endl;
         cout << "Formato a inserir na linha de comando para execucao do algoritmo:" << endl;
         cout << "<./executavel> <pathDoDiretorioInicial>" << endl;
         FileUtils::endProgram();
@@ -99,7 +102,7 @@ int main(int argc, char** argv)
 	}
 
 	Variables vars;
-	vars.entryPath(argv[1]);
+	vars.entryPath(argc==1 ? "" : argv[1]);
 	vars.Ns = FileUtils::readInputFile(vars.sourceFileName);
 	vars.N = vars.Ns.size();
     FileUtils::clearFileContent("saida.txt");
