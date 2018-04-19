@@ -5,12 +5,20 @@
 #include "../Headers/FileUtils.h"
 #include <string>
 #include <iomanip>
+#include <limits>
 
 void FileUtils::clearFileContent(string path)
 {
 	ofstream writer(path, std::ofstream::out | std::ofstream::trunc);
 	if (writer.is_open())
+	{
 		writer.clear();
+		writer << "-----------------------------------------" << endl;
+		writer << "Trabalho de Estrutura de Dados 2" << endl;
+		writer << "Autores: Edson, Humberto, Luis e Vinicius" << endl;
+		writer << "ANALISE DOS ALGORITMOS E BASE DE DADOS" << endl;
+		writer << "-----------------------------------------" << endl << endl;
+	}
 	else
 		cout << "Falha ao limpar o conteudo do arquivo \"" << path << "\"." << endl;
 }
@@ -22,8 +30,8 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
 
 	if (file.is_open())
 	{
-	    cout << "Lendo arquivo de registros Questions.csv" << endl;
-	    cout << "Path (caminho): " << path << endl;
+	    cout << "\tLendo arquivo de registros Questions.csv" << endl;
+	    cout << "\tPath (caminho): " << path << endl;
 		//variavel para calcular tempo de execucao
 		clock_t tStart = clock();
 
@@ -47,7 +55,7 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
 
 		//iteracao principal
         string progressBar = "=";
-        cout<< "lendo Question.csv\n";
+        cout<< "\tLendo Question.csv\n";
 		while (!file.eof())
 		{
 			while (++i < length && buffer[i] != char_traits<char>::eof())
@@ -71,7 +79,7 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
                     if (registriesCount % 24000 == 0)
                     {
                         progressBar += "=";
-                        cout << right<< "["<< progressBar<< setw(25-(registriesCount/24000)) << "]" << "\r" << std::flush;
+                        cout << "\t" << right<< "["<< progressBar<< setw(25-(registriesCount/24000)) << "]" << "\r" << std::flush;
                     }
 
 					objPosition = 0;
@@ -85,13 +93,16 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
 		}
         cout << endl;
         resetiosflags;
-		cout << "Tempo gasto na leitura: " << (double) (clock() - tStart) / CLOCKS_PER_SEC << "s" << endl << endl;
+		cout << "\tTempo gasto na leitura: " << (double) (clock() - tStart) / CLOCKS_PER_SEC << "s" << endl << endl;
 		file.close();
 		delete[] buffer;
 		delete[] obj;
 		return;
 	}
-	cout << "falha na leitura do arquivo!" << endl;
+	cout << "\tFalha na leitura do arquivo!" << endl;
+	cout << "\tO caminho tentado foi: \"" << path << "\"." << endl;
+	cout << "\tVERIFIQUE se digitou o nome do diretorio path corretamente." << endl;
+	exit(0);
 }
 
 void FileUtils::readFileTag(string path, vector<Tag> &tagList)
@@ -273,39 +284,45 @@ void FileUtils::writeToOutputFile(string text)
 void FileUtils::endProgram()
 {
 
-	cout << "\n\n         --             FIM DO PROGRAMA            --" << endl;
-	cout << "           Os resultados dos testes foram salvos no" << endl;
-	cout << "        arquivo \"saida.txt\" dentro do path do executavel." << endl;
-	cout << "\n----------------------- ALGORITMO FINALIZADO -------------------" << endl;
+	cout << "\n\n          --             FIM DO PROGRAMA             --" << endl;
+	cout << "            Os resultados dos testes foram salvos no" << endl;
+	cout << "         arquivo \"saida.txt\" dentro do path do executavel." << endl;
+	cout << "**Obs: Salve seu arquivo de saida, pois ele sera sobreescrito na proxima execucao**" << endl;
+	cout << "*-------------------------------- ALGORITMO FINALIZADO ---------------------------*" << endl;
 	FileUtils::pauseScreen(false);
-	exit(-1);
+	exit(0);
 }
 
 void FileUtils::pauseScreen(bool continuar)
 {
 	int c;
-
 	cout << endl << "Pressione <Enter> para " << (continuar ? "continuar" : "fechar");
 	cout << " o algoritmo...." << endl;
 	clearerr(stdin);
-	while ((c = getchar()) != '\n' && c != EOF);//getchar();
+	while ((c = getchar()) != '\n' && c != EOF);
+	//getchar();
 }
 
 void FileUtils::showTop()
 {
-    cout << "   --------------------------------------------" << endl;
-    cout << "   -  -  Trabalho de Estrutura de Dados 2  -  -" << endl;
-    cout << "   --------------------------------------------" << endl;
-    cout << "--------------------------------------------------" << endl;
-    cout << "---------       ---   GRUPO 5   ---    -----------" << endl;
-    cout << "---------          -> AUTORES <-         ---------" << endl;
-    cout << "--------            Edson Lopes        -----------" << endl;
-    cout << "--------         Humberto Sampaio          -------" << endl;
-    cout << "------------       Luis Henrique     -------------" << endl;
-    cout << "----------       Vinicius Oliveira      ----------" << endl;
-    cout << "--------------------------------------------------" << endl;
-    cout << "--------------------------------------------------" << endl << endl;
-    //cout << "Tecle <Enter> para continuar o algoritmo...." << endl;
-    //getchar();
+    cout << "\t\t\t   --------------------------------------------" << endl;
+    cout << "\t\t\t   -  -  Trabalho de Estrutura de Dados 2  -  -" << endl;
+    cout << "\t\t\t   --------------------------------------------" << endl;
+    cout << "\t\t\t--------------------------------------------------" << endl;
+    cout << "\t\t\t---------       ---   GRUPO 5   ---    -----------" << endl;
+    cout << "\t\t\t---------          -> AUTORES <-         ---------" << endl;
+    cout << "\t\t\t--------            Edson Lopes        -----------" << endl;
+    cout << "\t\t\t--------         Humberto Sampaio          -------" << endl;
+    cout << "\t\t\t------------       Luis Henrique     -------------" << endl;
+    cout << "\t\t\t----------        Vinicius Carlos       ----------" << endl;
+    cout << "\t\t\t--------------------------------------------------" << endl;
+    cout << "\t\t\t--------------------------------------------------" << endl << endl;
+    cout << "------------------------------ INFORMACOES ---------------------------" << endl;
+    cout << "-> O arquivo saida.txt sera gerado no diretorio do executavel" << endl;
+    cout << "-> O path (caminho do diretorio) informado precisa conter o" << endl;
+    cout << "   arquivo entrada.txt e o diretorio pythonsquestions" << endl;
+    cout << "-> Os arquivos usados (Answers.csv, Questions.csv, Tags.csv) precisam" << endl;
+    cout << "   estar na pasta pythonquestions que fica no diretorio informado." << endl;
+	cout << "------------------------------ INFORMACOES ---------------------------" << endl;
     pauseScreen(true);
 }

@@ -88,7 +88,7 @@ string CompareCount::getDataString()
 	data += "Comparacoes: " + to_string(countNumComparisons) + "\nCopias: " +
 			to_string(countNumCopias) + "\nTempo de Execução: ";
 
-	data += runtimeCalc ? (to_string(runtime) + "\n\n") : "Nao foi calculado\n\n";
+	data += runtimeCalc ? (to_string(runtime) + "\n") : "Nao foi calculado\n";
 
 	return data;
 }

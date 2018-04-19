@@ -1,6 +1,5 @@
 #include <iostream>
 #include <random>
-#include <chrono>
 #include <algorithm>
 #include <iomanip>
 #include <fstream>
@@ -56,12 +55,12 @@ struct Variables
 
 	void entryPath(string _path) {
 		path = _path;
-		if (path[path.size() - 1] != '\\')
-			path.push_back('\\');
+		if (path[path.size() - 1] != '\\' && path[path.size() - 1] != '/')
+			path.push_back('/');
 		cout << "Path informado: " << path << endl;
-		questionPath = path + "pythonquestions\\Questions.csv";
-		answerPath = path + "pythonquestions\\Answers.csv";
-		tagPath = path + "pythonquestions\\Tags.csv";
+		questionPath = path + "pythonquestions/Questions.csv";
+		answerPath = path + "pythonquestions/Answers.csv";
+		tagPath = path + "pythonquestions/Tags.csv";
 		sourceFileName = path + "entrada.txt";
 	}
 };
@@ -76,6 +75,11 @@ void section1_cenary3(Variables &vars);
 void section1_cenary4(Variables &vars);
 void section1_cenary4_hashComparison(Variables &vars);
 void section2(Variables &vars);
+void section1_cenary2_entry1(Variables &vars);
+void section1_cenary2_entry2(Variables &vars);
+void section1_cenary2_entry3(Variables &vars);
+void section1_cenary2_entry4(Variables &vars);
+void section1_cenary2_entry5(Variables &vars);
 void section2_1(Variables vars, unsigned int N, vector<Vertex>& sorteredTags);
 void section2_2(Variables vars, unsigned int N, vector<Vertex>& sorteredUsers);
 
@@ -98,6 +102,7 @@ int main(int argc, char** argv)
 	vars.entryPath(argv[1]);
 	vars.Ns = FileUtils::readInputFile(vars.sourceFileName);
 	vars.N = vars.Ns.size();
+    FileUtils::clearFileContent("saida.txt");
 
 	openMenu(vars);
 	return 0;
@@ -131,32 +136,40 @@ void sortIntegers(vector<int> &intVector)
 
 vector<int> getVetQuestionsIdRand(vector<Question> &vetQuestions, const int &n)
 {
-	vector<Question> vetQuestionsCopy(vetQuestions);
+    //long long int seed = std::chrono::system_clock::now().time_since_epoch().count();
+    random_device rd; // obtain a random number from hardware
+    int seed = rd();
+    std::mt19937 eng(seed); // seed the generator
+    uniform_int_distribution<unsigned long> distAleatoria(0, vetQuestions.size() - 1);///distribuicao uniforme aleatoria
+
+    vector<Question> vetQuestionsCopy(vetQuestions);
 	vector<int> vetQuestionsAleatorio; /// Vector de questions gerados aleatoriamente
-	long long int seed = std::chrono::system_clock::now().time_since_epoch().count();
-	mt19937 eng(seed);    ///mersenne twister engine
-	uniform_int_distribution<unsigned long> distAleatoria(0, vetQuestions.size() - 1);
+
 
 	for (int i = 0; i < n; i++)
 	{
 		unsigned int indice;
 		do
 		{
-			indice = distAleatoria(eng);
+			indice = static_cast<unsigned int>(distAleatoria(eng));
 		} while (vetQuestionsCopy[indice].getQuestionId() == -1);
 		vetQuestionsAleatorio.emplace_back(vetQuestionsCopy[indice].getQuestionId());
 		vetQuestionsCopy[indice].setQuestionId(-1);
 	}
+	FileUtils::writeToOutputFile("Seed: " + to_string(seed));
 	return vetQuestionsAleatorio;
 }
 
 vector<Question> getVetQuestionsRand(vector<Question> &vetQuestions, const int &n)
 {
+    ///Gerador de numeros aleatorios (Nao sao previsiveis)
+    random_device rd; // obtain a random number from hardware
+    int seed = rd();
+    std::mt19937 eng(seed); // seed the generator
+    uniform_int_distribution<unsigned long> distAleatoria(0, vetQuestions.size() - 1);///distribuicao uniforme aleatoria
+
 	vector<Question> vetQuestionsCopy(vetQuestions);
 	vector<Question> vetQuestionsAleatorio; /// Vector de questions gerados aleatoriamente
-	long long int seed = std::chrono::system_clock::now().time_since_epoch().count();
-	mt19937 eng(seed);    ///mersenne twister engine
-	uniform_int_distribution<unsigned long> distAleatoria(0, vetQuestions.size() - 1);
 
 	for (int i = 0; i < n; i++)
 	{
@@ -168,6 +181,7 @@ vector<Question> getVetQuestionsRand(vector<Question> &vetQuestions, const int &
 		vetQuestionsAleatorio.emplace_back(vetQuestionsCopy[indice]);
 		vetQuestionsCopy[indice].setQuestionId(-1);
 	}
+    FileUtils::writeToOutputFile("Seed: " + to_string(seed));
 	return vetQuestionsAleatorio;
 }
 
@@ -180,8 +194,6 @@ template<class T> void printVector(const vector<T> &vector)
 
 void openMenu(Variables &vars)
 {
-	FileUtils::clearFileContent("saida.txt");
-
 	cout << "-----------------------------------------------------------------------" << endl;
 	cout << "Escolha a secao: " << endl;
 	cout << "Secao 1: Analise dos Algoritmos" << endl;
@@ -195,10 +207,10 @@ void openMenu(Variables &vars)
 	{
 		case 0:
         FileUtils::endProgram();
-		case 1: // Secao 1
+		case 1: /// Secao 1
 			section1(vars);
 			break;
-		case 2: // Secao 2
+		case 2: /// Secao 2
 			int param;
 			section2(vars);
 			break;
@@ -263,15 +275,20 @@ void section1_cenary1(Variables &vars)
 	cout << "\t\tOpcao: ";
 	cin >> vars.entry;
 	cout << "\t\t----------------------------------------" << endl;
+	if(vars.entry == 1 ||vars.entry == 2)
+    {
+        FileUtils::writeToOutputFile("----------------------------------------------------");
+        FileUtils::writeToOutputFile("Cenario 1: Impacto de diferentes estruturas de dados");
+    }
 	switch (vars.entry)
 	{
 		case 0:
 			section1(vars);
 			break;
-		case 1: // Secao 1, Cenario 1, Entrada 1
+		case 1: /// Secao 1, Cenario 1, Entrada 1
 			section1_cenary1_entry1(vars);
 			break;
-		case 2: // Secao 1, Cenario 1, Entrada 2
+		case 2: /// Secao 1, Cenario 1, Entrada 2
 			section1_cenary1_entry2(vars);
 			break;
 		default:
@@ -282,35 +299,47 @@ void section1_cenary1(Variables &vars)
 
 void section1_cenary1_entry1(Variables &vars)
 {
-
-	vars.intVector.clear();
+    string str = "----------------------------------------------------";
+    str += "\nQuick Sort Recursivo com vector de inteiros.";
+    str += "\n----------------------------------------------------";
+    FileUtils::writeToOutputFile(str);
+    vars.intVector.clear();
 	for (int i = 0; i < vars.N; i++)
 	{
-		string str = "";
-		str += "Iteracao " + to_string(i + 1) + ": \n";
-		str += "Quick Sort Recursivo com " + to_string(vars.Ns[i]) + " elementos inteiros.\n";
-		cout << str << endl;
-		vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+	    str = "\nExperimento " + to_string(i+1) + ": N = " + to_string(vars.Ns[i]);
 		FileUtils::writeToOutputFile(str);
-		QuickSort::quickSort(vars.intVector, 0);
-		//printVector(vars.intVector);
+        cout << str << endl;
+        for(int j = 1; j <= 5; j++)
+        {
+            str = "Iteracao " + to_string(j);
+            FileUtils::writeToOutputFile(str);
+            cout << str << endl;
+            vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+            QuickSort::quickSort(vars.intVector, 0);
+        }
 	}
 }
 
 void section1_cenary1_entry2(Variables &vars)
 {
-
+    string str = "----------------------------------------------------";
+    str += "\nQuick Sort Recursivo com vector de Questions.";
+    str += "\n----------------------------------------------------";
+    FileUtils::writeToOutputFile(str);
 	for (int i = 0; i < vars.N; i++)
 	{
-		string str = "";
-		str += "Iteracao " + to_string(i + 1) + ": \n";
-		str += "Quick Sort Recursivo com " + to_string(vars.Ns[i]) + " elementos de Questions.\n";
-		cout << str << endl;
-		vector<Question> tempVector;
-		tempVector = getVetQuestionsRand(vars.questionVector, vars.Ns[i]);
-		FileUtils::writeToOutputFile(str);
-		QuickSort::quickSort(tempVector, 0);
-		//printVector(vars.questionVector);
+        str = "\nExperimento " + to_string(i+1) + ": N = " + to_string(vars.Ns[i]);
+        FileUtils::writeToOutputFile(str);
+        cout << str << endl;
+        for(int j = 1; j <= 5; j++)
+        {
+            str = "Iteracao " + to_string(j);
+            FileUtils::writeToOutputFile(str);
+            cout << str << endl;
+            vector<Question> tempVector;
+            tempVector = getVetQuestionsRand(vars.questionVector, vars.Ns[i]);
+            QuickSort::quickSort(tempVector, 0);
+        }
 	}
 }
 
@@ -319,8 +348,10 @@ void section1_cenary2(Variables &vars)
 	cout << "\t\t----------------------------------------" << endl;
 	cout << "\t\tEscolha uma entrada:" << endl;
 	cout << "\t\tEntrada 1: QuickSort Recursivo" << endl;
-	cout << "\t\tEntrada 2: QuickSort Mediana(k)" << endl;
-	cout << "\t\tEntrada 3: QuickSort Insercao(m)" << endl;
+	cout << "\t\tEntrada 2: QuickSort Mediana com K=3" << endl;
+    cout << "\t\tEntrada 3: QuickSort Mediana com K=5" << endl;
+	cout << "\t\tEntrada 4: QuickSort Insercao com M=10" << endl;
+    cout << "\t\tEntrada 5: QuickSort Insercao com M=100" << endl;
 	cout << "\t\t0: Voltar" << endl;
 	cout << "\t\t----------" << endl;
 	cout << "\t\tOpcao: ";
@@ -328,65 +359,267 @@ void section1_cenary2(Variables &vars)
 	cin >> entrada;
 	cout << "\t\t----------------------------------------" << endl;
 
-	int lastIndex = vars.intVector.size() - 1;
+	if(vars.entry >= 1 ||vars.entry <= 5)
+    {
+        FileUtils::writeToOutputFile("--------------------------------------------");
+        FileUtils::writeToOutputFile("Cenario 2: Impacto de variacoes do Quicksort");
+    }
 
-	switch (entrada)
-	{
-		case 0:
-			section1(vars);
+    //unsigned long lastIndex = vars.intVector.size() - 1;
+
+	switch (entrada) {
+        case 0:
+            section1(vars);
+            break;
+        case 1: /// Secao 1, Cenario 2, Entrada 1 -- Quick Sort Recursivo
+            section1_cenary2_entry1(vars);
+            break;
+		case 2: /// Secao 1, Cenario 2, Entrada 2 -- Quick Sort Mediana K=3
+            section1_cenary2_entry2(vars);
 			break;
-		case 1: // Secao 1, Cenario 2, Entrada 1 -- Quick Sort Recursivo
-			QuickSort::quickSort(vars.intVector, 0);
+        case 3: /// Secao 1, Cenario 2, Entrada 2 -- Quick Sort Mediana K=5
+            section1_cenary2_entry3(vars);
+            break;
+		case 4: /// Secao 1, Cenario 2, Entrada 3 -- Quick Sort Insercao M=10
+            section1_cenary2_entry4(vars);
 			break;
-		case 2: // Secao 1, Cenario 2, Entrada 2 -- Quick Sort Mediana
-			QuickSort::quickSort(vars.intVector, 5);
-			break;
-		case 3: // Secao 1, Cenario 2, Entrada 3 -- Quick Sort Insercao
-			QuickSort::quickSort(vars.intVector, 100);
-			break;
+        case 5: /// Secao 1, Cenario 2, Entrada 3 -- Quick Sort Insercao M=100
+            section1_cenary2_entry5(vars);
+            break;
 		default:
 			cout << "Entrada Invalida. Tente novamente." << endl;
 			section1_cenary2(vars);
 	}
-	printVector(vars.intVector);
 }
+
+void section1_cenary2_entry1(Variables &vars)
+{
+    string str = "--------------------------------------------";
+    str += "\nQuick Sort Recursivo";
+    str += "\n--------------------------------------------";
+    FileUtils::writeToOutputFile(str);
+    for (int i = 0; i < vars.N; i++)
+    {
+        str = "\nExperimento " + to_string(i+1) + ": N = " + to_string(vars.Ns[i]);
+        FileUtils::writeToOutputFile(str);
+        cout << str << endl;
+        for(int j = 1; j <= 5; j++)
+        {
+            str = "Iteracao " + to_string(j);
+            FileUtils::writeToOutputFile(str);
+            cout << str << endl;
+            vars.intVector.clear();
+            vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+            QuickSort::quickSort(vars.intVector, 0);
+        }
+    }
+}
+
+void section1_cenary2_entry2(Variables &vars)
+{
+    string str = "--------------------------------------------";
+    str += "\nQuick Sort Mediana com K=3";
+    str += "\n--------------------------------------------";
+    FileUtils::writeToOutputFile(str);
+    for (int i = 0; i < vars.N; i++)
+    {
+        str = "\nExperimento " + to_string(i+1) + ": N = " + to_string(vars.Ns[i]);
+        FileUtils::writeToOutputFile(str);
+        cout << str << endl;
+        for(int j = 1; j <= 5; j++)
+        {
+            str = "Iteracao " + to_string(j);
+            FileUtils::writeToOutputFile(str);
+            cout << str << endl;
+            vars.intVector.clear();
+            vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+            QuickSort::quickSort(vars.intVector, 3);
+        }
+    }
+}
+
+void section1_cenary2_entry3(Variables &vars)
+{
+    string str = "--------------------------------------------";
+    str += "\nQuick Sort Mediana com K=5";
+    str += "\n--------------------------------------------";
+    FileUtils::writeToOutputFile(str);
+    for (int i = 0; i < vars.N; i++)
+    {
+        str = "\nExperimento " + to_string(i+1) + ": N = " + to_string(vars.Ns[i]);
+        FileUtils::writeToOutputFile(str);
+        cout << str << endl;
+        for(int j = 1; j <= 5; j++)
+        {
+            str = "Iteracao " + to_string(j);
+            FileUtils::writeToOutputFile(str);
+            cout << str << endl;
+            vars.intVector.clear();
+            vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+            QuickSort::quickSort(vars.intVector, 5);
+        }
+    }
+}
+
+void section1_cenary2_entry4(Variables &vars)
+{
+    string str = "--------------------------------------------";
+    str += "\nQuick Sort Insercao com M=10";
+    str += "\n--------------------------------------------";
+    FileUtils::writeToOutputFile(str);
+    for (int i = 0; i < vars.N; i++)
+    {
+        str = "\nExperimento " + to_string(i+1) + ": N = " + to_string(vars.Ns[i]);
+        FileUtils::writeToOutputFile(str);
+        cout << str << endl;
+        for(int j = 1; j <= 5; j++)
+        {
+            str = "Iteracao " + to_string(j);
+            FileUtils::writeToOutputFile(str);
+            cout << str << endl;
+            vars.intVector.clear();
+            vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+            QuickSort::quickSort(vars.intVector, 10);
+        }
+    }
+}
+
+void section1_cenary2_entry5(Variables &vars)
+{
+    string str = "--------------------------------------------";
+    str += "\nQuick Sort Insercao com K=100";
+    str += "\n--------------------------------------------";
+    FileUtils::writeToOutputFile(str);
+    for (int i = 0; i < vars.N; i++)
+    {
+        str = "\nExperimento " + to_string(i+1) + ": N = " + to_string(vars.Ns[i]);
+        FileUtils::writeToOutputFile(str);
+        cout << str << endl;
+        for(int j = 1; j <= 5; j++)
+        {
+            str = "Iteracao " + to_string(j);
+            FileUtils::writeToOutputFile(str);
+            cout << str << endl;
+            vars.intVector.clear();
+            vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+            QuickSort::quickSort(vars.intVector, 100);
+        }
+    }
+}
+
 
 void section1_cenary3(Variables &vars)
 {
-	vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.N);
-	vector<int> auxVec(vars.intVector);
-	QuickSort::quickSort(auxVec, 0);
-	cout << "Ordenacao por Quick Sort" << endl;
-	printVector(auxVec);
-	auxVec.clear();
+    string str = "\n-------------------------------------------------------------------------------";
+    str += "\nCenario 3: QuickSort X InsertionSort X MergeSort X HeapSort X MeuSort(CombSort)";
+    str += "\n-------------------------------------------------------------------------------";
+    str += "\nOrdenacao por Quick Sort Recursivo (melhor variacao)";
+    str += "\n-------------------------------------------------------------------------------";
+    FileUtils::writeToOutputFile(str);
+    cout << str;
+    for (int i = 0; i < vars.N; i++)
+    {
+        str = "\nExperimento " + to_string(i+1) + ": N = " + to_string(vars.Ns[i]);
+        FileUtils::writeToOutputFile(str);
+        cout << str << endl;
+        for(int j = 1; j <= 5; j++)
+        {
+            str = "Iteracao " + to_string(j);
+            FileUtils::writeToOutputFile(str);
+            cout << str << endl;
+            vars.intVector.clear();
+            vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+            QuickSort::quickSort(vars.intVector, 0);
+        }
+    }
 
-	auxVec = vars.intVector;
-	vector<int> vecMergeSort(vars.intVector);
-	MergeSort::mergeSort(auxVec);
-	cout << "Ordenacao por Merge Sort" << endl;
-	printVector(auxVec);
-	auxVec.clear();
 
-	auxVec = vars.intVector;
-	vector<int> vecInsertionSort(vars.intVector);
-	InsertionSort::insertionSort(auxVec);
-	cout << "Ordenacao por Insertion Sort" << endl;
-	printVector(auxVec);
-	auxVec.clear();
+    str = "\n-------------------------------------------------------------------------------";
+    str += "\nOrdenacao por Insertion Sort";
+    str += "\n-------------------------------------------------------------------------------";
+    FileUtils::writeToOutputFile(str);
+    cout << str;
+    for (int i = 0; i < vars.N; i++)
+    {
+        str = "\nExperimento " + to_string(i+1) + ": N = " + to_string(vars.Ns[i]);
+        FileUtils::writeToOutputFile(str);
+        cout << str << endl;
+        for(int j = 1; j <= 5; j++)
+        {
+            str = "Iteracao " + to_string(j);
+            FileUtils::writeToOutputFile(str);
+            cout << str << endl;
+            vars.intVector.clear();
+            vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+            InsertionSort::insertionSort(vars.intVector);
+        }
+    }
 
-	auxVec = vars.intVector;
-	vector<int> vecHeapSort(vars.intVector);
-	HeapSort::heapSort(auxVec);
-	cout << "Ordenacao por Heap Sort" << endl;
-	printVector(auxVec);
-	auxVec.clear();
 
-	auxVec = vars.intVector;
-	vector<int> vecCombSort(vars.intVector);
-	CombSort::combSort(auxVec);
-	cout << "Ordenacao por Comb Sort" << endl;
-	printVector(auxVec);
-	auxVec.clear();
+    str = "\n-------------------------------------------------------------------------------";
+    str += "\nOrdenacao por Merge Sort";
+    str += "\n-------------------------------------------------------------------------------";
+    FileUtils::writeToOutputFile(str);
+    cout << str;
+    for (int i = 0; i < vars.N; i++)
+    {
+        str = "\nExperimento " + to_string(i+1) + ": N = " + to_string(vars.Ns[i]);
+        FileUtils::writeToOutputFile(str);
+        cout << str << endl;
+        for(int j = 1; j <= 5; j++)
+        {
+            str = "Iteracao " + to_string(j);
+            FileUtils::writeToOutputFile(str);
+            cout << str << endl;
+            vars.intVector.clear();
+            vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+            MergeSort::mergeSort(vars.intVector);
+        }
+    }
+
+
+    str = "\n-------------------------------------------------------------------------------";
+    str += "\nOrdenacao por Heap Sort";
+    str += "\n-------------------------------------------------------------------------------";
+    FileUtils::writeToOutputFile(str);
+    cout << str;
+    for (int i = 0; i < vars.N; i++)
+    {
+        str = "\nExperimento " + to_string(i+1) + ": N = " + to_string(vars.Ns[i]);
+        FileUtils::writeToOutputFile(str);
+        cout << str << endl;
+        for(int j = 1; j <= 5; j++)
+        {
+            str = "Iteracao " + to_string(j);
+            FileUtils::writeToOutputFile(str);
+            cout << str << endl;
+            vars.intVector.clear();
+            vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+            HeapSort::heapSort(vars.intVector);
+        }
+    }
+
+
+    str = "\n-------------------------------------------------------------------------------";
+    str += "\nOrdenacao por Comb Sort (outro Sort escolhido pelo grupo)";
+    str += "\n-------------------------------------------------------------------------------";
+    FileUtils::writeToOutputFile(str);
+    cout << str;
+    for (int i = 0; i < vars.N; i++)
+    {
+        str = "\nExperimento " + to_string(i+1) + ": N = " + to_string(vars.Ns[i]);
+        FileUtils::writeToOutputFile(str);
+        cout << str << endl;
+        for(int j = 1; j <= 5; j++)
+        {
+            str = "Iteracao " + to_string(j);
+            FileUtils::writeToOutputFile(str);
+            cout << str << endl;
+            vars.intVector.clear();
+            vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+            CombSort::combSort(vars.intVector);
+        }
+    }
 
 	FileUtils::pauseScreen(true);
 }
@@ -425,7 +658,7 @@ void section1_cenary4_hashComparison(Variables &vars)
 				break;
 			case 3:
 				hash = new HashLinear(n, true);
-				hashName = "Enderecamento - Sondagem Quadr�tica";
+				hashName = "Enderecamento - Sondagem Quadratica";
 				break;
 			case 4:
 				hash = new HashDouble(n);
