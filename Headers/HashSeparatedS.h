@@ -13,19 +13,19 @@ using namespace std;
 
 class Vertex;
 class HashSeparatedS {
-private:
-    unsigned long int size;
+	private:
+	unsigned long int size;
 
-    Vertex* collisionTable;
-    Vertex* hashTable;
+	Vertex* collisionTable;
+	Vertex* hashTable;
 
-public:
-    HashSeparatedS(unsigned int size);
-    unsigned long int keyFunctionStr(string value);
-    void insert(string value);
-    void find (string value);
-    void printElements();
-    void insertElementsVector (vector<Vertex>& vertexVec);
+	public:
+	HashSeparatedS(unsigned int size);
+	unsigned long int keyFunctionStr(string value);
+	void insert(string value);
+	void find(string value);
+	void printElements();
+	void insertElementsVector(vector<Vertex>& vertexVec);
 };
 
 #endif //TRABALHO_ED2_HASHSEPARATEDS_H

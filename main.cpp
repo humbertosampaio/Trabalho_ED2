@@ -44,15 +44,16 @@ struct Variables
 	int entry;
 };
 
-void openMenu(Variables vars);
-void section1(Variables vars);
-void section1_cenary1(Variables vars);
-void section1_cenary1_entry1(Variables vars);
-void section1_cenary1_entry2(Variables vars);
-void section1_cenary2(Variables vars);
-void section1_cenary3(Variables vars);
-void section1_cenary4(Variables vars);
-void section2(Variables vars);
+void openMenu(Variables &vars);
+void section1(Variables &vars);
+void section1_cenary1(Variables &vars);
+void section1_cenary1_entry1(Variables &vars);
+void section1_cenary1_entry2(Variables &vars);
+void section1_cenary2(Variables &vars);
+void section1_cenary3(Variables &vars);
+void section1_cenary4(Variables &vars);
+void section1_cenary4_hashComparison(Variables &vars);
+void section2(Variables &vars);
 void section2_1(Variables vars, unsigned int N, vector<Vertex>& sorteredTags);
 void section2_2(Variables vars, unsigned int N, vector<Vertex>& sorteredUsers);
 
@@ -150,7 +151,7 @@ template<class T> void printVector(const vector<T> &vector)
 	cout << endl << endl;
 }
 
-void openMenu(Variables vars)
+void openMenu(Variables &vars)
 {
 	vars.Ns = FileUtils::readInputFile(vars.sourceFileName);
 	vars.N = vars.Ns.size();
@@ -177,9 +178,12 @@ void openMenu(Variables vars)
 			section1(vars);
 			break;
 		case 2: // Secao 2
-            int param;
-                section2(vars);
+			int param;
+			section2(vars);
 			break;
+		default:
+			cout << "Opcao invalida. Tente novamente:" << endl;
+			openMenu(vars);
 	}
 	char executarNovamente;
 	cout << "Executar novamente? (S/N)" << endl;
@@ -187,7 +191,7 @@ void openMenu(Variables vars)
 	executarNovamente == 'S' || executarNovamente == 's' ? openMenu(vars) : exit(0);
 }
 
-void section1(Variables vars)
+void section1(Variables &vars)
 {
 	string path = "../pythonquestions/OriginalFiles/Questions.csv";
 	cout << "NAO ESQUECER DE COLOCAR O CIN AQUI PRO USUARIO DIGITAR O PATH DO ARQUIVO QUESTIONS!!!" << endl;
@@ -217,7 +221,7 @@ void section1(Variables vars)
 			section1_cenary3(vars);
 			break;
 		case 4: // Secao 1, Cenario 4
-			// Colar o Codigo do Edson
+			section1_cenary4(vars);
 			break;
 		default:
 			cout << "Cenario Invalido. Tente novamente" << endl;
@@ -225,7 +229,7 @@ void section1(Variables vars)
 	}
 }
 
-void section1_cenary1(Variables vars)
+void section1_cenary1(Variables &vars)
 {
 	cout << "\t\tEscolha uma entrada:" << endl;
 	cout << "\t\tEntrada 1: Elementos do tipo Inteiro" << endl;
@@ -251,21 +255,35 @@ void section1_cenary1(Variables vars)
 	}
 }
 
-void section1_cenary1_entry1(Variables vars)
+void section1_cenary1_entry1(Variables &vars)
 {
+	string s = "";
 	vars.intVector.clear();
-	vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.N);
-	QuickSort::quickSort(vars.intVector, 0);
-	printVector(vars.intVector);
+	for (int i = 0; i < vars.N; i++)
+	{
+		vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+		s += "Iteracao " + to_string(i + 1) + ": \n";
+		FileUtils::writeToOutputFile(s);
+		QuickSort::quickSort(vars.intVector, 0);
+		//printVector(vars.intVector);
+	}
 }
 
-void section1_cenary1_entry2(Variables vars)
+void section1_cenary1_entry2(Variables &vars)
 {
-	QuickSort::quickSort(vars.questionVector, 0);
-	printVector(vars.questionVector);
+	vector<Question> tempVector;
+	string s = "";
+	for (int i = 0; i < vars.N; i++)
+	{
+		getVetQuestionsRand(tempVector, vars.Ns[i]);
+		s += "Iteracao " + to_string(i + 1) + ": \n";
+		FileUtils::writeToOutputFile(s);
+		QuickSort::quickSort(tempVector, 0);
+		//printVector(vars.questionVector);
+	}
 }
 
-void section1_cenary2(Variables vars)
+void section1_cenary2(Variables &vars)
 {
 	cout << "\t\tEscolha uma entrada:" << endl;
 	cout << "\t\tEntrada 1: QuickSort Recursivo" << endl;
@@ -299,7 +317,7 @@ void section1_cenary2(Variables vars)
 	printVector(vars.intVector);
 }
 
-void section1_cenary3(Variables vars)
+void section1_cenary3(Variables &vars)
 {
 	vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.N);
 	vector<int> auxVec(vars.intVector);
@@ -337,60 +355,115 @@ void section1_cenary3(Variables vars)
 	auxVec.clear();
 }
 
-void section1_cenary4(Variables vars)
+void section1_cenary4(Variables &vars)
 {
-
+	for (int i = 0; i < vars.N; i++)
+	{
+		vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
+		section1_cenary4_hashComparison(vars);
+	}
 }
 
-void section2 (Variables vars)
+void section1_cenary4_hashComparison(Variables &vars)
 {
-	FileUtils::readFileQuestion("/home/edson/pythonquestions/Questions.csv",vars.questionVector);
+	unsigned int n = vars.intVector.size();
+	int memorySpend = 0;
+	int averageComparison = 0;
+	string hashName;
+	Hash* hash = nullptr;
+
+	for (int i = 0; i < 5; ++i) {
+		switch (i)
+		{
+			case 0:
+				hash = new HashSeparated(n, false);
+				hashName = "Encadeamento Separado";
+				break;
+			case 1:
+				hash = new HashCoalesced(n);
+				hashName = "Encadeamento Coalescido (sem porão)";
+				break;
+			case 2:
+				hash = new HashLinear(n, false);
+				hashName = "Endereçamento – Sondagem Linear";
+				break;
+			case 3:
+				hash = new HashLinear(n, true);
+				hashName = "Endereçamento – Sondagem Quadrática";
+				break;
+			case 4:
+				hash = new HashDouble(n);
+				hashName = "Endereçamento – Duplo Hash";
+				break;
+			default: break;
+		}
+
+		for (vector<int>::iterator it = vars.intVector.begin(); it != vars.intVector.end(); ++it)
+			hash->insert(*it);
+
+		for (vector<int>::iterator it = vars.intVector.begin(); it != vars.intVector.end(); ++it)
+			hash->find(*it);
+
+		averageComparison += hash->getAvergareComparsions() / 5;
+		if (memorySpend == 0)
+			memorySpend = hash->getMemorySpend();
+
+		string s = hashName + "\t" + to_string(hash->getAvergareComparsions()) +
+			"\t" + to_string(hash->getMemorySpend());
+		FileUtils::writeToOutputFile(s);
+		delete hash;
+	}
+}
+
+void section2(Variables &vars)
+{
+	FileUtils::readFileQuestion("/home/edson/pythonquestions/Questions.csv", vars.questionVector);
 	FileUtils::readFileTag("/home/edson/pythonquestions/Tags.csv", vars.tagVector);
 	//FileUtils::readFileAnswer("/home/edson/pythonquestions/Answers.csv", vars.answerVector);
-    int param;
-    cout << "Digite o numero(positivo) de Questions desejados na leitura" << endl;
-    cin >> param;
-    while (param < 0) {
-        cout << "Numero de questions invalido! digite novamente" << endl;
-        cin >> param;
-    }
-    vector<Vertex> sorteredTags;
-    section2_1(vars, param, sorteredTags);
-    for (int i = 0; i < 10; ++i)
-        cout << sorteredTags.at(i).valueStr << " " << sorteredTags.at(i).frequence << endl;
+	int param;
+	cout << "Digite o numero(positivo) de Questions desejados na leitura" << endl;
+	cin >> param;
+	while (param < 0) {
+		cout << "Numero de questions invalido! digite novamente" << endl;
+		cin >> param;
+	}
+	vector<Vertex> sorteredTags;
+	section2_1(vars, param, sorteredTags);
+	for (int i = 0; i < 10; ++i)
+		cout << sorteredTags.at(i).valueStr << " " << sorteredTags.at(i).frequence << endl;
 }
 
 void section2_1(Variables vars, unsigned int N, vector<Vertex>& sorteredTags)
 {
 	vars.intVector.clear();
 	vars.intVector = getVetQuestionsIdRand(vars.questionVector, N);
-    QuickSort::quickSort(vars.intVector, 3);
-    HashSeparatedS hashTag ((unsigned int)ceil(0.1*N));
-    vector<Tag>::iterator itTag = vars.tagVector.begin();
-    for (int &it : vars.intVector) {
-        for (; (*itTag).getQuestionId() < it; ++itTag);
-        if ((*itTag).getQuestionId() == it)
-            for (auto &itStr : (*itTag).getTagList())
-                hashTag.insert(itStr);
-    }
-    hashTag.insertElementsVector(sorteredTags);
-    QuickSort::quickSort(sorteredTags, 0);
+	QuickSort::quickSort(vars.intVector, 3);
+	HashSeparatedS hashTag((unsigned int)ceil(0.1*N));
+	vector<Tag>::iterator itTag = vars.tagVector.begin();
+	for (int &it : vars.intVector) {
+		for (; (*itTag).getQuestionId() < it; ++itTag);
+		if ((*itTag).getQuestionId() == it)
+			for (auto &itStr : (*itTag).getTagList())
+				hashTag.insert(itStr);
+	}
+	hashTag.insertElementsVector(sorteredTags);
+	QuickSort::quickSort(sorteredTags, 0);
 }
 
-void section2_2 (Variables vars, unsigned int N, vector<Vertex>& sorteredUsers)
+void section2_2(Variables vars, unsigned int N, vector<Vertex>& sorteredUsers)
 {
 	vars.intVector.clear();
 	vars.intVector = getVetQuestionsIdRand(vars.questionVector, N);
 	QuickSort::quickSort(vars.intVector, 3);
-	HashSeparated hashAnswer ((unsigned int)ceil(0.1*N), true);
+	HashSeparated hashAnswer((unsigned int)ceil(0.1*N), true);
 	QuickSort::quickSort(vars.answerVector, 3);
 	vector<Answer>::iterator itAnswer = vars.answerVector.begin();
 
 	for (int &it : vars.intVector) {
-        if (it == -1) continue;
+		if (it == -1) continue;
 		for (; (*itAnswer).getQuestionId() < it; ++itAnswer);
 		if ((*itAnswer).getQuestionId() == it)
-				hashAnswer.insert((*itAnswer).getUserId());
+			hashAnswer.insert((*itAnswer).getUserId());
 	}
 	hashAnswer.insertElementsVector(sorteredUsers);
 	QuickSort::quickSort(sorteredUsers, 0);
