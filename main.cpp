@@ -84,13 +84,13 @@ int main(int argc, char** argv)
 	FileUtils::showTop();
 	if (argc != 2)
 	{
-		cout << "Erro na chamada do programa." << endl;
-		cout << "Informe corretamente o path (caminho) padrao inicial." << endl;
-		cout << "Certifique-se de no path estar o arquivo \"entrada.txt\" e a pasta \"pythonsquestions\"." << endl;
-		cout << "Eh necessario que os arquivos \"Answers.csv\", \"Questions.csv\" e \"Tags.csv\" estejam no diretorio \"pythonsquestions\"." << endl;
-		cout << "Formato a inserir na linha de comando para execucao do algoritmo:" << endl;
-		cout << "<./executavel> <pathDoDiretorioInicial>" << endl;
-		FileUtils::endProgram();
+        cout << "Erro na chamada do programa." << endl;
+        cout << "Informe corretamente o path (caminho) padrao inicial." << endl;
+        cout << "Certifique-se de no path estar o arquivo \"entrada.txt\" e a pasta \"pythonsquestions\"." << endl;
+        cout << "Eh necessario que os arquivos \"Answers.csv\", \"Questions.csv\" e \"Tags.csv\" estao no diretorio \"pythonsquestions\"." << endl;
+        cout << "Formato a inserir na linha de comando para execucao do algoritmo:" << endl;
+        cout << "<./executavel> <pathDoDiretorioInicial>" << endl;
+        FileUtils::endProgram();
 		return 0;
 	}
 
@@ -180,10 +180,6 @@ template<class T> void printVector(const vector<T> &vector)
 
 void openMenu(Variables &vars)
 {
-	vars.answerVector.clear();
-	vars.intVector.clear();
-	vars.questionVector.clear();
-	vars.tagVector.clear();
 	FileUtils::clearFileContent("saida.txt");
 
 	cout << "-----------------------------------------------------------------------" << endl;
@@ -191,13 +187,14 @@ void openMenu(Variables &vars)
 	cout << "Secao 1: Analise dos Algoritmos" << endl;
 	cout << "Secao 2: Implementacao das Tags Frequentes e dos Usuarios Ativos" << endl;
 	cout << "0: Sair" << endl;
-	cout << "-----------------------------------------------------------------------" << endl;
-	cin >> vars.section;
-
+	cout << "----------" << endl;
+	cout << "Opcao: ";
+    cin >> vars.section;
+    cout << "-----------------------------------------------------------------------" << endl;
 	switch (vars.section)
 	{
 		case 0:
-			FileUtils::endProgram();
+        FileUtils::endProgram();
 		case 1: // Secao 1
 			section1(vars);
 			break;
@@ -205,7 +202,7 @@ void openMenu(Variables &vars)
 			int param;
 			section2(vars);
 			break;
-    		default:
+		default:
 			cout << "Opcao invalida. Tente novamente:" << endl;
 			openMenu(vars);
 	}
@@ -217,54 +214,55 @@ void openMenu(Variables &vars)
 	executarNovamente == 'S' || executarNovamente == 's' ? openMenu(vars) : FileUtils::endProgram();
 }
 
-void section1(Variables &vars)
-{
-	FileUtils::readFileQuestion(vars.questionPath, vars.questionVector);
-	cout << "\t-----------------------------------------------------------------------" << endl;
-	cout << "\tEscolha o cenario:" << endl;
-	cout << "\tCenario 1: Impacto de diferentes estruturas de dados" << endl;
-	cout << "\tCenario 2: Impacto de variacoes do Quicksort" << endl;
-	cout << "\tCenario 3: QuickSort X InsertionSort X MergeSort X HeapSort X MeuSort(CombSort)" << endl;
-	cout << "\tCenario 4: Tratamento de Colisoes: Enderecamento X Encadeamento" << endl;
-	cout << "\t0: Voltar" << endl;
-	cout << "\t-----------------------------------------------------------------------" << endl;
-	cout << "\t";
-
-	cin >> vars.cenary;
-	switch (vars.cenary)
-	{
-		case 0:
-			openMenu(vars);
-			break;
-		case 1: // Secao 1, Cenario 1
-			section1_cenary1(vars);
-			break;
-		case 2: // Secao 1, Cenario 2
-			section1_cenary2(vars);
-			break;
-		case 3: // Secao 1, Cenario 3
-			section1_cenary3(vars);
-			break;
-		case 4: // Secao 1, Cenario 4
-			section1_cenary4(vars);
-			break;
-		default:
-			cout << "Cenario Invalido. Tente novamente:" << endl;
-			section1(vars);
-	}
+void section1(Variables &vars) {
+	if(vars.questionVector.empty())
+		FileUtils::readFileQuestion(vars.questionPath, vars.questionVector);
+	do {
+		cout << "\t---------------------------------------------------------------------------------" << endl;
+		cout << "\tEscolha o cenario:" << endl;
+		cout << "\tCenario 1: Impacto de diferentes estruturas de dados" << endl;
+		cout << "\tCenario 2: Impacto de variacoes do Quicksort" << endl;
+		cout << "\tCenario 3: QuickSort X InsertionSort X MergeSort X HeapSort X MeuSort(CombSort)" << endl;
+		cout << "\tCenario 4: Tratamento de Colisoes: Enderecamento X Encadeamento" << endl;
+		cout << "\t0: Voltar" << endl;
+		cout << "\t----------" << endl;
+		cout << "\tOpcao: ";
+		cin >> vars.cenary;
+		cout << "\t---------------------------------------------------------------------------------" << endl;
+		switch (vars.cenary) {
+			case 0:
+				openMenu(vars);
+				break;
+			case 1: // Secao 1, Cenario 1
+				section1_cenary1(vars);
+				break;
+			case 2: // Secao 1, Cenario 2
+				section1_cenary2(vars);
+				break;
+			case 3: // Secao 1, Cenario 3
+				section1_cenary3(vars);
+				break;
+			case 4: // Secao 1, Cenario 4
+				section1_cenary4(vars);
+				break;
+			default:
+				cout << "Cenario Invalido. Tente novamente" << endl;
+				section1(vars);
+		}
+	} while (vars.cenary >= 1 && vars.cenary <= 4);
 }
 
 void section1_cenary1(Variables &vars)
 {
-	cout << "\t\t-----------------------------------------------------------------------" << endl;
+	cout << "\t\t----------------------------------------" << endl;
 	cout << "\t\tEscolha uma entrada:" << endl;
 	cout << "\t\tEntrada 1: Elementos do tipo Inteiro" << endl;
 	cout << "\t\tEntrada 2: Elementos do tipo Question" << endl;
 	cout << "\t\t0: Voltar" << endl;
-	cout << "\t\t-----------------------------------------------------------------------" << endl;
-	cout << "\t\t";
-
+	cout << "\t\t----------" << endl;
+	cout << "\t\tOpcao: ";
 	cin >> vars.entry;
+	cout << "\t\t----------------------------------------" << endl;
 	switch (vars.entry)
 	{
 		case 0:
@@ -284,13 +282,16 @@ void section1_cenary1(Variables &vars)
 
 void section1_cenary1_entry1(Variables &vars)
 {
-	string s = "";
+
 	vars.intVector.clear();
 	for (int i = 0; i < vars.N; i++)
 	{
+		string str = "";
+		str += "Iteracao " + to_string(i + 1) + ": \n";
+		str += "Quick Sort Recursivo com " + to_string(vars.Ns[i]) + " elementos inteiros.\n";
+		cout << str << endl;
 		vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
-		s += "Iteracao " + to_string(i + 1) + ": \n";
-		FileUtils::writeToOutputFile(s);
+		FileUtils::writeToOutputFile(str);
 		QuickSort::quickSort(vars.intVector, 0);
 		//printVector(vars.intVector);
 	}
@@ -298,13 +299,16 @@ void section1_cenary1_entry1(Variables &vars)
 
 void section1_cenary1_entry2(Variables &vars)
 {
-	vector<Question> tempVector;
-	string s = "";
+
 	for (int i = 0; i < vars.N; i++)
 	{
-		getVetQuestionsRand(tempVector, vars.Ns[i]);
-		s += "Iteracao " + to_string(i + 1) + ": \n";
-		FileUtils::writeToOutputFile(s);
+		string str = "";
+		str += "Iteracao " + to_string(i + 1) + ": \n";
+		str += "Quick Sort Recursivo com " + to_string(vars.Ns[i]) + " elementos de Questions.\n";
+		cout << str << endl;
+		vector<Question> tempVector;
+		tempVector = getVetQuestionsRand(vars.questionVector, vars.Ns[i]);
+		FileUtils::writeToOutputFile(str);
 		QuickSort::quickSort(tempVector, 0);
 		//printVector(vars.questionVector);
 	}
@@ -312,17 +316,18 @@ void section1_cenary1_entry2(Variables &vars)
 
 void section1_cenary2(Variables &vars)
 {
-	cout << "\t\t-----------------------------------------------------------------------" << endl;
+	cout << "\t\t----------------------------------------" << endl;
 	cout << "\t\tEscolha uma entrada:" << endl;
 	cout << "\t\tEntrada 1: QuickSort Recursivo" << endl;
 	cout << "\t\tEntrada 2: QuickSort Mediana(k)" << endl;
 	cout << "\t\tEntrada 3: QuickSort Insercao(m)" << endl;
 	cout << "\t\t0: Voltar" << endl;
-	cout << "\t\t-----------------------------------------------------------------------" << endl;
-	cout << "\t\t";
-
+	cout << "\t\t----------" << endl;
+	cout << "\t\tOpcao: ";
 	int entrada;
 	cin >> entrada;
+	cout << "\t\t----------------------------------------" << endl;
+
 	int lastIndex = vars.intVector.size() - 1;
 
 	switch (entrada)
@@ -382,6 +387,8 @@ void section1_cenary3(Variables &vars)
 	cout << "Ordenacao por Comb Sort" << endl;
 	printVector(auxVec);
 	auxVec.clear();
+
+	FileUtils::pauseScreen(true);
 }
 
 void section1_cenary4(Variables &vars)
@@ -446,6 +453,12 @@ void section1_cenary4_hashComparison(Variables &vars)
 
 void section2 (Variables& vars)
 {
+    if(vars.questionPath.empty())
+        FileUtils::readFileQuestion(vars.questionPath, vars.questionVector);
+    if(vars.tagPath.empty())
+        FileUtils::readFileTag(vars.tagPath, vars.tagVector);
+    if(vars.answerPath.empty())
+        FileUtils::readFileAnswer(vars.answerPath, vars.answerVector);
     int N;
     cout << "Digite um numero de Questions desejados na leitura: " << endl;
     cin >> N;
