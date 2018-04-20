@@ -165,6 +165,10 @@ void sortIntegers(vector<int> &intVector)
 
 vector<int> getVetQuestionsIdRand(vector<Question> &vetQuestions, const int &n)
 {
+    /**
+     * ifdef utilizando #define para RANDOM_SEED feito no inicio do arquivo da main.cpp
+     * para escolher o metodo de geracao de seed que melhor se enquadr para Windows ou Linux
+     */
     int seed = RANDOM_SEED;
     std::mt19937 eng(seed); // seed the generator
     uniform_int_distribution<unsigned long> distAleatoria(0, vetQuestions.size() - 1);///distribuicao uniforme aleatoria
@@ -193,6 +197,10 @@ vector<int> getVetQuestionsIdRand(vector<Question> &vetQuestions, const int &n)
 
 vector<Question> getVetQuestionsRand(vector<Question> &vetQuestions, const int &n)
 {
+    /**
+     * ifdef utilizando #define para RANDOM_SEED feito no inicio do arquivo da main.cpp
+     * para escolher o metodo de geracao de seed que melhor se enquadr para Windows ou Linux
+     */
     int seed = RANDOM_SEED;
     std::mt19937 eng(seed); // seed the generator
     uniform_int_distribution<unsigned long> distAleatoria(0, vetQuestions.size() - 1);///distribuicao uniforme aleatoria
@@ -664,13 +672,16 @@ void section1_cenary3(Variables &vars)
 
 void section1_cenary4(Variables &vars)
 {
-	string output;
-	cout << endl;
+	string output = "\n----------------------------------------------------------------";
+    output += "\nCenario 4: Tratamento de Colisoes: Enderecamento X Encadeamento";
+    output += "\n----------------------------------------------------------------\n";
+	cout << output;
+    FileUtils::writeToOutputFile(output);
 	for (int i = 0; i < vars.N; i++)
 	{
 		output.clear();
 		output = "### EXECUCAO " + to_string(i+1) + " (" + to_string(vars.Ns[i]) + " registros) ###\n";
-		cout << output;
+		cout << endl << output;
 		vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
 		output += section1_cenary4_hashComparison(vars);
 		FileUtils::writeToOutputFile(output);
