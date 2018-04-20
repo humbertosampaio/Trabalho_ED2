@@ -630,10 +630,11 @@ void section1_cenary3(Variables &vars)
 void section1_cenary4(Variables &vars)
 {
 	string output;
+	cout << endl;
 	for (int i = 0; i < vars.N; i++)
 	{
 		output.clear();
-		output = "### EXECUCAO " + to_string(i+1) + " ###\n";
+		output = "### EXECUCAO " + to_string(i+1) + " (" + to_string(vars.Ns[i]) + " registros) ###\n";
 		cout << output;
 		vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
 		output += section1_cenary4_hashComparison(vars);
@@ -668,15 +669,15 @@ string section1_cenary4_hashComparison(Variables &vars)
 				hash = new HashLinear(n, true);
 				hashName = "Enderecamento - Sondagem Quadratica";
 				break;
-			//case 4:
-			//	hash = new HashDouble(n);
-			//	hashName = "Enderecamento - Duplo Hash";
-			//	break;
+			case 4:
+				hash = new HashDouble(n);
+				hashName = "Enderecamento - Duplo Hash";
+				break;
 			default:
 				break;
 		}
 
-		output += hashName;
+		output += "> " + hashName;
 		cout << hashName << ":" << endl << "Inserindo vetor de inteiros na tabela Hash..." << endl;
 		for (vector<int>::iterator it = vars.intVector.begin(); it != vars.intVector.end(); ++it)
 			hash->insert(*it);
@@ -691,7 +692,7 @@ string section1_cenary4_hashComparison(Variables &vars)
 
 		string result = "Media de comparacoes: " + to_string(hash->getAvergareComparsions()) +
 			"\nMemoria consumida: " + to_string(hash->getMemorySpend()) + "\n\n";
-		output += ":\n" + result;
+		output += "\n" + result;
 		cout << result;
 		delete hash;
 	}
