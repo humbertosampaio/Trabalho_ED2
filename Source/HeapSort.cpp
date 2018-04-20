@@ -6,7 +6,7 @@
 
 template <class T> void HeapSort::heapSort(vector<T> &vector)
 {
-	CompareCount::initializeCounters("Heap Sort");
+    CompareCount::initializeCounters("Heap Sort", 0);
 	CompareCount::setTimeStart();
     int length = vector.size();
     for(int i = (length / 2) - 1; i >= 0; i--)

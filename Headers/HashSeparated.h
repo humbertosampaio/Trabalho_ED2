@@ -12,35 +12,35 @@
 
 using namespace std;
 
-class HashSeparated : public Hash {
-	public:
-	//construtor e destrutor
-	HashSeparated(unsigned int size, bool frequenceCounter) : Hash(size, false)
-	{
-		collisionTable = new Vertex[size];
-		//2*4*size para os ponteiros e variaveis de armazenamento de vertex, + 8 do ponteiro para
-		//o inicio da lista
-		extraMemory = 2 * (4 * size) + 8;
-		if (frequenceCounter)
-		{
-			frequenceTable = new int[size];
-			for (int i = 0; i < size; ++i)
-				frequenceTable = 0;
-		}
-		else frequenceTable = nullptr;
-	};
-	~HashSeparated();
+class HashSeparated : public Hash{
+public:
+    //construtor e destrutor
+    HashSeparated(unsigned int size, bool frequenceCounter):Hash(size, false)
+    {
+        collisionTable = new Vertex[size];
+        //2*4*size para os ponteiros e variaveis de armazenamento de vertex, + 8 do ponteiro para
+        //o inicio da lista
+        extraMemory = 2*(4*size) + 8;
+        if (frequenceCounter)
+        {
+            frequenceTable = new int[size];
+            for (int i = 0; i < size; ++i)
+                frequenceTable[i] = 0;
+        }
+        else frequenceTable = nullptr;
+    };
+    ~HashSeparated();
 
-	//metodos
-	void insert(unsigned int value)override;
-	void find(unsigned int value)override;
-	void printElements();
-	void insertElementsVector(vector<Vertex>& vertexVec);
+    //metodos
+    void insert (unsigned int value)override ;
+    void find (unsigned int value)override ;
+    void printElements();
+    void insertElementsVector(vector<Vertex>& vertexVec);
 
-	//classe auxiliar para a lista de colisoes
-	private:
-	Vertex* collisionTable;
-	int* frequenceTable;
+    //classe auxiliar para a lista de colisoes
+private:
+    Vertex* collisionTable;
+    int* frequenceTable;
 };
 
 #endif //TRABALHO_ED2_HASHING_H

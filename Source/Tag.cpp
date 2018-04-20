@@ -3,7 +3,6 @@
 //
 
 #include "../Headers/Tag.h"
-#include <string>
 
 Tag::Tag(unsigned int questionId, list<string> tagList)
 {

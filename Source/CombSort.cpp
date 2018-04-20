@@ -13,7 +13,7 @@
  */
 template<class T> void CombSort::combSort(vector<T> &vet)
 {
-	CompareCount::initializeCounters("Comb Sort");
+    CompareCount::initializeCounters("Comb Sort", vet.size());
 	CompareCount::setTimeStart();
 	double magic_number = 1.247330950103979;
 	int size = vet.size();

@@ -8,7 +8,7 @@ using namespace std;
 
 template<class T> void MergeSort::mergeSort(vector<T> &vet)
 {
-    CompareCount::initializeCounters("Merge Sort");
+    CompareCount::initializeCounters("Merge Sort", vet.size());
     CompareCount::setTimeStart();
     MergeSort::mergeSortRec(vet);
     CompareCount::timeEnd();

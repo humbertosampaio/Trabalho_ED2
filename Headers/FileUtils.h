@@ -10,6 +10,9 @@
 #include <exception>
 #include <vector>
 #include <ctime>
+#include <string>
+#include <iomanip>
+#include <limits>
 #include "Question.h"
 #include "Tag.h"
 #include "Answer.h"

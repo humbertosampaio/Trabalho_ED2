@@ -2,12 +2,6 @@
 // Created by viniman on 11/04/18.
 //
 
-#include <ctime>
-#include <set>
-#include <random>
-#include <chrono>
-#include <string>
-#include "../Headers/InsertionSort.h"
 #include "../Headers/QuickSort.h"
 
 /**
@@ -20,25 +14,25 @@ template<class T> void QuickSort::quickSort(vector<T> &vect, int codigAlgorithm)
 {
     if (codigAlgorithm == 0)
     {
-        CompareCount::initializeCounters("Quick Sort Recursivo");
+        CompareCount::initializeCounters("Quick Sort Recursivo", vect.size());
         CompareCount::setTimeStart();
         quickSortRec(vect, 0, vect.size());
     }
     else if (codigAlgorithm == 3 || codigAlgorithm == 5)
     {
-        CompareCount::initializeCounters("Quick Sort Mediana (K = " + to_string(codigAlgorithm) + ")");
+        CompareCount::initializeCounters("Quick Sort Mediana (K = " + to_string(codigAlgorithm) + ")", vect.size());
         CompareCount::setTimeStart();
         quickSortMediana(vect, 0, vect.size(), codigAlgorithm);
     }
     else if (codigAlgorithm == 10 || codigAlgorithm == 100)
     {
-        CompareCount::initializeCounters("Quick Sort Insercao (M = " + to_string(codigAlgorithm) + ")");
+        CompareCount::initializeCounters("Quick Sort Insercao (M = " + to_string(codigAlgorithm) + ")", vect.size());
         CompareCount::setTimeStart();
         quickSortInsercao(vect, codigAlgorithm);
     }
     else
     {
-        CompareCount::initializeCounters("Quick Sort - Código de versão de Algoritmo QSort errado.");
+        CompareCount::initializeCounters("Quick Sort - Código de versão de Algoritmo QSort errado.", 0);
         CompareCount::setTimeStart();
         cout << "De acordo com as especificações, o codigo de algoritmo esta errado!" << endl;
         cout << "Para Quick Sort Recursivo: código 0" << endl;

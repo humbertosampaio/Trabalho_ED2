@@ -9,8 +9,15 @@
 #include <algorithm>
 #include <utility>
 #include <vector>
+#include <ctime>
+#include <set>
+#include <random>
+#include <chrono>
+#include <string>
 #include "Question.h"
 #include "FileUtils.h"
+#include "InsertionSort.h"
+#include "CompareCount.h"
 
 class QuickSort {
 public:

@@ -7,6 +7,7 @@
 #define TRABALHO_ED2_QUESTION_H
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -33,6 +34,8 @@ public:
     bool operator==(const Question &rhs) const;
 
     bool operator!=(const Question &rhs) const;
+
+    unsigned int getUserId() const;
 
 };
 

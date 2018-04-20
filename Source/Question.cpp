@@ -3,7 +3,6 @@
 //
 
 #include "../Headers/Question.h"
-#include <string>
 
 /// Uso de sobrecarga de operadores
 bool Question::operator<(const Question &rhs) const {
@@ -65,3 +64,6 @@ void Question::setQuestionId(const unsigned int questionId) {
     Question::questionId = questionId;
 }
 
+unsigned int Question::getUserId() const {
+    return userId;
+}

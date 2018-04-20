@@ -3,7 +3,6 @@
 //
 
 #include "../Headers/HashSeparatedS.h"
-#include <string>
 
 HashSeparatedS::HashSeparatedS(unsigned int size)
 {
@@ -101,7 +100,7 @@ void HashSeparatedS::insertElementsVector(vector<Vertex>& vertexVec)
         if (vertex != nullptr)
             if (!vertex->valueStr.empty()) {
                 while (vertex != nullptr) {
-                    vertexVec.emplace_back(vertex->valueStr, vertex->next, vertex->frequence);
+                    vertexVec.emplace_back(vertex->valueStr, nullptr, vertex->frequence);
                     vertex = vertex->next;
             }
         }
