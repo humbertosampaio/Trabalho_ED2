@@ -1,8 +1,22 @@
+#ifdef _WIN32
+#define RANDOM_SEED std::chrono::system_clock::now().time_since_epoch().count()
+#else
+#define RANDOM_SEED random_device{}()
+#endif
+
+/**ACIMA:
+ * O gerador random_device de seed random_device eh melhor que o anterior,
+ * pois ele gera um numero a partir do hardware e nao eh sequencial.
+ * Porem ele nao funciona corretamente no windows, gerando sempre o mesmo numero.
+ * Por isso usamos random_device no linux e a biblioteca chrono no windows
+ */
+
 #include <iostream>
 #include <random>
 #include <algorithm>
 #include <iomanip>
 #include <fstream>
+#include <chrono>
 
 #include "Headers/FileUtils.h"
 #include "Headers/InsertionSort.h"
@@ -88,6 +102,18 @@ void section2_2(Variables vars, unsigned int N, vector<Vertex>& sorteredUsers);
 
 int main(int argc, char** argv)
 {
+
+	ofstream saida;
+	saida.open("saida.txt", ios::app);
+	saida << left << setw(12)<< left << "frequencia" << setw(12) << "Tags\n";
+	for (int i = 0; i < 10; ++i)
+		saida << left << setw(12) << 100 << setw(25) << 20 << endl;
+	saida << "\n\n\n";
+	saida << setw(12)<< left << "frequencia" << setw(12) << "UserIDs\n";
+	for (int i = 0;i < 10; ++i)
+		saida << left << setw(12)<< 100 << setw(12) << 20 << endl;
+
+
 	FileUtils::showTop();
 	if (argc != 2 && argc != 1)
 	{
@@ -139,25 +165,27 @@ void sortIntegers(vector<int> &intVector)
 
 vector<int> getVetQuestionsIdRand(vector<Question> &vetQuestions, const int &n)
 {
-    //long long int seed = std::chrono::system_clock::now().time_since_epoch().count();
-    random_device rd; // obtain a random number from hardware
-    int seed = rd();
+    int seed = RANDOM_SEED;
     std::mt19937 eng(seed); // seed the generator
     uniform_int_distribution<unsigned long> distAleatoria(0, vetQuestions.size() - 1);///distribuicao uniforme aleatoria
 
-    vector<Question> vetQuestionsCopy(vetQuestions);
-	vector<int> vetQuestionsAleatorio; /// Vector de questions gerados aleatoriamente
+    vector<int> questionsIds; ///Usado para nao ter registro com id repetido
+    questionsIds.reserve((vetQuestions.size()));
+	for (auto &it : vetQuestions)
+		questionsIds.push_back(it.getQuestionId());
 
+	vector<int> vetQuestionsAleatorio; /// Vector de questions gerados aleatoriamente
+	vetQuestionsAleatorio.reserve(n);
 
 	for (int i = 0; i < n; i++)
 	{
-		unsigned int indice;
+        unsigned int indice;
 		do
 		{
-			indice = static_cast<unsigned int>(distAleatoria(eng));
-		} while (vetQuestionsCopy[indice].getQuestionId() == -1);
-		vetQuestionsAleatorio.emplace_back(vetQuestionsCopy[indice].getQuestionId());
-		vetQuestionsCopy[indice].setQuestionId(-1);
+			indice = distAleatoria(eng);
+		} while (questionsIds[indice] == -1);
+		vetQuestionsAleatorio.push_back(questionsIds[indice]);
+		questionsIds[indice] = -1;
 	}
 	FileUtils::writeToOutputFile("Seed: " + to_string(seed));
 	return vetQuestionsAleatorio;
@@ -165,14 +193,17 @@ vector<int> getVetQuestionsIdRand(vector<Question> &vetQuestions, const int &n)
 
 vector<Question> getVetQuestionsRand(vector<Question> &vetQuestions, const int &n)
 {
-    ///Gerador de numeros aleatorios (Nao sao previsiveis)
-    random_device rd; // obtain a random number from hardware
-    int seed = rd();
+    int seed = RANDOM_SEED;
     std::mt19937 eng(seed); // seed the generator
     uniform_int_distribution<unsigned long> distAleatoria(0, vetQuestions.size() - 1);///distribuicao uniforme aleatoria
 
-	vector<Question> vetQuestionsCopy(vetQuestions);
+    vector<int> questionsIds; ///Usado para nao ter registro com id repetido
+	questionsIds.reserve((vetQuestions.size()));
+	for (auto &it : vetQuestions)
+		questionsIds.push_back(it.getQuestionId());
+
 	vector<Question> vetQuestionsAleatorio; /// Vector de questions gerados aleatoriamente
+	vetQuestionsAleatorio.reserve(n);
 
 	for (int i = 0; i < n; i++)
 	{
@@ -180,9 +211,9 @@ vector<Question> getVetQuestionsRand(vector<Question> &vetQuestions, const int &
 		do
 		{
 			indice = distAleatoria(eng);
-		} while (vetQuestionsCopy[indice].getQuestionId() == -1);
-		vetQuestionsAleatorio.emplace_back(vetQuestionsCopy[indice]);
-		vetQuestionsCopy[indice].setQuestionId(-1);
+		} while (questionsIds[indice] == -1);
+		vetQuestionsAleatorio.push_back(vetQuestions[indice]);
+		questionsIds[indice] = -1;
 	}
     FileUtils::writeToOutputFile("Seed: " + to_string(seed));
 	return vetQuestionsAleatorio;
@@ -190,14 +221,14 @@ vector<Question> getVetQuestionsRand(vector<Question> &vetQuestions, const int &
 
 template<class T> void printVector(const vector<T> &vector)
 {
-	for (const auto it : vector)
+	for (const auto &it : vector)
 		cout << it << " ";
 	cout << endl << endl;
 }
 
 void openMenu(Variables &vars)
 {
-	cout << "-----------------------------------------------------------------------" << endl;
+	cout << "---------------------------------------------------------------------------------" << endl;
 	cout << "Escolha a secao: " << endl;
 	cout << "Secao 1: Analise dos Algoritmos" << endl;
 	cout << "Secao 2: Implementacao das Tags Frequentes e dos Usuarios Ativos" << endl;
@@ -205,7 +236,7 @@ void openMenu(Variables &vars)
 	cout << "----------" << endl;
 	cout << "Opcao: ";
     cin >> vars.section;
-    cout << "-----------------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------------------------" << endl;
 	switch (vars.section)
 	{
 		case 0:
@@ -221,11 +252,15 @@ void openMenu(Variables &vars)
 			cout << "Opcao invalida. Tente novamente:" << endl;
 			openMenu(vars);
 	}
+	FileUtils::pauseScreen(true);
 	char executarNovamente;
 	cout << "Executar novamente? (S/N)" << endl;
 	cin >> executarNovamente;
 	while (executarNovamente != 'N' && executarNovamente != 'n' && executarNovamente != 'S' && executarNovamente != 's')
-		cout << "Entrada invalida! Tente novamente:" << endl;
+	{
+		cout << "Entrada invalida! Tente novamente: ";
+		cin >> executarNovamente;
+	}
 	executarNovamente == 'S' || executarNovamente == 's' ? openMenu(vars) : FileUtils::endProgram();
 }
 
@@ -701,44 +736,55 @@ string section1_cenary4_hashComparison(Variables &vars)
 
 void section2 (Variables& vars)
 {
+	int N;
     if(vars.questionVector.empty())
         FileUtils::readFileQuestion(vars.questionPath, vars.questionVector);
-    if(vars.tagVector.empty())
+   	if(vars.tagVector.empty())
         FileUtils::readFileTag(vars.tagPath, vars.tagVector);
     if(vars.answerVector.empty())
         FileUtils::readFileAnswer(vars.answerPath, vars.answerVector);
-    int N;
+    string str = "\n\n----------------------------------------------------------------\n";
+	str += "Secao 2: Implementacao das Tags Frequentes e dos Usuarios Ativos\n";
+	str += "----------------------------------------------------------------\n";
+	cout << str;
+	str += "Dados de ordenacoes das Tags e Users\n";
+	str += "----------------------------------------------------------------\n";
+	FileUtils::writeToOutputFile(str);
     cout << "Digite um numero de Questions desejados na leitura: " << endl;
     cin >> N;
-    while (N < 0) {
+    while (N <= 0 || N >= vars.questionVector.size()) {
         cout << "Numero de questions invalido! digite novamente:" << endl;
         cin >> N;
     }
-    cout << "Executando verificador de frequencia para Tags e UserIDs\n" << endl;
+	cout << "\n----------------------------------------------------------------" << endl;
+    cout << "Executando verificador de frequencia para Tags e UserIDs" << endl;
+	cout << "----------------------------------------------------------------" << endl;
     vector<Vertex> sorteredTags;
     section2_1(vars, N, sorteredTags);
     vector<Vertex> sorteredUsers;
     section2_2(vars, N, sorteredUsers);
 
-    cout << "Digite um numero de Tags e UserIDs mais frequentes para salvar:" << endl;
+    cout << "Digite um numero de Tags e UserIDs mais frequentes para salvar: " << endl;
     cin >> N;
     while (N < 0) {
         cout << "Parametro invalido! digite novamente:" << endl;
         cin >> N;
     }
-    ofstream saida;
-    saida.open("saida.txt");
-    FileUtils::writeToOutputFile("--------------------------------------------");
-    FileUtils::writeToOutputFile("Secao 2 - Tags e UserIDs mais frequentes");
-    FileUtils::writeToOutputFile("--------------------------------------------");
-    saida << setw(12)<< left << "frequencia" << setw(12) << "Tags\n";
+
+	FileUtils::writeToOutputFile("--------------------------------------------");
+	FileUtils::writeToOutputFile("Secao 2 - Tags e UserIDs mais frequentes");
+	FileUtils::writeToOutputFile("--------------------------------------------");
+
+	ofstream saida;
+	saida.open("saida.txt", ios::app);
+    saida << setw(12)<< left << "frequencia" << "Tags\n";
     for (int i = 0; i < N && i < sorteredTags.size(); ++i)
         saida << left << setw(12) << sorteredTags.at(i).frequence << setw(25) << sorteredTags.at(i).valueStr << endl;
     saida << "\n\n\n";
-    saida << setw(12)<< left << "frequencia" << setw(12) << "UserIDs\n";
-    for (int i = 0; i < N && i < sorteredUsers.size(); ++i) {
+    saida << setw(12)<< left << "frequencia" << "UserIDs\n";
+    for (int i = 0; i < N && i < sorteredUsers.size(); ++i)
         saida << left << setw(12)<< sorteredUsers.at(i).frequence << setw(12) << sorteredUsers.at(i).value << endl;
-    }
+	saida.close();
     resetiosflags;
     cout << "Digite (S/Y) para exibir as Tags/UserIDs salvas ou qualquer tecla para continuar." << endl;
     char c;
@@ -772,7 +818,7 @@ void section2_1(Variables vars, unsigned int N, vector<Vertex>& sorteredTags)
             for (auto &itStr : (*itTag).getTagList())
                 hashTag.insert(itStr);
     }
-    cout << "Ordenando hash por frequencia de tags\n" << endl;
+    cout << "Ordenando hash por frequencia de tags" << endl;
     hashTag.insertElementsVector(sorteredTags);
     QuickSort::quickSort(sorteredTags, 0);
 }
@@ -798,7 +844,8 @@ void section2_2 (Variables vars, unsigned int N, vector<Vertex>& sorteredUsers)
         if ((*itQuestion).getQuestionId() == it && (*itQuestion).getUserId() != -1)
             hashAnswer.insert((*itQuestion).getUserId());
 	}
-    cout << "Ordenando hash por frequencia de UserIDs\n" << endl;
+    cout << "Ordenando hash por frequencia de UserIDs" << endl;
+	cout << "----------------------------------------" << endl << endl;
 	hashAnswer.insertElementsVector(sorteredUsers);
 	QuickSort::quickSort(sorteredUsers, 0);
 }

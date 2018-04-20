@@ -85,7 +85,7 @@ void CompareCount::printData()
 string CompareCount::getDataString()
 {
 	string data = "Algoritmo: " + nameOfAlgorithm + "\n";
-	data += "QUantidade de elementos a ordenar: " + to_string(sizeVector) + "\n";
+	data += "Quantidade de elementos a ordenar: " + to_string(sizeVector) + "\n";
 	data += "Comparacoes: " + to_string(countNumComparisons) + "\nCopias: " +
 			to_string(countNumCopias) + "\nTempo de Execução: ";
 	data += runtimeCalc ? (to_string(runtime) + "\n") : "Nao foi calculado\n";

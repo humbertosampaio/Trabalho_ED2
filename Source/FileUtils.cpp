@@ -181,7 +181,7 @@ void FileUtils::readFileAnswer(string path, vector<Answer> &answerList)
 			;
 
         //iteracao principal
-        string progressBar = "==";
+        string progressBar = "=";
         cout << "\tLendo arquivo de registros Answers.csv" << endl;
 		cout << "\tPath (caminho): " << path << endl;
         while (!file.eof())
@@ -204,10 +204,11 @@ void FileUtils::readFileAnswer(string path, vector<Answer> &answerList)
                     answerList.emplace_back(obj);
                     registriesCount++;
 
-                    if (registriesCount % 40000 == 0)
+                    if (registriesCount % 38400 == 0)
                     {
                         progressBar += "=";
-                        cout << right<< "\t["<< progressBar<< setw(27-(registriesCount/40000)) << "] " << registriesCount/1000 << "%\r" << std::flush;
+                        cout << right<< "\t["<< progressBar<< setw(27-(registriesCount/38400)) << "] " << registriesCount/9550 << "%\r" << std::flush;
+                        //cout << right<< "\t["<< progressBar<< setw(27-(registriesCount/40000)) << "] " << registriesCount/1000 << "%\r" << std::flush;
                     }
 
                     objPosition = 0;
@@ -303,19 +304,20 @@ void FileUtils::pauseScreen(bool continuar)
 
 void FileUtils::showTop()
 {
-    cout << "\t   --------------------------------------------" << endl;
-    cout << "\t   -  -  Trabalho de Estrutura de Dados 2  -  -" << endl;
-    cout << "\t   --------------------------------------------" << endl;
-    cout << "\t--------------------------------------------------" << endl;
-    cout << "\t---------       ---   GRUPO 5   ---    -----------" << endl;
-    cout << "\t---------          -> AUTORES <-         ---------" << endl;
-    cout << "\t--------            Edson Lopes        -----------" << endl;
-    cout << "\t--------         Humberto Sampaio          -------" << endl;
-    cout << "\t------------       Luis Henrique     -------------" << endl;
-    cout << "\t----------        Vinicius Carlos       ----------" << endl;
-    cout << "\t--------------------------------------------------" << endl;
-    cout << "\t--------------------------------------------------" << endl << endl;
-    cout << "--------------------------- INFORMACOES -------------------------------" << endl;
+    cout << "         --------------------------------------------------" << endl;
+    cout << "            --------------------------------------------" << endl;
+    cout << "            -  -  Trabalho de Estrutura de Dados 2  -  -" << endl;
+    cout << "            --------------------------------------------" << endl;
+    cout << "         --------------------------------------------------" << endl;
+    cout << "         ---------       ---   GRUPO 5   ---    -----------" << endl;
+    cout << "         ---------          -> AUTORES <-         ---------" << endl;
+    cout << "         --------            Edson Lopes        -----------" << endl;
+    cout << "         --------         Humberto Sampaio          -------" << endl;
+    cout << "         ------------       Luis Henrique     -------------" << endl;
+    cout << "         ----------        Vinicius Carlos       ----------" << endl;
+    cout << "         --------------------------------------------------" << endl;
+    cout << "         --------------------------------------------------" << endl << endl;
+    cout << "---------------------------- INFORMACOES ----------------------------" << endl;
     cout << "-> O arquivo saida.txt sera gerado no diretorio do executavel." << endl;
     cout << "-> Para executar use: <./NomeDoExecutavelCompilado> <path>" << endl;
 	cout << "-> Caso nao passe a path por linha de comando, o diretorio onde esta" << endl;
@@ -324,6 +326,6 @@ void FileUtils::showTop()
     cout << "   arquivo entrada.txt e o diretorio pythonquestions." << endl;
     cout << "-> Os arquivos usados (Answers.csv, Questions.csv, Tags.csv) precisam" << endl;
     cout << "   estar na pasta pythonquestions que fica no diretorio informado." << endl;
-	cout << "--------------------------- INFORMACOES -------------------------------" << endl;
+    cout << "---------------------------- INFORMACOES ----------------------------" << endl;
     pauseScreen(true);
 }
