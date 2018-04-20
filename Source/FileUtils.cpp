@@ -139,7 +139,7 @@ void FileUtils::readFileTag(string path, vector<Tag> &tagList)
             if (registriesCount % 75000 == 0)
             {
                 progressBar += "=";
-                cout << right<< "["<< progressBar<< setw(25-(registriesCount/75000)) << "] " << registriesCount/18750 << "%\r" << std::flush;
+                cout << right<< "\t["<< progressBar<< setw(25-(registriesCount/75000)) << "] " << registriesCount/18750 << "%\r" << std::flush;
            }
 		}
         cout << endl;
@@ -207,7 +207,7 @@ void FileUtils::readFileAnswer(string path, vector<Answer> &answerList)
                     if (registriesCount % 40000 == 0)
                     {
                         progressBar += "=";
-                        cout << right<< "["<< progressBar<< setw(27-(registriesCount/40000)) << "] " << registriesCount/1000 << "%\r" << std::flush;
+                        cout << right<< "\t["<< progressBar<< setw(27-(registriesCount/40000)) << "] " << registriesCount/1000 << "%\r" << std::flush;
                     }
 
                     objPosition = 0;
