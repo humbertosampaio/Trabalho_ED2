@@ -51,8 +51,8 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
 		for (; buffer[i] != '\n'; ++i);
 
 		//iteracao principal
-        string progressBar = "=";
-        cout<< "\tLendo Question.csv\n";
+        string progressBar;
+        cout<< "\tLendo Questions.csv\n";
 		while (!file.eof())
 		{
 			while (++i < length && buffer[i] != char_traits<char>::eof())
@@ -76,7 +76,7 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
                     if (registriesCount % 24000 == 0)
                     {
                         progressBar += "=";
-                        cout << "\t" << right<< "["<< progressBar<< setw(25-(registriesCount/24000)) << "]" << "\r" << std::flush;
+                        cout << "\t" << right<< "["<< progressBar<< setw(27-(registriesCount/24000)) << "] " << (registriesCount / 6000) << "%\r" << std::flush;
                     }
 
 					objPosition = 0;
@@ -138,7 +138,7 @@ void FileUtils::readFileTag(string path, vector<Tag> &tagList)
             if (registriesCount % 75000 == 0)
             {
                 progressBar += "=";
-                cout << right<< "["<< progressBar<< setw(25-(registriesCount/75000)) << "]" << "\r" << std::flush;
+                cout << right<< "["<< progressBar<< setw(25-(registriesCount/75000)) << "] " << registriesCount/18750 << "%\r" << std::flush;
             }
 		}
         cout << endl;
@@ -206,7 +206,7 @@ void FileUtils::readFileAnswer(string path, vector<Answer> &answerList)
                     if (registriesCount % 40000 == 0)
                     {
                         progressBar += "=";
-                        cout << right<< "["<< progressBar<< setw(25-(registriesCount/40000)) << "]" << "\r" << std::flush;
+                        cout << right<< "["<< progressBar<< setw(27-(registriesCount/40000)) << "] " << registriesCount/1000 << "%\r" << std::flush;
                     }
 
                     objPosition = 0;
@@ -321,7 +321,7 @@ void FileUtils::showTop()
 	cout << "-> Caso nao passe a path por linha de comando, o diretorio onde esta" << endl;
 	cout << "   executavel sera considerado como path." << endl;
     cout << "-> O path (caminho do diretorio) informado precisa conter o" << endl;
-    cout << "   arquivo entrada.txt e o diretorio pythonsquestions." << endl;
+    cout << "   arquivo entrada.txt e o diretorio pythonquestions." << endl;
     cout << "-> Os arquivos usados (Answers.csv, Questions.csv, Tags.csv) precisam" << endl;
     cout << "   estar na pasta pythonquestions que fica no diretorio informado." << endl;
 	cout << "------------------------------ INFORMACOES ---------------------------" << endl;

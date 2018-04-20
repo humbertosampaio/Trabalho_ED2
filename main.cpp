@@ -76,7 +76,7 @@ void section1_cenary1_entry2(Variables &vars);
 void section1_cenary2(Variables &vars);
 void section1_cenary3(Variables &vars);
 void section1_cenary4(Variables &vars);
-void section1_cenary4_hashComparison(Variables &vars);
+string section1_cenary4_hashComparison(Variables &vars);
 void section2(Variables &vars);
 void section1_cenary2_entry1(Variables &vars);
 void section1_cenary2_entry2(Variables &vars);
@@ -93,8 +93,8 @@ int main(int argc, char** argv)
 	{
         cout << "Erro na chamada do programa. Informe corretamente o path (caminho) padrao inicial." << endl;
         cout << "Ou deixe em branco, caso queira considerar o diretorio do executavel como path" << endl;
-        cout << R"(Certifique-se de no path estar o arquivo "entrada.txt" e a pasta "pythonsquestions".)" << endl;
-        cout << R"(Eh necessario que os arquivos "Answers.csv", "Questions.csv" e "Tags.csv" estao no diretorio "pythonsquestions".)" << endl;
+        cout << R"(Certifique-se de no path estar o arquivo "entrada.txt" e a pasta "pythonquestions".)" << endl;
+        cout << R"(Eh necessario que os arquivos "Answers.csv", "Questions.csv" e "Tags.csv" estejam no diretorio "pythonquestions".)" << endl;
         cout << "Formato a inserir na linha de comando para execucao do algoritmo:" << endl;
         cout << "<./executavel> <pathDoDiretorioInicial>" << endl;
         FileUtils::endProgram();
@@ -261,7 +261,7 @@ void section1(Variables &vars) {
 				section1_cenary4(vars);
 				break;
 			default:
-				cout << "Cenario Invalido. Tente novamente" << endl;
+				cout << "\tCenario Invalido. Tente novamente" << endl;
 				section1(vars);
 		}
 	} while (vars.cenary >= 1 && vars.cenary <= 4);
@@ -336,7 +336,7 @@ void section1_cenary1_entry2(Variables &vars)
         cout << str << endl;
         for(int j = 1; j <= 5; j++)
         {
-            str = "Iteracao " + to_string(j);
+            str = "Execucao " + to_string(j);
             FileUtils::writeToOutputFile(str);
             cout << str << endl;
             vector<Question> tempVector;
@@ -629,22 +629,27 @@ void section1_cenary3(Variables &vars)
 
 void section1_cenary4(Variables &vars)
 {
+	string output;
 	for (int i = 0; i < vars.N; i++)
 	{
+		output.clear();
+		output = "### EXECUCAO " + to_string(i+1) + " ###\n";
+		cout << output;
 		vars.intVector = getVetQuestionsIdRand(vars.questionVector, vars.Ns[i]);
-		section1_cenary4_hashComparison(vars);
+		output += section1_cenary4_hashComparison(vars);
+		FileUtils::writeToOutputFile(output);
 	}
 }
 
-void section1_cenary4_hashComparison(Variables &vars)
+string section1_cenary4_hashComparison(Variables &vars)
 {
 	unsigned int n = vars.intVector.size();
 	int memorySpend = 0;
 	int averageComparison = 0;
-	string hashName;
+	string hashName, output;
 	Hash* hash = nullptr;
 
-	for (int i = 0; i < 5; ++i) {
+	for (int i = 0; i < 4; ++i) {
 		switch (i)
 		{
 			case 0:
@@ -663,28 +668,34 @@ void section1_cenary4_hashComparison(Variables &vars)
 				hash = new HashLinear(n, true);
 				hashName = "Enderecamento - Sondagem Quadratica";
 				break;
-			case 4:
-				hash = new HashDouble(n);
-				hashName = "Enderecamento - Duplo Hash";
+			//case 4:
+			//	hash = new HashDouble(n);
+			//	hashName = "Enderecamento - Duplo Hash";
+			//	break;
+			default:
 				break;
-			default: break;
 		}
 
+		output += hashName;
+		cout << hashName << ":" << endl << "Inserindo vetor de inteiros na tabela Hash..." << endl;
 		for (vector<int>::iterator it = vars.intVector.begin(); it != vars.intVector.end(); ++it)
 			hash->insert(*it);
 
+		cout << "Lendo valores da tabela..." << endl;
 		for (vector<int>::iterator it = vars.intVector.begin(); it != vars.intVector.end(); ++it)
 			hash->find(*it);
-
+		
 		averageComparison += hash->getAvergareComparsions() / 5;
 		if (memorySpend == 0)
 			memorySpend = hash->getMemorySpend();
 
-		string s = hashName + "\t" + to_string(hash->getAvergareComparsions()) +
-			"\t" + to_string(hash->getMemorySpend());
-		FileUtils::writeToOutputFile(s);
+		string result = "Media de comparacoes: " + to_string(hash->getAvergareComparsions()) +
+			"\nMemoria consumida: " + to_string(hash->getMemorySpend()) + "\n\n";
+		output += ":\n" + result;
+		cout << result;
 		delete hash;
 	}
+	return output;
 }
 
 void section2 (Variables& vars)
