@@ -7,7 +7,7 @@
 Hash::Hash(unsigned int size, bool extraSize)
 {
 	if (extraSize)
-		size *= 1.1;
+		size *= 1.25;
 	this->size = size;
 	this->collisionCounter = 0;
 	this->hashTable = new int[size];

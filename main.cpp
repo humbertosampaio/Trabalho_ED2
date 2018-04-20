@@ -685,7 +685,7 @@ string section1_cenary4_hashComparison(Variables &vars)
 		cout << "Lendo valores da tabela..." << endl;
 		for (vector<int>::iterator it = vars.intVector.begin(); it != vars.intVector.end(); ++it)
 			hash->find(*it);
-		
+
 		averageComparison += hash->getAvergareComparsions() / 5;
 		if (memorySpend == 0)
 			memorySpend = hash->getMemorySpend();
@@ -701,11 +701,11 @@ string section1_cenary4_hashComparison(Variables &vars)
 
 void section2 (Variables& vars)
 {
-    if(vars.questionPath.empty())
+    if(vars.questionVector.empty())
         FileUtils::readFileQuestion(vars.questionPath, vars.questionVector);
-    if(vars.tagPath.empty())
+    if(vars.tagVector.empty())
         FileUtils::readFileTag(vars.tagPath, vars.tagVector);
-    if(vars.answerPath.empty())
+    if(vars.answerVector.empty())
         FileUtils::readFileAnswer(vars.answerPath, vars.answerVector);
     int N;
     cout << "Digite um numero de Questions desejados na leitura: " << endl;
@@ -714,12 +714,13 @@ void section2 (Variables& vars)
         cout << "Numero de questions invalido! digite novamente:" << endl;
         cin >> N;
     }
+    cout << "Executando verificador de frequencia para Tags e UserIDs\n" << endl;
     vector<Vertex> sorteredTags;
     section2_1(vars, N, sorteredTags);
     vector<Vertex> sorteredUsers;
     section2_2(vars, N, sorteredUsers);
 
-    cout << "Digite um numero de Tags e UserIDs mais frequentes:" << endl;
+    cout << "Digite um numero de Tags e UserIDs mais frequentes para salvar:" << endl;
     cin >> N;
     while (N < 0) {
         cout << "Parametro invalido! digite novamente:" << endl;
@@ -727,23 +728,41 @@ void section2 (Variables& vars)
     }
     ofstream saida;
     saida.open("saida.txt");
-    string s = "################# SECAO 2-TAGS E USUARIOS FREQUENTES #################\n";
-    saida << s;
-    saida << setw(12)<< "frequencia" << setw(12) << "Tags\n";
+    FileUtils::writeToOutputFile("--------------------------------------------");
+    FileUtils::writeToOutputFile("Secao 2 - Tags e UserIDs mais frequentes");
+    FileUtils::writeToOutputFile("--------------------------------------------");
+    saida << setw(12)<< left << "frequencia" << setw(12) << "Tags\n";
     for (int i = 0; i < N && i < sorteredTags.size(); ++i)
         saida << left << setw(12) << sorteredTags.at(i).frequence << setw(25) << sorteredTags.at(i).valueStr << endl;
     saida << "\n\n\n";
-    saida << setw(12)<< "frequencia" << setw(12) << "UserIDs\n";
+    saida << setw(12)<< left << "frequencia" << setw(12) << "UserIDs\n";
     for (int i = 0; i < N && i < sorteredUsers.size(); ++i) {
         saida << left << setw(12)<< sorteredUsers.at(i).frequence << setw(12) << sorteredUsers.at(i).value << endl;
     }
-    cout << setiosflags;
+    resetiosflags;
+    cout << "Digite (S/Y) para exibir as Tags/UserIDs salvas ou qualquer tecla para continuar." << endl;
+    char c;
+    cin >> c;
+    if (c == 'S' || c == 's' || c == 'y' || c == 'Y') {
+        resetiosflags;
+        cout << setw(12) << left << "frequencia" << "Tags\n";
+        for (int i = 0; i < N && i < sorteredTags.size(); ++i)
+            cout << left << setw(12) << sorteredTags.at(i).frequence << setw(25) << sorteredTags.at(i).valueStr << endl;
+        cout << "\n";
+        resetiosflags;
+        cout << setw(12) << left << "frequencia" << "UserIDs\n";
+        for (int i = 0; i < N && i < sorteredUsers.size(); ++i) {
+            cout << left << setw(12) << sorteredUsers.at(i).frequence << setw(12) << sorteredUsers.at(i).value << endl;
+        }
+        resetiosflags;
+    }
 }
 
 void section2_1(Variables vars, unsigned int N, vector<Vertex>& sorteredTags)
 {
 	vars.intVector.clear();
 	vars.intVector = getVetQuestionsIdRand(vars.questionVector, N);
+    cout << "Ordenando vetor de questionIDs aleatorias" << endl;
     QuickSort::quickSort(vars.intVector, 3);
     HashSeparatedS hashTag ((unsigned int)ceil(0.1*N));
     vector<Tag>::iterator itTag = vars.tagVector.begin();
@@ -753,6 +772,7 @@ void section2_1(Variables vars, unsigned int N, vector<Vertex>& sorteredTags)
             for (auto &itStr : (*itTag).getTagList())
                 hashTag.insert(itStr);
     }
+    cout << "Ordenando hash por frequencia de tags\n" << endl;
     hashTag.insertElementsVector(sorteredTags);
     QuickSort::quickSort(sorteredTags, 0);
 }
@@ -761,6 +781,7 @@ void section2_2 (Variables vars, unsigned int N, vector<Vertex>& sorteredUsers)
 {
 	vars.intVector.clear();
 	vars.intVector = getVetQuestionsIdRand(vars.questionVector, N);
+    cout << "Ordenando vetor de questionIDs aleatorias" << endl;
 	QuickSort::quickSort(vars.intVector, 3);
 	HashSeparated hashAnswer ((unsigned int)ceil(0.1*N), true);
 
@@ -768,7 +789,6 @@ void section2_2 (Variables vars, unsigned int N, vector<Vertex>& sorteredUsers)
     QuickSort::quickSort(vars.questionVector, 0);
 	vector<Answer>::iterator itAnswer = vars.answerVector.begin();
     vector<Question>::iterator itQuestion = vars.questionVector.begin();
-
 	for (int &it : vars.intVector) {
 		if (it == -1) continue;
 		for (; (*itAnswer).getQuestionId() < it; ++itAnswer);
@@ -778,6 +798,7 @@ void section2_2 (Variables vars, unsigned int N, vector<Vertex>& sorteredUsers)
         if ((*itQuestion).getQuestionId() == it && (*itQuestion).getUserId() != -1)
             hashAnswer.insert((*itQuestion).getUserId());
 	}
+    cout << "Ordenando hash por frequencia de UserIDs\n" << endl;
 	hashAnswer.insertElementsVector(sorteredUsers);
 	QuickSort::quickSort(sorteredUsers, 0);
 }
