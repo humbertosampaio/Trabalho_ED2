@@ -52,7 +52,6 @@ void FileUtils::readFileQuestion(string path, vector<Question> &questionList)
 
 		//iteracao principal
         string progressBar = "=";
-        cout<< "\tLendo Question.csv\n";
 		while (!file.eof())
 		{
 			while (++i < length && buffer[i] != char_traits<char>::eof())
@@ -122,7 +121,8 @@ void FileUtils::readFileTag(string path, vector<Tag> &tagList)
         atualList.push_back(tag);
 
         string progressBar = "=";
-        cout<< "lendo Tags.csv\n";
+        cout << "\tLendo arquivo de registros Tags.csv" << endl;
+		cout << "\tPath (caminho): " << path << endl;
 		while (file >> questionId >> tag)
 		{
 			//apaga a virgua da string
@@ -138,12 +138,12 @@ void FileUtils::readFileTag(string path, vector<Tag> &tagList)
             if (registriesCount % 75000 == 0)
             {
                 progressBar += "=";
-                cout << right<< "["<< progressBar<< setw(25-(registriesCount/75000)) << "]" << "\r" << std::flush;
+                cout  << "\t" << right<< "["<< progressBar<< setw(25-(registriesCount/75000)) << "]" << "\r" << std::flush;
             }
 		}
         cout << endl;
         resetiosflags;
-        cout << "Tempo gasto na leitura: " << (double) (clock() - tStart) / CLOCKS_PER_SEC << "s" << endl << endl;
+        cout << "\tTempo gasto na leitura: " << (double) (clock() - tStart) / CLOCKS_PER_SEC << "s" << endl << endl;
         tagList.emplace_back(atualId, atualList);
         file.close();
         return;
@@ -182,7 +182,8 @@ void FileUtils::readFileAnswer(string path, vector<Answer> &answerList)
 
         //iteracao principal
         string progressBar = "==";
-        cout<< "lendo Answers.csv\n";
+        cout << "\tLendo arquivo de registros Answers.csv" << endl;
+		cout << "\tPath (caminho): " << path << endl;
         while (!file.eof())
         {
             while (++i < length && buffer[i] != char_traits<char>::eof())
@@ -206,7 +207,7 @@ void FileUtils::readFileAnswer(string path, vector<Answer> &answerList)
                     if (registriesCount % 40000 == 0)
                     {
                         progressBar += "=";
-                        cout << right<< "["<< progressBar<< setw(25-(registriesCount/40000)) << "]" << "\r" << std::flush;
+                        cout << "\t" << right<< "["<< progressBar<< setw(25-(registriesCount/40000)) << "]" << "\r" << std::flush;
                     }
 
                     objPosition = 0;
@@ -220,7 +221,7 @@ void FileUtils::readFileAnswer(string path, vector<Answer> &answerList)
         }
         cout << endl;
         resetiosflags;
-        cout << "Tempo gasto na leitura: " << (double) (clock() - tStart) / CLOCKS_PER_SEC << "s" << endl << endl;
+        cout << "\tTempo gasto na leitura: " << (double) (clock() - tStart) / CLOCKS_PER_SEC << "s" << endl << endl;
         file.close();
         delete[] buffer;
         delete[] obj;
@@ -303,19 +304,19 @@ void FileUtils::pauseScreen(bool continuar)
 
 void FileUtils::showTop()
 {
-    cout << "\t\t\t   --------------------------------------------" << endl;
-    cout << "\t\t\t   -  -  Trabalho de Estrutura de Dados 2  -  -" << endl;
-    cout << "\t\t\t   --------------------------------------------" << endl;
-    cout << "\t\t\t--------------------------------------------------" << endl;
-    cout << "\t\t\t---------       ---   GRUPO 5   ---    -----------" << endl;
-    cout << "\t\t\t---------          -> AUTORES <-         ---------" << endl;
-    cout << "\t\t\t--------            Edson Lopes        -----------" << endl;
-    cout << "\t\t\t--------         Humberto Sampaio          -------" << endl;
-    cout << "\t\t\t------------       Luis Henrique     -------------" << endl;
-    cout << "\t\t\t----------        Vinicius Carlos       ----------" << endl;
-    cout << "\t\t\t--------------------------------------------------" << endl;
-    cout << "\t\t\t--------------------------------------------------" << endl << endl;
-    cout << "------------------------------ INFORMACOES ---------------------------" << endl;
+    cout << "\t   --------------------------------------------" << endl;
+    cout << "\t   -  -  Trabalho de Estrutura de Dados 2  -  -" << endl;
+    cout << "\t   --------------------------------------------" << endl;
+    cout << "\t--------------------------------------------------" << endl;
+    cout << "\t---------       ---   GRUPO 5   ---    -----------" << endl;
+    cout << "\t---------          -> AUTORES <-         ---------" << endl;
+    cout << "\t--------            Edson Lopes        -----------" << endl;
+    cout << "\t--------         Humberto Sampaio          -------" << endl;
+    cout << "\t------------       Luis Henrique     -------------" << endl;
+    cout << "\t----------        Vinicius Carlos       ----------" << endl;
+    cout << "\t--------------------------------------------------" << endl;
+    cout << "\t--------------------------------------------------" << endl << endl;
+    cout << "--------------------------- INFORMACOES -------------------------------" << endl;
     cout << "-> O arquivo saida.txt sera gerado no diretorio do executavel." << endl;
     cout << "-> Para executar use: <./NomeDoExecutavelCompilado> <path>" << endl;
 	cout << "-> Caso nao passe a path por linha de comando, o diretorio onde esta" << endl;
@@ -324,6 +325,6 @@ void FileUtils::showTop()
     cout << "   arquivo entrada.txt e o diretorio pythonsquestions." << endl;
     cout << "-> Os arquivos usados (Answers.csv, Questions.csv, Tags.csv) precisam" << endl;
     cout << "   estar na pasta pythonquestions que fica no diretorio informado." << endl;
-	cout << "------------------------------ INFORMACOES ---------------------------" << endl;
+	cout << "--------------------------- INFORMACOES -------------------------------" << endl;
     pauseScreen(true);
 }

@@ -34,6 +34,8 @@ void HashLinear::insertLinear(int value)
 void HashLinear::insertQuadratic(int value)
 {
     unsigned int key = Hash::keyFunction(value);
+    while (key%size == 0)
+        ++key;
     if (hashTable[key] == 0)
         hashTable[key] = value;
     else
@@ -77,6 +79,8 @@ void HashLinear::findQuadratic(int value)
     ++numberOfComparsions;
     ++comparsionCounter;
     unsigned int key = Hash::keyFunction(value);
+    while (key%size == 0)
+        ++key;
     if (hashTable[key] == value)
         return;
     else
